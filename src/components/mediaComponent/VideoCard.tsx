@@ -6,8 +6,8 @@ export const VideoCard = ({ id, title, description, Time, Miniature, category, l
   console.log(id);
   
   return (
-    <div className="flex flex-col items-start w-full h-[400px] max-h-[450px] rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300">
-      <div className="relative w-[350px] min-h-[100px] max-h-[250px] overflow-hidden">
+    <div className="flex flex-col items-start w-full h-[400px] max-h-[450px] rounded-lg shadow-lg border bg-white hover:shadow-xl transition-shadow duration-300">
+      <div className="relative w-[300px] min-h-[100px] max-h-[250px] overflow-hidden">
         <img
           src={Miniature || "/placeholder.svg?height=275&width=400&query=video thumbnail"}
           alt={title}
