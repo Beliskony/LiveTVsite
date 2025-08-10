@@ -4,7 +4,7 @@ const TestimonialSection = () => {
   return (
     <div className="flex flex-col w-full justify-center items-center py-10 lg:min-h-[500px] xl:min-h-[550px] 2xl:min-h-[600px] gap-y-16">
         <div className="flex flex-col w-full gap-y-4 mb-3 lg:mb-7 xl:mb-10">
-            <h1 className="text-gray-900 font-bold text-3 lg:text-5xl text-center text-wrap">Explorez nos ressources & programmes</h1>
+            <h1 className="text-gray-900 font-bold text-3xl lg:text-5xl text-center text-wrap">Explorez nos ressources & programmes</h1>
 
             <p className="text-gray-600 text-lg text-center text-wrap">Devertissement, Religion, Decouverte, Culture sont au rendez-vous</p>
         </div>
