@@ -3,7 +3,7 @@ import Header from "../components/NavBar"
 import { SlideSection } from "../components/homeScreen/SlideSection";
 import { EmissionSlideSection } from "../components/homeScreen/EmissionSlideSection";
 import HeroHeaderSection from "../components/homeScreen/HeroHeaderSection";
-import TestimonialSection from "../components/homeScreen/testimonialSection";
+import TestimonialSection from "../components/homeScreen/TestimonialSection";
 import FeaturesListSection from "../components/homeScreen/FeaturesListSection";
 import NewsletterSection from "../components/homeScreen/NewsletterSection";
 

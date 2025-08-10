@@ -3,6 +3,8 @@ import { formatRelativeDate } from "../../utilitaires/FormatDate"
 import type { IVideo } from "../../interfaces/Videos"
 
 export const VideoCard = ({ id, title, description, Time, Miniature, category, lien, duration }: IVideo) => {
+  console.log(id);
+  
   return (
     <div className="flex flex-col items-start w-full h-[400px] max-h-[450px] rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300">
       <div className="relative w-[350px] min-h-[100px] max-h-[250px] overflow-hidden">
