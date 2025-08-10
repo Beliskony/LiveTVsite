@@ -23,7 +23,7 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center space-x-2 h-14 w-32 object-cover justify-center">
             <Link to={'/'}>
-              <img src="/logotvRM.png" sizes="20" className="h-full"/>
+              <img src="/logotvRM.png" className="h-full w-10 lg:w-20"/>
             </Link>
           </div>
 
