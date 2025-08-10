@@ -7,4 +7,5 @@ export interface IVideo {
   category?: string[];
   lien: string;
   duration: string;
+  views: number;
 }

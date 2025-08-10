@@ -9,8 +9,8 @@ export default function Footer() {
 
           {/* Colonne 1: Contenu */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Contenu</h3>
-            <ul className="space-y-2">
+            <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">Contenu</h3>
+            <ul className="space-y-2 max-sm:justify-center flex flex-row lg:flex-col gap-x-4">
               <li><Link to="/films" className="text-gray-300 hover:text-white">Emissions</Link></li>
               <li><Link to="/documentaires" className="text-gray-300 hover:text-white">Documentaires</Link></li>
               <li><Link to="/direct" className="text-gray-300 hover:text-white">Live / Direct</Link></li>
@@ -18,9 +18,9 @@ export default function Footer() {
           </div>
 
           {/* Colonne 2: Aide */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Aide</h3>
-            <ul className="space-y-2 ">
+          <div className="space-y-4 justify-center items-center">
+            <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">Aide</h3>
+            <ul className="space-y-2 flex max-sm:justify-center items-center flex-row lg:flex-col gap-x-4">
               <li><Link to="/faq" className="text-gray-300 hover:text-white">FAQ</Link></li>
               <li><Link to="/support" className="text-gray-300 hover:text-white">Support</Link></li>
               <li><Link to="/conditions" className="text-gray-300 hover:text-white">Conditions d'utilisation</Link></li>
@@ -30,8 +30,8 @@ export default function Footer() {
 
           {/* Colonne 3: À propos */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">À propos</h3>
-            <ul className="space-y-2 ">
+            <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">À propos</h3>
+            <ul className="space-y-2 max-sm:justify-center flex flex-row lg:flex-col gap-x-4">
               <li><Link to="/partenaires" className="text-gray-300 hover:text-white">Partenaires</Link></li>
               <li><Link to="/contact" className="text-gray-300 hover:text-white">Contact</Link></li>
             </ul>
@@ -39,8 +39,8 @@ export default function Footer() {
 
           {/* Colonne 4: Applications + Réseaux sociaux */}
           <div className="space-y-4 max-sm:w-full">
-            <h3 className="text-lg font-semibold">Nos applications</h3>
-            <div className="space-y-2 max-sm:flex max-sm:flex-row max-sm:gap-x-6">
+            <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">Nos applications</h3>
+            <div className="space-y-2 justify-center items-center max-sm:flex max-sm:flex-row max-sm:gap-x-6">
               <Link to="/app/mobile" className="flex items-center space-x-2 text-gray-300 hover:text-white">
                 <Smartphone className="h-5 w-5" />
                 <span className='max-sm:hidden'>Application mobile</span>

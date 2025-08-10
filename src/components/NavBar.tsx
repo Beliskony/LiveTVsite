@@ -32,7 +32,7 @@ export default function Header() {
             <Link to={'/'} className="hover:text-blue-400 transition-colors font-medium">
               Accueil
             </Link>
-            <Link to={'/cataloge'} className="hover:text-blue-400 transition-colors font-medium">
+            <Link to={'/catalogue'} className="hover:text-blue-400 transition-colors font-medium">
               Émissions
             </Link>
             <Link to={'/live'} className="hover:text-blue-400 transition-colors font-medium">

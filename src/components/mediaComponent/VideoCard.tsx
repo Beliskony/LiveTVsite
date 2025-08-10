@@ -1,8 +1,10 @@
 
 import { formatRelativeDate } from "../../utilitaires/FormatDate"
+import { formatViews } from "../../utilitaires/FormatViews";
 import type { IVideo } from "../../interfaces/Videos"
+import { Eye} from "lucide-react";
 
-export const VideoCard = ({ id, title, description, Time, Miniature, category, lien, duration }: IVideo) => {
+export const VideoCard = ({ id, title, description, Time, Miniature, category, lien, duration, views }: IVideo) => {
   console.log(id);
   
   return (
@@ -38,14 +40,18 @@ export const VideoCard = ({ id, title, description, Time, Miniature, category, l
             </div>
           )}
         </div>
-        <a
-          href={lien}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 text-blue-400 hover:underline self-start"
-        >
-          Watch Video
-        </a>
+
+        <div className="flex flex-row w-full h-14 justify-between items-center">
+          <a href={lien} target="_blank" rel="noopener noreferrer" className="mt-4 text-blue-400 hover:underline self-start" >
+            Watch Video
+          </a>
+
+          <div className="flex flex-row justify-center items-center text-white gap-x-1.5">
+            <Eye size={30} />
+            <p>{formatViews(views)}</p>
+          </div>
+
+        </div>
       </div>
     </div>
   )
