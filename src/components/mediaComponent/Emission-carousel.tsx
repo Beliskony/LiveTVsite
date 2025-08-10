@@ -1,0 +1,109 @@
+"use client"
+import { useEffect, useState, useCallback } from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import useEmblaCarousel from "embla-carousel-react"
+import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel"
+import Autoplay from "embla-carousel-autoplay"
+import { EmissionCard } from "./EmissionCard"
+import { emissionData } from "../../data/emissionsData"
+
+export default function EmissionCarousel() {
+  // Options pour Embla Carousel
+  const options: EmblaOptionsType = {
+    loop: true, // Désactive la boucle infinie
+    align: "start", // Aligne les slides au début du viewport
+    slidesToScroll: 1, // Défile une slide à la fois
+  }
+
+  const autoplayOption = Autoplay(
+    {delay: 3000, stopOnInteraction: false},
+  )
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [autoplayOption])
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([])
+  const [prevBtnDisabled, setPrevBtnDisabled] = useState(true)
+  const [nextBtnDisabled, setNextBtnDisabled] = useState(true)
+
+  // Met à jour l'index sélectionné et l'état des boutons
+  const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
+    setSelectedIndex(emblaApi.selectedScrollSnap())
+    setPrevBtnDisabled(!emblaApi.canScrollPrev())
+    setNextBtnDisabled(!emblaApi.canScrollNext())
+  }, [])
+
+  // Initialise les snaps de défilement et l'état initial
+  const onInit = useCallback(
+    (emblaApi: EmblaCarouselType) => {
+      setScrollSnaps(emblaApi.scrollSnapList())
+      onSelect(emblaApi)
+    },
+    [onSelect],
+  )
+
+  // Ajoute les écouteurs d'événements Embla
+  useEffect(() => {
+    if (!emblaApi) return
+
+    onInit(emblaApi)
+    emblaApi.on("select", onSelect)
+    emblaApi.on("reInit", onInit) // Gère le redimensionnement de la fenêtre ou les changements de contenu
+
+    return () => {
+      emblaApi.off("select", onSelect)
+      emblaApi.off("reInit", onInit)
+    }
+  }, [emblaApi, onInit, onSelect])
+
+  return (
+    <div className="relative w-full max-w-6xl mx-auto px-4">
+      {/* Conteneur principal d'Embla */}
+      <div className="embla__viewport overflow-hidden" ref={emblaRef}>
+        {/* Conteneur des slides */}
+        <div className="embla__container flex space-x-4 touch-action-pan-y">
+          {emissionData.map((emission) => (
+            <div
+              key={emission.id}
+              // Chaque slide prend 100% de la largeur sur mobile, 50% sur sm, 33.3% sur md, 25% sur lg
+              className="embla__slide flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 min-w-0"
+            >
+              {/* Le composant EmissionCard remplit la largeur de sa slide parente */}
+              <EmissionCard {...emission} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Boutons de navigation */}
+      {/* Les boutons sont désactivés si le défilement n'est pas possible */}
+      <button
+        onClick={() => emblaApi?.scrollPrev()}
+        disabled={prevBtnDisabled}
+        className="absolute -left-20 block max-md:-left-5 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-75 text-white p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all md:block duration-200 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-label="Faire défiler vers la gauche"
+      >
+        <ChevronLeft className="w-6 h-6" />
+      </button>
+      <button
+        onClick={() => emblaApi?.scrollNext()}
+        disabled={nextBtnDisabled}
+        className="absolute -right-20 max-md:-right-5 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-75 text-white p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all md:block duration-200 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-label="Faire défiler vers la droite"
+      >
+        <ChevronRight className="w-6 h-6" />
+      </button>
+
+      {/* Indicateurs de points 
+      <div className="flex justify-center mt-4 space-x-2">
+        {scrollSnaps.map((_, index) => (
+          <div
+            key={index}
+            className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${index === selectedIndex ? "bg-blue-500 scale-110" : "bg-gray-400"}`}
+            onClick={() => emblaApi?.scrollTo(index)}
+            aria-label={`Aller à la diapositive ${index + 1}`}
+          />
+        ))}
+      </div>*/}
+    </div>
+  )
+}

@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+
+/* Scrollbar personnalisée */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px; /* largeur de la barre */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* fond de la piste */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #60a5fa; /* bleu Tailwind-400 */
+  border-radius: 9999px; /* arrondi complet */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #3b82f6; /* bleu Tailwind-500 au survol */
+}
+
+/* Support pour Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #60a5fa transparent;
+}
+
+/* styles.css ou dans un fichier global (e.g., globals.css si Next.js) */
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  position: relative;
+  flex: 0 0 100%; /* Chaque slide prend toute la largeur */
+}
