@@ -1,58 +1,85 @@
-
-import { formatRelativeDate } from "../../utilitaires/FormatDate"
-import { formatViews } from "../../utilitaires/FormatViews";
-import type { IVideo } from "../../interfaces/Videos"
-import { Eye} from "lucide-react";
+import { formatRelativeDate } from "@/utilitaires/FormatDate"
+import { formatViews } from "@/utilitaires/FormatViews"
+import type { IVideo } from "@/interfaces/Videos"
+import { Eye, Play, Clock } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 
 export const VideoCard = ({ id, title, description, Time, Miniature, category, lien, duration, views }: IVideo) => {
-  console.log(id);
-  
   return (
-    <div className="flex flex-col items-start w-full h-[400px] max-h-[450px] rounded-lg shadow-lg border bg-white hover:shadow-xl transition-shadow duration-300">
-      <div className="relative w-[300px] min-h-[100px] max-h-[250px] overflow-hidden">
+    <Card className="group w-full max-w-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+      <div className="relative aspect-video overflow-hidden">
         <img
-          src={Miniature || "/placeholder.svg?height=275&width=400&query=video thumbnail"}
+          src={Miniature || "/placeholder.svg?height=200&width=350&query=video thumbnail"}
           alt={title}
-          className="rounded-t-lg h-full"
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
+
+        {/* Duration badge */}
         {duration && (
-          <span className="absolute top-3 left-60 bg-black bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded">
+          <Badge variant="secondary" className="absolute bottom-2 right-2 bg-black/80 text-white hover:bg-black/80">
+            <Clock className="mr-1 h-3 w-3" />
             {duration}
-          </span>
+          </Badge>
         )}
+
+        {/* Play button overlay */}
+        <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <Button
+            size="lg"
+            className="rounded-full bg-white/90 text-black hover:bg-white hover:scale-110 transition-all duration-200"
+            asChild
+          >
+            <a href={lien} target="_blank" rel="noopener noreferrer">
+              <Play className="h-6 w-6 fill-current" />
+            </a>
+          </Button>
+        </div>
       </div>
 
-      <div className="bg-[#2D3748] p-4 rounded-b-lg flex flex-col flex-grow w-full">
-        <h2 className="text-xl font-bold mt-2 text-white line-clamp-2">{title}</h2>
-        <p className="text-gray-400 w-full h-20 overflow-y-auto overflow-x-hidden break-words text-sm mt-2">
-          {description}
-        </p>
+      <CardContent className="p-4 space-y-3 min-w-[300px] lg:w-[350px] h-[250px] bg-gray-800 text-white">
+        {/* Title */}
+        <h3 className="font-medium text-lg leading-tight line-clamp-2 group-hover:text-white hover:font-extrabold transition-colors">
+          {title}
+        </h3>
 
-        <div className="flex flex-row items-baseline gap-x-3 mt-2">
-          <p className="text-sm text-gray-500">{formatRelativeDate(Time)}</p>
-          {category && category.length > 0 && (
-            <div className="flex flex-wrap gap-1">
-              {category.map((cat, index) => (
-                <span key={index} className="inline-block bg-blue-700 text-white text-xs px-2 py-1 rounded-full">
-                  {cat}
-                </span>
-              ))}
+        {/* Description */}
+        <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">{description}</p>
+
+        {/* Categories */}
+        {category && category.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {category.slice(0, 3).map((cat, index) => (
+              <Badge key={index} variant="outline" className="text-xs text-white">
+                {cat}
+              </Badge>
+            ))}
+            {category.length > 3 && (
+              <Badge variant="outline" className="text-xs text-white">
+                +{category.length - 3}
+              </Badge>
+            )}
+          </div>
+        )}
+
+        {/* Footer */}
+        <div className="flex items-center justify-between pt-2 border-t">
+          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <span>{formatRelativeDate(Time)}</span>
+            <div className="flex items-center gap-1">
+              <Eye className="h-4 w-4" />
+              <span>{formatViews(views)}</span>
             </div>
-          )}
-        </div>
-
-        <div className="flex flex-row w-full h-14 justify-between items-center">
-          <a href={lien} target="_blank" rel="noopener noreferrer" className="mt-4 text-blue-400 hover:underline self-start" >
-            Watch Video
-          </a>
-
-          <div className="flex flex-row justify-center items-center text-white gap-x-1.5">
-            <Eye size={30} />
-            <p>{formatViews(views)}</p>
           </div>
 
+          <Button variant="ghost" size="sm" asChild>
+            <a href={lien} target="_blank" rel="noopener noreferrer">
+              Regarder
+            </a>
+          </Button>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }
