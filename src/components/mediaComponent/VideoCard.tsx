@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
 export const VideoCard = ({ id, title, description, Time, Miniature, category, lien, duration, views }: IVideo) => {
+  console.log(id);
+  
   return (
     <Card className="group w-full max-w-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
       <div className="relative aspect-video overflow-hidden">
