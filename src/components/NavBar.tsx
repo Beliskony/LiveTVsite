@@ -43,7 +43,7 @@ export default function Header() {
             </Link>
             {/* Onglet Admin - visible uniquement pour les admins */}
             {isAdmin && (
-              <Link to={'/'} className="hover:text-yellow-400 transition-colors font-medium text-yellow-300">
+              <Link to={'/admin'} className="hover:text-yellow-400 transition-colors font-medium text-yellow-300">
                 Admin
               </Link>
             )}
@@ -151,7 +151,7 @@ export default function Header() {
             </Link>
             {/* Onglet Admin mobile */}
             {isAdmin && (
-              <Link to={'/adminbord'} className="block text-yellow-300 hover:text-yellow-400 transition-colors font-medium">
+              <Link to={'/admin'} className="block text-yellow-300 hover:text-yellow-400 transition-colors font-medium">
                 Admin
               </Link>
             )}

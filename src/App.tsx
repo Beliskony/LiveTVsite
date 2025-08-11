@@ -5,6 +5,7 @@ import { Catalogue } from './pages/Catalogue';
 import { Compte } from './pages/Compte';
 import './App.css';
 import { TVLive } from './pages/Live';
+import Admin from './pages/Admin';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/videos" element={<Videos />} />
         <Route path="/catalogue" element={<Catalogue />} />
         <Route path="/compte" element={<Compte />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </Router>
   );
