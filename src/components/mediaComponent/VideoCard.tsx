@@ -40,14 +40,14 @@ export const VideoCard = ({ id, title, description, Time, Miniature, category, l
         </div>
       </div>
 
-      <CardContent className="p-4 space-y-3 min-w-[300px] lg:w-[350px] h-[250px] bg-gray-800 text-white">
+      <CardContent className="p-4 space-y-3 w-full h-[250px] bg-gray-800 text-white">
         {/* Title */}
-        <h3 className="font-medium text-lg leading-tight line-clamp-2 group-hover:text-white hover:font-extrabold transition-colors">
+        <h3 className="font-medium text-wrap text-lg leading-tight line-clamp-2 group-hover:text-white hover:font-extrabold transition-colors">
           {title}
         </h3>
 
         {/* Description */}
-        <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">{description}</p>
+        <p className="text-sm text-muted-foreground text-wrap line-clamp-3 leading-relaxed">{description}</p>
 
         {/* Categories */}
         {category && category.length > 0 && (

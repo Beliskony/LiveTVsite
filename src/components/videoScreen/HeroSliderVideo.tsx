@@ -1,39 +1,49 @@
 "use client"
 import { useEffect, useState, useCallback } from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, Play } from "lucide-react"
 import useEmblaCarousel from "embla-carousel-react"
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel"
 import Autoplay from "embla-carousel-autoplay"
-import { ProgramData } from "../../data/programData"
-import { emissionData } from "../../data/emissionsData"
-import { ProgramCard } from "./ProgramCard"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { ProgramData } from "@/data/programData"
 
 export default function HeroSliderVideo() {
-  // Options pour Embla Carousel
   const options: EmblaOptionsType = {
-    loop: true, // Désactive la boucle infinie
-    align: "start", // Aligne les slides au début du viewport
-    slidesToScroll: 1, // Défile une slide à la fois
+    loop: true,
+    align: "center",
+    slidesToScroll: 1,
   }
 
-  const autoplayOption = Autoplay(
-    {delay: 3000, stopOnInteraction: false},
-  )
+  const autoplayOption = Autoplay({
+    delay: 4000,
+    stopOnInteraction: false,
+  })
 
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [autoplayOption])
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([])
-  const [prevBtnDisabled, setPrevBtnDisabled] = useState(true)
-  const [nextBtnDisabled, setNextBtnDisabled] = useState(true)
 
-  // Met à jour l'index sélectionné et l'état des boutons
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev()
+  }, [emblaApi])
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext()
+  }, [emblaApi])
+
+  const scrollTo = useCallback(
+    (index: number) => {
+      if (emblaApi) emblaApi.scrollTo(index)
+    },
+    [emblaApi],
+  )
+
   const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
     setSelectedIndex(emblaApi.selectedScrollSnap())
-    setPrevBtnDisabled(!emblaApi.canScrollPrev())
-    setNextBtnDisabled(!emblaApi.canScrollNext())
   }, [])
 
-  // Initialise les snaps de défilement et l'état initial
   const onInit = useCallback(
     (emblaApi: EmblaCarouselType) => {
       setScrollSnaps(emblaApi.scrollSnapList())
@@ -42,13 +52,12 @@ export default function HeroSliderVideo() {
     [onSelect],
   )
 
-  // Ajoute les écouteurs d'événements Embla
   useEffect(() => {
     if (!emblaApi) return
 
     onInit(emblaApi)
     emblaApi.on("select", onSelect)
-    emblaApi.on("reInit", onInit) // Gère le redimensionnement de la fenêtre ou les changements de contenu
+    emblaApi.on("reInit", onInit)
 
     return () => {
       emblaApi.off("select", onSelect)
@@ -57,31 +66,59 @@ export default function HeroSliderVideo() {
   }, [emblaApi, onInit, onSelect])
 
   return (
-    <div className="relative w-full mx-20 p-4">
-      {/* Conteneur principal d'Embla */}
-      <div className="embla__viewport overflow-hidden" ref={emblaRef}>
-        {/* Conteneur des slides */}
-        <div className="embla__container w-full flex space-x-4 touch-action-pan-y">
+    <div className="relative w-full max-w-7xl mx-auto px-4 py-8">
+
+      {/* Carousel Container */}
+      <div className="overflow-hidden h-[400px] rounded-xl" ref={emblaRef}>
+        <div className="flex">
           {ProgramData.map((program) => (
-            <div
-              key={program.id}
-              // Chaque slide prend 100% de la largeur sur mobile, 50% sur sm, 33.3% sur md, 25% sur lg
-              className="embla__slide flex-shrink-0 w-full h-full"
-            >
-              {/* Le composant EmissionCard remplit la largeur de sa slide parente */}
-              <ProgramCard image={program.sourceIm} />
+            <div key={program.id} className="flex-shrink-0 w-full h-[350px] px-2">
+              <Card className="group relative overflow-hidden border-0 bg-gradient-to-br from-background to-muted/20 hover:shadow-2xl transition-all duration-500">
+                <CardContent className="p-0">
+                  <div className="relative w-full h-[350px] justify-center aspect-video overflow-hidden">
+                    <img
+                      src={program.sourceIm || "/placeholder.svg"}
+                      alt={program.id}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+
+                    {/* Overlay gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                    {/* Content overlay */}
+                    <div className="absolute bottom-5 left-0 right-0 p-6 text-white">
+                      <Badge
+                        variant="secondary"
+                        className="mb-3 bg-primary/20 text-primary-foreground border-primary/30 backdrop-blur-sm"
+                      >
+                        {program.category}
+                      </Badge>
+
+                      <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">
+                        {program.title}
+                      </h3>
+
+                      <p className="text-sm text-wrap w-full text-gray-200 line-clamp-2 max-w-2xl">{program.description}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           ))}
         </div>
       </div>
 
-
-      <div className="flex justify-center mt-4 space-x-2">
+      {/* Dots Navigation */}
+      <div className="flex justify-center mt-6 space-x-2">
         {scrollSnaps.map((_, index) => (
-          <div
+          <button
             key={index}
-            className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${index === selectedIndex ? "bg-blue-500 scale-110" : "bg-gray-400"}`}
-            onClick={() => emblaApi?.scrollTo(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === selectedIndex
+                ? "bg-primary scale-110 shadow-lg"
+                : "bg-muted-foreground/40 hover:bg-muted-foreground/60"
+            }`}
+            onClick={() => scrollTo(index)}
             aria-label={`Aller à la diapositive ${index + 1}`}
           />
         ))}

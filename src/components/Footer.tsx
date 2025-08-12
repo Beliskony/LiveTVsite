@@ -11,20 +11,20 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">Contenu</h3>
             <ul className="space-y-2 max-sm:justify-center flex flex-row lg:flex-col gap-x-4">
-              <li><Link to="/films" className="text-gray-300 hover:text-white">Emissions</Link></li>
-              <li><Link to="/documentaires" className="text-gray-300 hover:text-white">Documentaires</Link></li>
-              <li><Link to="/direct" className="text-gray-300 hover:text-white">Live / Direct</Link></li>
+              <li><Link to="/catalogue" className="text-gray-300 hover:text-white">Emissions</Link></li>
+              <li><Link to="#" className="text-gray-300 hover:text-white">Documentaires</Link></li>
+              <li><Link to="/live" className="text-gray-300 hover:text-white">Live / Direct</Link></li>
             </ul>
           </div>
 
           {/* Colonne 2: Aide */}
-          <div className="space-y-4 justify-center items-center">
+          <div className="space-y-4">
             <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">Aide</h3>
-            <ul className="space-y-2 flex max-sm:justify-center items-center flex-row lg:flex-col gap-x-4">
-              <li><Link to="/faq" className="text-gray-300 hover:text-white">FAQ</Link></li>
-              <li><Link to="/support" className="text-gray-300 hover:text-white">Support</Link></li>
-              <li><Link to="/conditions" className="text-gray-300 hover:text-white">Conditions d'utilisation</Link></li>
-              <li><Link to="/confidentialite" className="text-gray-300 hover:text-white">Politique de confidentialité</Link></li>
+            <ul className="space-y-2 flex max-sm:justify-center lg:text-left flex-row lg:flex-col gap-x-4">
+              <li><Link to="#" className="text-gray-300 hover:text-white">FAQ</Link></li>
+              <li><Link to="#" className="text-gray-300 hover:text-white">Support</Link></li>
+              <li><Link to="#" className="text-gray-300 hover:text-white">Conditions d'utilisation</Link></li>
+              <li><Link to="#" className="text-gray-300 hover:text-white">Politique de confidentialité</Link></li>
             </ul>
           </div>
 
