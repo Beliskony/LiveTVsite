@@ -51,7 +51,7 @@ export const EmissionCard = (propsEmission: IEmission) => {
         )}
 
         {/* Informations principales */}
-        <div className="p-6 space-y-4 bg-gradient-to-t from-background/95 to-transparent text-white">
+        <div className="max-sm:p-1 max-sm:space-y-1 p-6 space-y-4 bg-gradient-to-t from-background/95 to-transparent text-white">
           {/* Titre */}
           <div>
             <h3 className="text-xl md:text-2xl font-bold line-clamp-2 mb-2 group-hover:text-gray-900 transition-colors duration-200">
@@ -62,17 +62,17 @@ export const EmissionCard = (propsEmission: IEmission) => {
             </p>
           </div>
 
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="flex flex-col gap-3 max-sm:gap-0.5">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground max-sm:gap-y-0">
               <div className="bg-muted/50 p-1.5 rounded-lg">
                 <Timer className="w-4 h-4 text-gray-900" />
               </div>
               <span className="font-medium">
-                {formatRelativeDate(propsEmission.starting)} - {formatRelativeDate(propsEmission.ending)}
+                {propsEmission.starting} - {propsEmission.ending}
               </span>
             </div>
 
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground max-sm:gap-y-0">
               <div className="bg-muted/50 p-1.5 rounded-lg">
                 <CalendarCheck2 className="w-4 h-4 text-gray-900" />
               </div>
@@ -93,49 +93,4 @@ export const EmissionCard = (propsEmission: IEmission) => {
       </div>
     </Card>
   )
-
-    return (
-        <div className="relative flex w-full justify-center max-sm:w-full h-60 md:h-72 lg:h-96 lg:w-full lg:justify-center 
-        max-lg:w-full rounded-xl overflow-hidden">
-            
-            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                 style={{backgroundImage: `url(${propsEmission.couverture})`}}
-                 role="img"
-                 aria-label={`couverture de l'emission: ${propsEmission.nom}`}>
-            </div>
-
-            <div className="relative w-full z-10 flex flex-col justify-end h-full text-white rounded-xl ">
-                <div className="gap-y-3 space-y-1.5 p-3 backdrop-brightness-50">
-                    <h3 className="text-xl font-bold line-clamp-2">
-                        {propsEmission.nom}
-                    </h3>
-
-                    <p className="text-sm text-gray-300 line-clamp-2">
-                        {propsEmission.description}
-                    </p>
-
-                    <div className="flex flex-row gap-x-1">
-                        <Timer />
-                        <h5>{formatRelativeDate(propsEmission.starting)} - {formatRelativeDate(propsEmission.ending)}</h5>
-                    </div>
-
-                    <div className="flex flex-row gap-x-1">
-                        <CalendarCheck2 />
-                        <h5>{propsEmission.when}</h5>
-                    </div>
-
-                    {propsEmission.genre && propsEmission.genre.length > 0 && (
-                <div className="mt-2">
-                  {propsEmission.genre.map((g, index) => (
-                    <span key={index} className="inline-block lg:hidden bg-blue-200 text-blue-800 text-xs px-2 py-1 rounded mr-1">
-                      {g}
-                    </span>
-                   ))}
-                </div>
-                )}
-                </div>
-
-            </div>
-        </div>
-    )
 }

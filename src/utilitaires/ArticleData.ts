@@ -1,0 +1,41 @@
+import type { IArticle } from "@/interfaces/Articles"
+export const articles: IArticle[] = [
+    {
+      id: 1,
+      title: "Les dernières actualités technologiques",
+      author: "Marie Dupont",
+      category: "Technologie",
+      status: "publié",
+      created_at: "2024-01-15",
+      views: 1250,
+      featured_image: "/placeholder.svg?height=60&width=80",
+    },
+    {
+      id: 2,
+      title: "Match de football : résultats et analyses",
+      author: "Pierre Martin",
+      category: "Sport",
+      status: "publié",
+      created_at: "2024-01-14",
+      views: 890,
+    },
+    {
+      id: 3,
+      title: "Festival de cinéma : les films à ne pas manquer",
+      author: "Sophie Bernard",
+      category: "Culture",
+      status: "brouillon",
+      created_at: "2024-01-13",
+      views: 0,
+      featured_image: "/placeholder.svg?height=60&width=80",
+    },
+    {
+      id: 4,
+      title: "Économie : les tendances du marché",
+      author: "Jean Moreau",
+      category: "Actualités",
+      status: "supprimé",
+      created_at: "2024-01-12",
+      views: 0,
+    },
+  ]

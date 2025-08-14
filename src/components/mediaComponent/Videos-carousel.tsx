@@ -64,14 +64,14 @@ export default function VideoCarousel({ videos }: VideoCarouselProps) {
       <button
         onClick={() => emblaApi?.scrollPrev()}
         disabled={prevDisabled}
-        className="absolute -left-20 top-1/2 max-md:-left-5 -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full md:block disabled:opacity-50 disabled:cursor-not-allowed"
+        className="md:hidden absolute -left-20 top-1/2 max-md:-left-5 -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full max-sm:hidden lg:block xl:block disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
       <button
         onClick={() => emblaApi?.scrollNext()}
         disabled={nextDisabled}
-        className="absolute -right-20 top-1/2 max-md:-right-5 -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full md:block disabled:opacity-50 disabled:cursor-not-allowed"
+        className="md:hidden absolute -right-20 top-1/2 max-md:-right-5 -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full max-sm:hidden lg:block xl:block disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <ChevronRight className="w-6 h-6" />
       </button>

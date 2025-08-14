@@ -2,8 +2,8 @@ export const emissionData = [
     {
     id:'E1',
     nom:'Cuisine et culture',
-    starting:'2025-07-10T16:00:00Z',
-    ending:'2025-07-10T17:00:00Z',
+    starting:'217h00',
+    ending:'18h30',
     when:'tous les jours',
     description: 'courte description du programme mais exploitable',
     genre:["Jeunesse", "Culture", "Religion", "Divertissement"],
@@ -12,8 +12,8 @@ export const emissionData = [
     {
     id: "E2",
     nom: "Cultures du Monde",
-    starting: "2025-07-20T09:00:00Z",
-    ending: "2025-07-15T12:45:00Z",
+    starting: "08h00",
+    ending: "10h15",
     when: "Mardi & Jeudi",
     description: 'courte description du programme mais exploitable',
     genre: ["Culture"],

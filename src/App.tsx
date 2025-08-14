@@ -6,11 +6,12 @@ import { Compte } from './pages/Compte';
 import './App.css';
 import { TVLive } from './pages/Live';
 import Admin from './pages/Admin';
+import { AuthProvider } from './components/auth-context';
 
 export default function App() {
   return (
+   <AuthProvider>
     <Router>
-
       <Routes>
         <Route path="/" element={<Acceuil />} />
         <Route path='/Live' element={<TVLive />} />
@@ -20,5 +21,6 @@ export default function App() {
         <Route path="/admin" element={<Admin />} />
       </Routes>
     </Router>
+   </AuthProvider>
   );
 }

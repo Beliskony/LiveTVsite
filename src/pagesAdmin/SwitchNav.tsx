@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { ChartColumn, Video, CalendarDays, Radio } from "lucide-react";
+import { ChartColumn, Video, CalendarDays, Radio, FileSpreadsheet } from "lucide-react";
 import VideoManager from "./VideoManager";
 import ProgramManager from "./ProgramManager";
 import { AdminDashboard } from "./AdminDashbord";
 import { LivePreview } from "./LivePreview";
+import ArticleManager from "./ArticleManager";
 
 const ChoixMenu = () => {
     const [choice, setChoice] = useState(1)
@@ -21,6 +22,9 @@ const ChoixMenu = () => {
             
             case 4:
                 return <LivePreview />;
+            
+            case 5:
+                return <ArticleManager />
             
             default:
                 return <AdminDashboard />;
@@ -51,6 +55,11 @@ const ChoixMenu = () => {
                 <button onClick={() => setChoice(4)} className={`flex flex-row gap-x-2 h-full p-4 items-center rounded transition-all duration-300 ease-in-out ${choice===4 ? 'bg-white shadow-md scale-105' : 'bg-transparent hover:bg-white/30'}`}>
                     <Radio />
                     <h4 className="text-gray-900 text-sm">Live</h4>
+                </button>
+
+                <button onClick={() => setChoice(5)} className={`flex flex-row gap-x-2 h-full p-4 items-center rounded transition-all duration-300 ease-in-out ${choice===5 ? 'bg-white shadow-md scale-105' : 'bg-transparent hover:bg-white/30'}`}>
+                    <FileSpreadsheet />
+                    <h4 className="text-gray-900 text-sm">Article</h4>
                 </button>
 
             </div>
