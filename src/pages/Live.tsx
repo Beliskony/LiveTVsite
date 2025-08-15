@@ -1,6 +1,6 @@
 import Footer from "../components/Footer"
 import Header from "../components/NavBar"
-import LiveVideo from "../components/mediaComponent/LiveVideo";
+import LiveVideo from "../components/mediaComponent/LiveVideoComponent";
 import { SlideSection } from "../components/homeScreen/SlideSection";
 
 export const TVLive = () => {

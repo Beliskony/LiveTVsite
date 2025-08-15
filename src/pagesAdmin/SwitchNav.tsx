@@ -4,6 +4,7 @@ import VideoManager from "./VideoManager";
 import ProgramManager from "./ProgramManager";
 import { AdminDashboard } from "./AdminDashbord";
 import { LivePreview } from "./LivePreview";
+import LiveManager from "./LiveManager";
 import ArticleManager from "./ArticleManager";
 
 const ChoixMenu = () => {
@@ -21,7 +22,7 @@ const ChoixMenu = () => {
                 return <ProgramManager/>;
             
             case 4:
-                return <LivePreview />;
+                return <LiveManager />;
             
             case 5:
                 return <ArticleManager />

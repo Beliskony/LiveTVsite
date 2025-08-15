@@ -5,6 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Play, Square, Settings, Users, Eye } from "lucide-react"
+import { liveData } from "@/data/liveData"
+import { formatViews } from "@/utilitaires/FormatViews"
+import LiveVideo from "@/components/mediaComponent/LiveVideo"
 
 interface LivePreviewProps {
   showControls?: boolean
@@ -12,7 +15,6 @@ interface LivePreviewProps {
 
 export function LivePreview({ showControls = false }: LivePreviewProps) {
   const [isLive, setIsLive] = useState(true)
-  const [viewers] = useState(1234)
 
   return (
     <Card>
@@ -24,37 +26,25 @@ export function LivePreview({ showControls = false }: LivePreviewProps) {
           </CardTitle>
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <Eye className="h-4 w-4" />
-            {viewers.toLocaleString()} spectateurs
+            {formatViews(liveData.viewers?? 0)} spectateurs
           </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Aperçu vidéo simulé */}
         <div className="aspect-video bg-gray-900 rounded-lg flex items-center justify-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20"></div>
-          <div className="text-center text-white z-10">
-            <div className="text-6xl mb-4">📺</div>
-            <p className="text-lg font-medium">Flux Live TV</p>
-            <p className="text-sm opacity-75">Signal en cours...</p>
-          </div>
-          {isLive && (
-            <div className="absolute top-4 left-4">
-              <Badge className="bg-red-600 text-white">LIVE</Badge>
-            </div>
-          )}
+          <LiveVideo/>
         </div>
 
         {/* Informations du programme actuel */}
         <div className="bg-gray-50 rounded-lg p-4">
-          <h4 className="font-medium text-gray-900 mb-1">Programme actuel</h4>
-          <p className="text-sm text-gray-600 mb-2">Journal du soir - 20:00 à 21:00</p>
-          <div className="flex items-center gap-4 text-xs text-gray-500">
-            <span className="flex items-center gap-1">
-              <Users className="h-3 w-3" />
-              {viewers.toLocaleString()} spectateurs
-            </span>
-            <span>Durée: 25:30 / 60:00</span>
-          </div>
+          <h4 className="font-medium text-gray-900 mb-1">{liveData.title}</h4>
+          <p className="text-sm text-gray-600 mb-2">{liveData.startTime} à {liveData.endingTime}</p>
+          
+           <div className="text-sm text-gray-600 overflow-y-auto max-h-24">
+              {liveData.description}
+           </div>
+          
         </div>
 
         {/* Contrôles de diffusion */}
@@ -85,16 +75,6 @@ export function LivePreview({ showControls = false }: LivePreviewProps) {
               </Button>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div className="bg-green-50 p-3 rounded-lg">
-                <p className="font-medium text-green-800">Qualité du signal</p>
-                <p className="text-green-600">Excellente (1080p)</p>
-              </div>
-              <div className="bg-blue-50 p-3 rounded-lg">
-                <p className="font-medium text-blue-800">Débit</p>
-                <p className="text-blue-600">5.2 Mbps</p>
-              </div>
-            </div>
           </div>
         )}
       </CardContent>
