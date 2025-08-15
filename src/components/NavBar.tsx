@@ -3,6 +3,7 @@ import { Search, Menu, X, User, Bell, ChevronDown, LogOut } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useAuth } from "./auth-context" // branchement sur ton AuthProvider
 import { LogSignIn } from "./LogSignIn"
+import { DropdownMenu } from "@radix-ui/react-dropdown-menu"
 
 export default function Header() {
   const { user, isAuthenticated, isAdmin, logout } = useAuth()
@@ -44,9 +45,24 @@ export default function Header() {
               <Link to={"/live"} className="hover:text-blue-400 transition-colors font-medium">
                 Direct
               </Link>
-              <Link to={"/"} className="hover:text-blue-400 transition-colors font-medium">
-                Documentaires
-              </Link>
+              <div className="relative group">
+                  <button className="hover:text-blue-400 transition-colors font-medium flex items-center gap-1">
+                      Eglise Yeshoua
+                      <ChevronDown className="h-4 w-4" />
+                  </button>
+
+                  <div className="absolute hidden group-hover:block bg-gray-800 text-white mt-1 rounded shadow-lg min-w-[150px] z-10">
+                      <Link to="/EgliseYeshoua/presentation"
+                            className="block px-4 py-2 hover:bg-gray-700 transition-colors">
+                          Presentation
+                      </Link>
+                      
+                      <Link to="/articles"
+                            className="block px-4 py-2 hover:bg-gray-700 transition-colors">
+                          Articles
+                      </Link>
+                  </div>
+              </div>
               {isAdmin && (
                 <Link to={"/admin"} className="hover:text-yellow-400 transition-colors font-medium text-yellow-300">
                   Admin

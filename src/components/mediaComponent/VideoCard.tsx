@@ -10,7 +10,7 @@ export const VideoCard = ({ id, title, description, Time, Miniature, category, l
   console.log(id);
   
   return (
-    <Card className="group min-w-[300px] w-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+    <Card className="group w-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
       <div className="relative aspect-video overflow-hidden">
         <img
           src={Miniature || "/placeholder.svg?height=200&width=350&query=video thumbnail"}

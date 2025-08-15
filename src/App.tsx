@@ -7,6 +7,7 @@ import './App.css';
 import { TVLive } from './pages/Live';
 import Admin from './pages/Admin';
 import { AuthProvider } from './components/auth-context';
+import PresentationEglise from './pages/PresentationEglise';
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/videos" element={<Videos />} />
         <Route path="/catalogue" element={<Catalogue />} />
         <Route path="/compte" element={<Compte />} />
+        <Route path="/EgliseYeshoua/presentation" element={<PresentationEglise/>} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
     </Router>
