@@ -28,7 +28,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
   const filteredArticles = articles.filter((article) => {
     const matchesSearch =
       article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      article.author.toLowerCase().includes(searchTerm.toLowerCase())
+      article.author?.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === "all" || article.status === statusFilter
     const matchesCategory = categoryFilter === "all" || article.category === categoryFilter
 
@@ -147,7 +147,6 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{article.author}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{article.category}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{getStatusBadge(article.status)}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{article.views.toLocaleString()}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {new Date(article.created_at).toLocaleDateString("fr-FR")}
                 </td>
