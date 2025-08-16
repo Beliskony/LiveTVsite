@@ -16,7 +16,7 @@ export const videosData: IVideo[] = [
     id: "V2",
     title: "Styliser avec Tailwind CSS",
     description: "Un tutoriel pour utiliser les utilitaires Tailwind CSS afin de créer des designs modernes et réactifs.",
-    createdAt: new Date("2025-10-19T14:30:00Z"),
+    createdAt: new Date("2025-03-02T10:00:00Z"),
     duration: "10min",
     views: 1894,
     Miniature: "/placeholder.svg?height=200&width=350&text=Tailwind+CSS",

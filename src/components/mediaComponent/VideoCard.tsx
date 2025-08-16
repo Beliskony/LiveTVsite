@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
-export const VideoCard = ({ id, title, description, Time, Miniature, category, lien, duration, views }: IVideo) => {
+export const VideoCard = ({ id, title, description, Miniature, category, duration, views, createdAt }: IVideo) => {
   console.log(id);
   
   return (
@@ -33,9 +33,7 @@ export const VideoCard = ({ id, title, description, Time, Miniature, category, l
             className="rounded-full bg-white/90 text-black hover:bg-white hover:scale-110 transition-all duration-200"
             asChild
           >
-            <a href={lien} target="_blank" rel="noopener noreferrer">
-              <Play className="h-6 w-6 fill-current" />
-            </a>
+            
           </Button>
         </div>
       </div>
@@ -52,11 +50,11 @@ export const VideoCard = ({ id, title, description, Time, Miniature, category, l
         {/* Categories */}
         {category && category.length > 0 && (
           <div className="flex flex-wrap gap-1">
-            {category.slice(0, 3).map((cat, index) => (
-              <Badge key={index} variant="outline" className="text-xs text-white">
-                {cat}
+            {category && (
+              <Badge variant="outline" className="text-xs text-white">
+                {category}
               </Badge>
-            ))}
+            )}
             {category.length > 3 && (
               <Badge variant="outline" className="text-xs text-white">
                 +{category.length - 3}
@@ -68,15 +66,15 @@ export const VideoCard = ({ id, title, description, Time, Miniature, category, l
         {/* Footer */}
         <div className="flex items-center justify-between pt-2 border-t">
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span>{formatRelativeDate(Time)}</span>
+            <span>{formatRelativeDate(createdAt.toLocaleDateString())}</span>
             <div className="flex items-center gap-1">
               <Eye className="h-4 w-4" />
-              <span>{formatViews(views)}</span>
+              <span>{formatViews(views ?? 0)}</span>
             </div>
           </div>
 
           <Button variant="ghost" size="sm" asChild>
-            <a href={lien} target="_blank" rel="noopener noreferrer">
+            <a href="#" target="_blank" rel="noopener noreferrer">
               Regarder
             </a>
           </Button>
