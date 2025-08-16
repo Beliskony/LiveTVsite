@@ -17,7 +17,7 @@ export function PastorSection() {
             <div className="grid md:grid-cols-3 gap-8 items-center">
               <div className="md:col-span-1">
                 <img
-                  src="/placeholder.svg?height=300&width=300"
+                  src="https://i.pinimg.com/1200x/fe/2d/ff/fe2dff0828d03677b6d1d0eb092c67b5.jpg"
                   alt="Pasteur Martin Dubois"
                   className="rounded-full w-64 h-64 object-cover mx-auto shadow-lg"
                 />

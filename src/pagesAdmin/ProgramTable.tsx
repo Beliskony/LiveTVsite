@@ -96,6 +96,7 @@ export function ProgramTable() {
         </div>
       </CardHeader>
       <CardContent>
+       <div className="rounded-md border">
         <Table>
           <TableHeader>
             <TableRow>
@@ -145,6 +146,7 @@ export function ProgramTable() {
             ))}
           </TableBody>
         </Table>
+       </div>
       </CardContent>
     </Card>
   )

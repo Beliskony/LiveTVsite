@@ -17,7 +17,7 @@ export function CalendarSectionPre() {
             <CardHeader>
               <div className="flex items-center gap-2 text-primary mb-2">
                 <Calendar className="h-5 w-5" />
-                <span className="font-serif text-sm">Dimanche 19 Janvier</span>
+                <span className="font-serif text-sm">Dimanche</span>
               </div>
               <CardTitle className="font-sans">Service Dominical</CardTitle>
               <CardDescription className="font-serif">Culte de louange et enseignement biblique</CardDescription>
@@ -37,7 +37,7 @@ export function CalendarSectionPre() {
             <CardHeader>
               <div className="flex items-center gap-2 text-primary mb-2">
                 <Calendar className="h-5 w-5" />
-                <span className="font-serif text-sm">Mercredi 22 Janvier</span>
+                <span className="font-serif text-sm">Mercredi</span>
               </div>
               <CardTitle className="font-sans">Étude Biblique</CardTitle>
               <CardDescription className="font-serif">Approfondissement de la Parole en petit groupe</CardDescription>
@@ -57,7 +57,7 @@ export function CalendarSectionPre() {
             <CardHeader>
               <div className="flex items-center gap-2 text-primary mb-2">
                 <Calendar className="h-5 w-5" />
-                <span className="font-serif text-sm">Samedi 25 Janvier</span>
+                <span className="font-serif text-sm">Samedi</span>
               </div>
               <CardTitle className="font-sans">Repas Communautaire</CardTitle>
               <CardDescription className="font-serif">Moment de partage et de convivialité</CardDescription>

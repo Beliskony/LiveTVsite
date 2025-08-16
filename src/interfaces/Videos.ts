@@ -1,11 +1,11 @@
 export interface IVideo {
   id: string;
-  title: string;
-  description: string;
-  Time: string;
-  Miniature: string;
-  category?: string[];
-  lien: string;
+  title?: string;
+  description?: string;
+  Miniature?: string;
+  category?: string;
+  status?: "published" | "draft";
+  createdAt: Date;
   duration: string;
-  views: number;
+  views?: number;
 }

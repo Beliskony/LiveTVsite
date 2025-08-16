@@ -8,56 +8,35 @@ import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Search, MoreHorizontal, Edit, Trash2, Eye } from "lucide-react"
+import { videosData } from "@/data/videosData"
+import type { IVideo } from "@/interfaces/Videos"
 
-// Données d'exemple - à remplacer par vos données Laravel
-const mockVideos = [
-  {
-    id: "1",
-    title: "Journal du soir - 15 janvier",
-    category: "news",
-    duration: "25:30",
-    views: 1234,
-    status: "published",
-    createdAt: "2024-01-15",
-  },
-  {
-    id: "2",
-    title: "Match de football - PSG vs OM",
-    category: "sports",
-    duration: "90:00",
-    views: 5678,
-    status: "published",
-    createdAt: "2024-01-14",
-  },
-  {
-    id: "3",
-    title: "Documentaire Nature",
-    category: "documentary",
-    duration: "45:15",
-    views: 890,
-    status: "draft",
-    createdAt: "2024-01-13",
-  },
-]
+interface VideoTableProps {
+  videos: IVideo[]
+  onEdit?: (video: IVideo) => void
+  onDelete?: (videoId: string) => void
+}
 
-export function VideoTable() {
+export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTableProps) {
   const [searchTerm, setSearchTerm] = useState("")
-  const [videos] = useState(mockVideos)
 
-  const filteredVideos = videos.filter((video) => video.title.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredVideos = videos.filter((video) =>
+    video.title?.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
-  const getCategoryColor = (category: string) => {
-    const colors = {
+  const getCategoryColor = (category?: string) => {
+    const colors: Record<string, string> = {
       news: "bg-blue-100 text-blue-800",
       sports: "bg-green-100 text-green-800",
       entertainment: "bg-purple-100 text-purple-800",
       documentary: "bg-orange-100 text-orange-800",
       music: "bg-pink-100 text-pink-800",
+      programmation: "bg-indigo-100 text-indigo-800",
     }
-    return colors[category as keyof typeof colors] || "bg-gray-100 text-gray-800"
+    return category ? colors[category] || "bg-gray-100 text-gray-800" : "bg-gray-100 text-gray-800"
   }
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status?: "published" | "draft") => {
     return status === "published" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
   }
 
@@ -80,6 +59,7 @@ export function VideoTable() {
         </div>
       </CardHeader>
       <CardContent>
+       <div className="rounded-md border">
         <Table>
           <TableHeader>
             <TableRow>
@@ -87,7 +67,7 @@ export function VideoTable() {
               <TableHead>Catégorie</TableHead>
               <TableHead>Durée</TableHead>
               <TableHead>Vues</TableHead>
-              <TableHead>Statut</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead>Date</TableHead>
               <TableHead className="w-[50px]">Actions</TableHead>
             </TableRow>
@@ -100,13 +80,19 @@ export function VideoTable() {
                   <Badge className={getCategoryColor(video.category)}>{video.category}</Badge>
                 </TableCell>
                 <TableCell>{video.duration}</TableCell>
-                <TableCell>{video.views.toLocaleString()}</TableCell>
+                <TableCell>{video.views?.toLocaleString()}</TableCell>
                 <TableCell>
                   <Badge className={getStatusColor(video.status)}>
                     {video.status === "published" ? "Publié" : "Brouillon"}
                   </Badge>
                 </TableCell>
-                <TableCell>{video.createdAt}</TableCell>
+                <TableCell>
+                  {new Date(video.createdAt).toLocaleDateString("fr-FR", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </TableCell>
                 <TableCell>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -119,11 +105,14 @@ export function VideoTable() {
                         <Eye className="h-4 w-4 mr-2" />
                         Voir
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onEdit?.(video)}>
                         <Edit className="h-4 w-4 mr-2" />
                         Modifier
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-600">
+                      <DropdownMenuItem
+                        className="text-red-600"
+                        onClick={() => onDelete?.(video.id)}
+                      >
                         <Trash2 className="h-4 w-4 mr-2" />
                         Supprimer
                       </DropdownMenuItem>
@@ -134,6 +123,7 @@ export function VideoTable() {
             ))}
           </TableBody>
         </Table>
+       </div>
       </CardContent>
     </Card>
   )

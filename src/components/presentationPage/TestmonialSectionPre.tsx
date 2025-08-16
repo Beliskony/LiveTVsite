@@ -20,7 +20,7 @@ export function TestimonialsSectionPre() {
               </p>
               <div className="flex items-center gap-3">
                 <img
-                  src="/placeholder.svg?height=50&width=50"
+                  src="https://i.pinimg.com/1200x/fe/2d/ff/fe2dff0828d03677b6d1d0eb092c67b5.jpg"
                   alt="Marie Leroy"
                   className="rounded-full w-12 h-12 object-cover"
                 />
@@ -40,7 +40,7 @@ export function TestimonialsSectionPre() {
               </p>
               <div className="flex items-center gap-3">
                 <img
-                  src="/placeholder.svg?height=50&width=50"
+                  src="https://i.pinimg.com/1200x/fe/2d/ff/fe2dff0828d03677b6d1d0eb092c67b5.jpg"
                   alt="Thomas Martin"
                   className="rounded-full w-12 h-12 object-cover"
                 />
@@ -61,7 +61,7 @@ export function TestimonialsSectionPre() {
               </p>
               <div className="flex items-center gap-3 justify-center">
                 <img
-                  src="/placeholder.svg?height=50&width=50"
+                  src="https://i.pinimg.com/1200x/fe/2d/ff/fe2dff0828d03677b6d1d0eb092c67b5.jpg"
                   alt="Sophie Dubois"
                   className="rounded-full w-12 h-12 object-cover"
                 />

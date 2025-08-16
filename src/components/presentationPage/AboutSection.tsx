@@ -13,15 +13,15 @@ export function AboutSection() {
               spirituellement et trouver sa place.
             </p>
             <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="text-center">
+              <div className="text-center border rounded bg-white p-4 shadow">
                 <Heart className="h-8 w-8 text-primary mx-auto mb-2" />
                 <p className="font-serif text-sm text-muted-foreground">Amour</p>
               </div>
-              <div className="text-center">
+              <div className="text-center border rounded bg-white p-4 shadow">
                 <Users className="h-8 w-8 text-primary mx-auto mb-2" />
                 <p className="font-serif text-sm text-muted-foreground">Communauté</p>
               </div>
-              <div className="text-center">
+              <div className="text-center border rounded bg-white p-4 shadow">
                 <BookOpen className="h-8 w-8 text-primary mx-auto mb-2" />
                 <p className="font-serif text-sm text-muted-foreground">Enseignement</p>
               </div>
@@ -29,9 +29,9 @@ export function AboutSection() {
           </div>
           <div className="relative">
             <img
-              src="/placeholder.svg?height=500&width=600"
+              src="https://i.pinimg.com/1200x/40/f9/84/40f984447a4a82cea5925778e530ea9e.jpg"
               alt="Notre communauté en prière"
-              className="rounded-lg shadow-lg w-full"
+              className="rounded-lg shadow-lg w-full h-[500px] object-cover"
             />
           </div>
         </div>

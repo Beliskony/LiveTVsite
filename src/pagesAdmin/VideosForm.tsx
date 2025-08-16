@@ -9,18 +9,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { X, Upload } from "lucide-react"
+import { X, CheckCircle } from "lucide-react"
+import type { IVideo } from "@/interfaces/Videos"
+import { SelecteurVideo } from "./VideoSelector"
+
 
 interface VideoFormProps {
   onClose: () => void
-  video?: {
-    id: string
-    title: string
-    description: string
-    category: string
-    duration: string
-    thumbnail: string
-  }
+  video?: IVideo | null
 }
 
 export function VideoForm({ onClose, video }: VideoFormProps) {
@@ -29,15 +25,52 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
     description: video?.description || "",
     category: video?.category || "",
     duration: video?.duration || "",
-    thumbnail: video?.thumbnail || "",
+    thumbnail: video?.Miniature || "",
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+   const [selectedVideoFile, setSelectedVideoFile] = useState<File | null>(null)
+   const [isSubmitting, setIsSubmitting] = useState(false)
+   const [isSuccess, setIsSuccess] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Ici vous intégrerez avec votre API Laravel
-    console.log("Données du formulaire:", formData)
-    onClose()
+    setIsSubmitting(true) 
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+
+      console.log("Données du formulaire:", formData)
+      console.log("Fichier vidéo:", selectedVideoFile)
+
+      setIsSubmitting(false)
+      setIsSuccess(true)
+
+      setTimeout(() => {
+        onClose()
+      }, 3000)
+    } catch (error) {
+      setIsSubmitting(false)
+      console.error("Erreur lors de l'envoi:", error)
+    }
   }
+
+    if (isSuccess) {
+    return (
+      <Card className="mb-6">
+        <CardContent className="pt-6">
+          <div className="text-center space-y-4">
+            <CheckCircle className="h-16 w-16 text-green-500 mx-auto" />
+            <h3 className="text-xl font-semibold text-green-700">Vidéo postée avec succès !</h3>
+            <p className="text-gray-600">Votre vidéo "{formData.title}" a été ajoutée.</p>
+            <Button onClick={onClose} className="mt-4">
+              Fermer
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+  
 
   return (
     <Card className="mb-6">
@@ -103,11 +136,7 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
             </div>
             <div className="space-y-2">
               <Label>Fichier vidéo</Label>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
-                <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
-                <p className="text-sm text-gray-600">Glissez votre fichier ici ou cliquez pour sélectionner</p>
-                <Input type="file" accept="video/*" className="hidden" />
-              </div>
+              <SelecteurVideo onVideoSelect={setSelectedVideoFile} selectedFile={selectedVideoFile} />
             </div>
           </div>
 
@@ -115,7 +144,7 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
             <Button type="button" variant="outline" onClick={onClose}>
               Annuler
             </Button>
-            <Button type="submit">{video ? "Mettre à jour" : "Ajouter la vidéo"}</Button>
+            <Button type="submit" disabled={isSubmitting} >{isSubmitting ? "Publication..." : video ? "Mettre à jour" : "Ajouter la vidéo"}</Button>
           </div>
         </form>
       </CardContent>
