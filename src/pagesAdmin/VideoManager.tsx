@@ -3,6 +3,7 @@ import { VideoForm } from './VideosForm'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { VideoTable } from './VideoTable'
+import { videosData } from '@/data/videosData'
 
 const VideoManager = () => {
     const [showVideoForm, setShowVideoForm] = useState(false)
@@ -23,7 +24,7 @@ const VideoManager = () => {
 
             {showVideoForm && <VideoForm onClose={() => setShowVideoForm(false)} />}
             
-            <VideoTable/>
+            <VideoTable videos={videosData} />
 
     </section>
   )
