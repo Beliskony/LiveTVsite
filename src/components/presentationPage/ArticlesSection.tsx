@@ -1,11 +1,13 @@
 "use client"
 import { useEffect, useState, useCallback } from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { BookOpen, ChevronLeft, ChevronRight } from "lucide-react"
 import useEmblaCarousel from "embla-carousel-react"
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel"
 import Autoplay from "embla-carousel-autoplay"
 import ArticleCard from "../articlesPage/ArticleCard"
 import { articleData } from "@/data/articlesData"
+import { Link } from "react-router-dom"
+import { Button } from "../ui/button"
 
 export default function ArticleCarousel() {
   // Options pour Embla Carousel
@@ -59,7 +61,7 @@ export default function ArticleCarousel() {
     <div className="relative w-full max-w-6xl mx-auto px-4 my-4">
       <div className="embla__viewport overflow-hidden" ref={emblaRef}>
        <div className="embla__container flex space-x-4 touch-action-pan-y" >
-          {articleData.map((article) => (
+          {articleData.slice(0, 5).map((article) => (
             <div
                 key={article.id}>
                 <ArticleCard {...article} />
@@ -98,6 +100,16 @@ export default function ArticleCarousel() {
           />
         ))}
       </div>*/}
+
+      <div className="flex w-full items-center justify-center my-4">
+        <Button className="mt-4 p-2 flex justify-center items-center bg-gray-900 shadow transition-all ease-in-out">
+          <Link to="/articles" className=" text-white">
+            Voir tous les articles
+          </Link>
+          <BookOpen className="w-4 h-4" />
+        </Button>
+      </div>
+
     </div>
   )
 }

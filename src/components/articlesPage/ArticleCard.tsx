@@ -5,7 +5,7 @@ import { formatRelativeDate } from "@/utilitaires/FormatDate"
 
 const ArticleCard = (articleProps: IArticle) => {
   return (
-    <Card className="w-[300px] h-[450px] p-0 flex-shrink-0">
+    <Card className="w-[300px] h-[450px] p-0 flex-shrink-0 mx-1.5 cursor-pointer">
             <div className="relative h-40 overflow-hidden rounded-t-lg">
               <img
                 src={articleProps.featured_image}
