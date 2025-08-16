@@ -184,7 +184,7 @@ export default function Header() {
                       <ChevronDown className="h-4 w-4" />
                   </button>
                   {isSubmenuOpen && (
-                  <div className="absolute hidden group-hover:block bg-gray-800 text-white mt-1 rounded shadow-lg min-w-[150px] z-10">
+                  <div className="ml-5 bg-gray-900 text-white mt-1 min-w-[150px] z-10 transition-all ease-in-out delay-75">
                       <Link to="/EgliseYeshoua/presentation"
                             className="block px-4 py-2 hover:bg-gray-700 transition-colors">
                           Presentation
