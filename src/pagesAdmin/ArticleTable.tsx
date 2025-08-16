@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Edit, Trash2, Eye, Search, Filter } from "lucide-react"
 import type { IArticle } from "@/interfaces/Articles"
-import { articles } from "@/utilitaires/ArticleData"
+import { articleData } from "@/data/articlesData"
 
 
 interface ArticleTableProps {
@@ -25,7 +25,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
     { value: "supprimé", label: "Supprimé" },
   ]
 
-  const filteredArticles = articles.filter((article) => {
+  const filteredArticles = articleData.filter((article) => {
     const matchesSearch =
       article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       article.author?.toLowerCase().includes(searchTerm.toLowerCase())

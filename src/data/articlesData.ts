@@ -206,13 +206,10 @@ et participe à la mission d'annoncer l'Évangile jusqu'aux extrémités de la t
     author: "Pasteur André",
     category: "Doctrine",
     status: "publié",
-    contenu: `
-Le Saint-Esprit est la troisième personne de la Trinité.
-Il n'est pas une force impersonnelle, mais un consolateur, un guide et un enseignant pour chaque croyant.
-
-Il nous convainc de péché, nous révèle la vérité, et nous équipe pour servir avec puissance.
-Sans Lui, la vie chrétienne devient une simple religion sans vie.
-
+    contenu: `Le Saint-Esprit est la troisième personne de la Trinité.
+        Il n'est pas une force impersonnelle, mais un consolateur, un guide et un enseignant pour chaque croyant.
+        Il nous convainc de péché, nous révèle la vérité, et nous équipe pour servir avec puissance.
+        Sans Lui, la vie chrétienne devient une simple religion sans vie.
 Marcher selon l'Esprit, c'est Lui donner la place centrale dans nos décisions, nos relations et nos projets,
 afin que Christ soit pleinement formé en nous.`,
     created_at: "2025-07-01T18:05:00Z",
