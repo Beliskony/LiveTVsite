@@ -5,7 +5,7 @@ import { VideoSectionFilter } from '../components/videoScreen/VideosSecrionFilte
 
 export const Catalogue = () => {
   return (
-    <div className="h-full bg-gray-200">
+    <div className="h-full bg-white">
         <section>
           <Header />
         </section>

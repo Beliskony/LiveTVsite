@@ -53,12 +53,12 @@ export default function Header() {
                   </button>
 
                   <div className="absolute hidden group-hover:block bg-gray-800 text-white mt-1 rounded shadow-lg min-w-[150px] z-10">
-                      <Link to="/EgliseYeshoua/presentation"
+                      <Link to="/egliseYeshoua/presentation"
                             className="block px-4 py-2 hover:bg-gray-700 transition-colors">
                           Presentation
                       </Link>
                       
-                      <Link to="/articles"
+                      <Link to="/egliseYeshoua/articles"
                             className="block px-4 py-2 hover:bg-gray-700 transition-colors">
                           Articles
                       </Link>
@@ -150,7 +150,7 @@ export default function Header() {
           </div>
 
           {/* Mobile Search Bar */}
-          <div className="lg:hidden pb-4">
+          <div className="hidden  pb-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <input
@@ -185,12 +185,12 @@ export default function Header() {
                   </button>
                   {isSubmenuOpen && (
                   <div className="ml-5 bg-gray-900 text-white mt-1 min-w-[150px] z-10 transition-all ease-in-out delay-75">
-                      <Link to="/EgliseYeshoua/presentation"
+                      <Link to="/egliseYeshoua/presentation"
                             className="block px-4 py-2 hover:bg-gray-700 transition-colors">
                           Presentation
                       </Link>
                       
-                      <Link to="/articles"
+                      <Link to="/egliseYeshoua/articles"
                             className="block px-4 py-2 hover:bg-gray-700 transition-colors">
                           Articles
                       </Link>

@@ -2,9 +2,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import type { IArticle } from "@/interfaces/Articles"
 import { formatRelativeDate } from "@/utilitaires/FormatDate"
+import { Link } from "react-router-dom"
 
 const ArticleCard = (articleProps: IArticle) => {
   return (
+    <Link to={`/egliseYeshoua/articles/${articleProps.id}`} className="no-underline">
     <Card className="w-[300px] h-[450px] p-0 flex-shrink-0 mx-1.5 cursor-pointer">
             <div className="relative h-40 overflow-hidden rounded-t-lg">
               <img
@@ -26,6 +28,7 @@ const ArticleCard = (articleProps: IArticle) => {
               <p className="font-serif text-sm text-muted-foreground">Par {articleProps.author} • {formatRelativeDate(articleProps.created_at)}</p>
             </CardContent>
     </Card>
+    </Link>
   )
 }
 

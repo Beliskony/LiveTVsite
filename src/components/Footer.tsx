@@ -12,7 +12,7 @@ export default function Footer() {
             <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">Contenu</h3>
             <ul className="space-y-2 max-sm:justify-center flex flex-row lg:flex-col gap-x-4">
               <li><Link to="/catalogue" className="text-gray-300 hover:text-white">Emissions</Link></li>
-              <li><Link to="#" className="text-gray-300 hover:text-white">Documentaires</Link></li>
+              <li><Link to="/egliseYeshoua/articles" className="text-gray-300 hover:text-white">Articles</Link></li>
               <li><Link to="/live" className="text-gray-300 hover:text-white">Live / Direct</Link></li>
             </ul>
           </div>
@@ -32,13 +32,13 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">À propos</h3>
             <ul className="space-y-2 max-sm:justify-center flex flex-row lg:flex-col gap-x-4">
-              <li><Link to="/partenaires" className="text-gray-300 hover:text-white">Partenaires</Link></li>
+              <li><Link to="/egliseYeshoua/presentation" className="text-gray-300 hover:text-white">Eglise de Yeshoua</Link></li>
               <li><Link to="/contact" className="text-gray-300 hover:text-white">Contact</Link></li>
             </ul>
           </div>
 
           {/* Colonne 4: Applications + Réseaux sociaux */}
-          <div className="space-y-4 max-sm:w-full">
+          <div className="space-y-4 max-sm:w-full md:w-full">
             <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">Nos applications</h3>
             <div className="space-y-2 justify-center items-center max-sm:flex max-sm:flex-row max-sm:gap-x-6">
               <Link to="/app/mobile" className="flex items-center space-x-2 text-gray-300 hover:text-white">
