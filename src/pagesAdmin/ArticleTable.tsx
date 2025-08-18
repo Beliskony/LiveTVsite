@@ -56,7 +56,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
     return <Badge variant={variant}>{labels[status as keyof typeof labels]}</Badge>
   }
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     if (confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
       console.log("Delete article:", id)
     }

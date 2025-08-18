@@ -10,7 +10,7 @@ import Header from "@/components/NavBar"
 import Footer from "@/components/Footer"
 
 function getArticleById(id: string): IArticle | undefined {
-  return articleData.find((article) => article.id === Number.parseInt(id))
+  return articleData.find((article) => article.id === String(id))
 }
 
 function calculateReadTime(content: string): number {
