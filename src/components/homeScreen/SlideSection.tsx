@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export const SlideSection = () => {
     const [isHovered, setIsHoverred] = useState(false)
     return(
-          <div className="flex flex-col items-start justify-start p-6 bg-white w-full space-y-2.5">
+          <div className="flex flex-col items-start justify-start p-6 max-sm:p-0.5 bg-white w-full space-y-2.5">
             {/*la partie des videos recommander*/}
             <div className="flex flex-col max-sm:px-2 items-center justify-center w-full space-y-2.5">
               <h3 className="text-3xl font-bold tracking-tight text-foreground lg:text-5xl">Recommander{" "}
