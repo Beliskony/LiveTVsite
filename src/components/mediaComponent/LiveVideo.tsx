@@ -6,7 +6,7 @@ const LiveVideo = () => {
 
   return (
     
-      <div className="w-4/6 md:w-full max-sm:w-full sm:h-[200px] md:h-[300px] lg:h-[350px] xl:h-full 2xl:h-full flex flex-col">
+      <div className="w-full h-full flex flex-col">
         <iframe
           src={live.lien}
           title={live.title}

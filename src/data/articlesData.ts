@@ -2,7 +2,7 @@ import type { IArticle } from "@/interfaces/Articles"
 
 export const articleData: IArticle[] = [
   {
-    id: 1,
+    id: "1",
     title: "La Prière qui Transforme",
     author: "Pasteur Martin",
     category: "Enseignement",
@@ -20,7 +20,7 @@ Les problèmes qui semblaient insurmontables deviennent des opportunités de voi
     featured_image: "https://i.pinimg.com/736x/40/a6/d6/40a6d65e5562ecea04cc287f6bcaf31e.jpg"
   },
   {
-    id: 2,
+    id: "2",
     title: "Les Clés de la Foi",
     author: "Pasteur Jeanne",
     category: "Foi",
@@ -38,7 +38,7 @@ et que notre rôle est de continuer à marcher même lorsque le chemin semble fl
     featured_image: "https://i.pinimg.com/1200x/a7/05/67/a70567a7d05d1e1c6ff3c13c93692d64.jpg"
   },
   {
-    id: 3,
+    id: "3",
     title: "Comprendre l’Apocalypse",
     author: "Pasteur Daniel",
     category: "Prophétie",
@@ -57,7 +57,7 @@ Elles doivent être interprétées à la lumière du reste des Écritures et dan
     featured_image: "https://i.pinimg.com/1200x/c7/c2/5a/c7c25af7139e181d05c36b77f068e24f.jpg"
   },
   {
-    id: 4,
+    id: "4",
     title: "Marcher dans l’Amour",
     author: "Sœur Claire",
     category: "Vie chrétienne",
@@ -75,7 +75,7 @@ de préférer l'autre à soi-même, et de refléter le cœur de Christ dans tout
     featured_image: "https://i.pinimg.com/736x/33/2f/af/332faff55b1173bcba069a4c5813d029.jpg"
   },
   {
-    id: 5,
+    id: "5",
     title: "Le Jeûne qui Plaît à Dieu",
     author: "Pasteur Paul",
     category: "Enseignement",
@@ -93,7 +93,7 @@ et une sensibilité accrue à la voix du Saint-Esprit.`,
     featured_image: "https://i.pinimg.com/736x/56/54/2f/56542f6c88939ad29d74196724e95307.jpg"
   },
   {
-    id: 6,
+    id: "6",
     title: "La Puissance de la Louange",
     author: "Pasteur Éric",
     category: "Adoration",
@@ -111,7 +111,7 @@ ouvrant ainsi la porte à Ses interventions surnaturelles.`,
     featured_image: "https://i.pinimg.com/736x/d4/0a/01/d40a013a7dcce32410fb5a0b8cbb82dc.jpg"
   },
   {
-    id: 7,
+    id: "7",
     title: "Vivre une Vie de Sainteté",
     author: "Pasteur Samuel",
     category: "Vie chrétienne",
@@ -129,7 +129,7 @@ qui nous transforme à l'image de Christ.`,
     featured_image: "https://i.pinimg.com/1200x/dc/05/25/dc0525784aad853af48b2c7b7140d81a.jpg"
   },
   {
-    id: 8,
+    id: "8",
     title: "L’Espérance du Retour de Christ",
     author: "Pasteur David",
     category: "Prophétie",
@@ -147,7 +147,7 @@ et que nous sommes ici-bas des pèlerins en route vers la maison du Père.`,
     featured_image: "https://i.pinimg.com/1200x/f1/38/aa/f138aa8df084597951181682d4b5ae49.jpg"
   },
   {
-    id: 9,
+    id: "9",
     title: "La Gestion Biblique des Finances",
     author: "Pasteur Marc",
     category: "Vie pratique",
@@ -165,7 +165,7 @@ même dans des temps économiques incertains.`,
     featured_image: "https://i.pinimg.com/1200x/f4/99/5a/f4995a1f6a89f1ec4eee3fd0f23b3df2.jpg"
   },
   {
-    id: 10,
+    id: "10",
     title: "La Guérison selon les Écritures",
     author: "Pasteur Louis",
     category: "Miracles",
@@ -183,7 +183,7 @@ confiant en Sa puissance et Sa volonté parfaite.`,
     featured_image: "https://i.pinimg.com/1200x/37/54/b0/3754b010401efe293b6c49c7dca412ec.jpg"
   },
   {
-    id: 11,
+    id: "11",
     title: "Le Discipulat Authentique",
     author: "Pasteur Nathalie",
     category: "Enseignement",
@@ -201,7 +201,7 @@ et participe à la mission d'annoncer l'Évangile jusqu'aux extrémités de la t
     featured_image: "https://i.pinimg.com/1200x/c6/c8/90/c6c8901c49dd641613c5c1469396c027.jpg"
   },
   {
-    id: 12,
+    id: "12",
     title: "Le Saint-Esprit dans la Vie du Croyant",
     author: "Pasteur André",
     category: "Doctrine",

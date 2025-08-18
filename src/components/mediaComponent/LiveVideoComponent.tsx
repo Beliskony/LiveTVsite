@@ -7,8 +7,9 @@ import LiveVideo from "./LiveVideo";
 
 
 
-const LiveVideoComponent = (liveProps: ILive) => {
+const LiveVideoComponent = () => {
    const liveVideoRef = useRef<HTMLVideoElement>(null);
+   const liveProps = liveData;
 
    useEffect(() => {
     if (Hls.isSupported() && liveVideoRef.current) {
@@ -33,8 +34,8 @@ const LiveVideoComponent = (liveProps: ILive) => {
 
   return (
     <section className="flex flex-row md:flex-col lg:flex-col items-center gap-x-10 max-sm:gap-y-2 max-sm:px-1 justify-between w-full
-       max-sm:flex-col md:gap-y-2.5 md:p-3 xl:flex-row 2xl:flex-row">
-       <div className="w-4/6 md:w-full max-sm:w-full sm:h-[200px] md:h-[300px] lg:h-[350px] xl:h-[375px] 2xl:h-[400px] flex flex-col">
+       max-sm:flex-col md:gap-y-2.5 md:p-3 xl:flex-row 2xl:flex-row md:px-4 lg:px-10">
+       <div className="w-4/6 md:w-full max-sm:w-full h-[450px] flex flex-col">
           <LiveVideo/>
        </div>
             <div className="w-2/6 md:w-full md:flex-col flex flex-col max-sm:w-full">
@@ -54,10 +55,10 @@ const LiveVideoComponent = (liveProps: ILive) => {
                 <div className="flex flex-col items-start justify-start p-4 bg-gray-900 rounded-xl h-full">
                   <div className="flex flex-row items-center justify-between w-full mb-2">
                     <p className="text-sm text-gray-400 mb-2">
-                      Début: {formatRelativeDate(liveProps.startTime?? "0")}
+                      Début: {liveProps.startTime?? "0"}
                     </p>
                     <p className="text-sm text-gray-400 mb-2">
-                      Fin: {formatRelativeDate(liveProps.endingTime?? "test")}
+                      Fin: {liveProps.endingTime?? "0"}
                     </p>
                   </div>
 
