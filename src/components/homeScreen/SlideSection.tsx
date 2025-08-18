@@ -2,6 +2,7 @@ import { useState } from "react";
 import VideoCarousel from "../mediaComponent/Videos-carousel";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { videosData } from "../../data/videosData";
+import { Link } from "react-router-dom";
 
 export const SlideSection = () => {
     const [isHovered, setIsHoverred] = useState(false)
@@ -9,18 +10,20 @@ export const SlideSection = () => {
           <div className="flex flex-col items-start justify-start p-6 bg-white w-full space-y-2.5">
             {/*la partie des videos recommander*/}
             <div className="flex flex-col max-sm:px-2 items-center justify-center w-full space-y-2.5">
-              <h3 className="font-semibold text-gray-900 text-6xl max-sm:text-2xl">Recommander pour vous</h3>
-              <p className="font-light text-gray-900 text-lg max-sm:text-xs">
+              <h3 className="text-3xl font-bold tracking-tight text-foreground lg:text-5xl">Recommander{" "}
+                 <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"> pour vous </span></h3>
+              <p className="text-lg text-muted-foreground lg:text-xl max-sm:text-xs">
                 les contenues populaires du moment
               </p>
             </div>
                <VideoCarousel videos={videosData} />
             
             <div className="w-full flex my-7 justify-center items-center">
-                <button onClick={() =>({})}
+              <Link to="/catalogue"> 
+                <button
                 onMouseEnter={() => setIsHoverred(true)}
                 onMouseLeave={() => setIsHoverred(false)}
-                className="flex flex-row w-60 h-10 justify-center items-center rounded-2xl bg-blue-600 space-x-1
+                className="flex flex-row w-60 h-10 justify-center items-center rounded-2xl bg-gray-900 space-x-1
                 hover:scale-110 transition-all">
                   <h3 className="text-white text-lg">Voir toutes les videos</h3>
                   {isHovered ? (<ArrowUpRight className="text-white mt-0.5 transition-transform duration-300 ease-in-out"/>
@@ -30,6 +33,7 @@ export const SlideSection = () => {
                      
                      {/* si hover <ArrowUpRight className="text-white mt-0.5"/> avec une bonne animation */}
                 </button>
+              </Link>
             </div>
            
           </div>

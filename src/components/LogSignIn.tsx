@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { X, Eye, EyeOff, Loader2 } from "lucide-react"
 import { useAuth } from "./auth-context"
+import { set } from "date-fns"
 
 interface AuthModalProps {
   isOpen: boolean
@@ -19,6 +20,7 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
   const { login, register, loading } = useAuth()
   const [isLogin, setIsLogin] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -50,7 +52,14 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+
+    if (field === "password") {
+      if (value.length < 6) {
+        setError("Le mot de passe doit contenir au moins 6 caractères.")
+      } else {
+        error && setError(null) // Clear error if password is valid
+      }
+  }}
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -128,7 +137,8 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
                   onChange={(e) => handleInputChange("password", e.target.value)}
                   className="h-11 pr-10 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 transition-all duration-200"
                   required
-                />
+                /> 
+                {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
@@ -170,15 +180,8 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
 
           {!isLogin && (
             <p className="text-xs text-slate-500 text-center leading-relaxed">
-              En créant un compte, vous acceptez nos{" "}
-              <button className="text-blue-600 hover:text-sky-500 transition-colors duration-200">
-                conditions d'utilisation
-              </button>{" "}
-              et notre{" "}
-              <button className="text-blue-600 hover:text-sky-500 transition-colors duration-200">
-                politique de confidentialité
-              </button>
-              .
+              En créant un compte, vous acceptez nos conditions d'utilisation
+              et notre politique de confidentialité.
             </p>
           )}
 

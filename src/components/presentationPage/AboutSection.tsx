@@ -12,16 +12,16 @@ export function AboutSection() {
               l'amour inconditionnel de Dieu et nous nous efforçons de créer un espace où chaque personne peut grandir
               spirituellement et trouver sa place.
             </p>
-            <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="text-center border rounded bg-white p-4 shadow">
+            <div className="grid grid-cols-3 md:grid-cols-2 gap-4 mb-8">
+              <div className="text-center border rounded bg-white p-4 max-sm:p-2 shadow">
                 <Heart className="h-8 w-8 text-primary mx-auto mb-2" />
                 <p className="font-serif text-sm text-muted-foreground">Amour</p>
               </div>
-              <div className="text-center border rounded bg-white p-4 shadow">
+              <div className="text-center border rounded bg-white p-4 max-sm:p-2 shadow">
                 <Users className="h-8 w-8 text-primary mx-auto mb-2" />
                 <p className="font-serif text-sm text-muted-foreground">Communauté</p>
               </div>
-              <div className="text-center border rounded bg-white p-4 shadow">
+              <div className="text-center border rounded bg-white p-4 max-sm:p-2 shadow">
                 <BookOpen className="h-8 w-8 text-primary mx-auto mb-2" />
                 <p className="font-serif text-sm text-muted-foreground">Enseignement</p>
               </div>

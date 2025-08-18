@@ -5,7 +5,7 @@ const HeroHeaderSection = () => {
   return (
     <div className="w-full flex flex-col p-2 lg:p-10 lg:flex-row xl:flex-row 2xl:flex-row gap-y-3.5">
         <div className="w-full lg:1/2 xl:1/2 2xl:1/2 p-2 lg:p-10 flex flex-col justify-center items-start text-left space-y-3.5">
-            <h2 className="text-5xl text-wrap font-bold text-white">Inspiration et partage, à portée de main </h2>
+            <h2 className="text-5xl text-wrap font-bold text-white">Inspiration et partage à portée de main </h2>
 
             <p className="text-lg text-wrap text-gray-400 font-light">Accédez gratuitement à nos messages, cultes et événements.
                  Connectez-vous avec notre communauté, où que vous soyez.</p>
@@ -18,7 +18,7 @@ const HeroHeaderSection = () => {
 
                 <div className="bg-white rounded p-2 font-medium text-gray-900 justify-center items-center
                 hover:bg-gray-900 hover:text-white">
-                    <Link to={'/live'}>Nos Programmes</Link>
+                    <Link to={'/catalogue'}>Nos Programmes</Link>
                 </div> 
             </div>   
                  

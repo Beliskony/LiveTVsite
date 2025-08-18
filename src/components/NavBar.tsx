@@ -3,7 +3,7 @@ import { Search, Menu, X, User, Bell, ChevronDown, LogOut } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useAuth } from "./auth-context" // branchement sur ton AuthProvider
 import { LogSignIn } from "./LogSignIn"
-import { DropdownMenu } from "@radix-ui/react-dropdown-menu"
+
 
 export default function Header() {
   const { user, isAuthenticated, isAdmin, logout } = useAuth()
@@ -87,11 +87,7 @@ export default function Header() {
 
             {/* User Actions Desktop */}
             <div className="hidden md:flex items-center space-x-4 md:space-x-0 bg-gray-900">
-              {isAuthenticated && (
-                <button className="p-2 text-white hover:bg-gray-800 rounded-md transition-colors">
-                  <Bell className="h-5 w-5" />
-                </button>
-              )}
+              
 
               <div className="relative">
                 {!isAuthenticated ? (

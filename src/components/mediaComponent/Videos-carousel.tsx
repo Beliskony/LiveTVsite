@@ -82,7 +82,7 @@ export default function VideoCarousel({ videos }: VideoCarouselProps) {
             key={idx}
             onClick={() => emblaApi?.scrollTo(idx)}
             className={`w-3 h-3 rounded-full cursor-pointer transition duration-300 ${
-              selectedIndex === idx ? 'bg-blue-500 scale-110' : 'bg-gray-400'
+              selectedIndex === idx ? 'bg-gray-800 scale-110' : 'bg-gray-400'
             }`}
           />
         ))}

@@ -1,7 +1,13 @@
 import { Facebook, Twitter, Instagram, Youtube, Smartphone, Monitor, Tv } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import FAQModal from './aide/FAQ';
+import SupportModal from './aide/Support';
+import { useState } from 'react';
 
 export default function Footer() {
+  const [showFAQ, setShowFAQ] = useState(false);
+  const [showSupport, setShowSupport] = useState(false);
+
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -21,9 +27,8 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">Aide</h3>
             <ul className="space-y-2 flex max-sm:justify-center lg:text-left flex-row lg:flex-col gap-x-4">
-              <li><Link to="#" className="text-gray-300 hover:text-white">FAQ</Link></li>
-              <li><Link to="#" className="text-gray-300 hover:text-white">Support</Link></li>
-              <li><Link to="#" className="text-gray-300 hover:text-white">Conditions d'utilisation</Link></li>
+              <li><button onClick={() => setShowFAQ(true)} className="text-gray-300 hover:text-white">FAQ</button></li>
+              <li><button onClick={() => setShowSupport(true)} className="text-gray-300 hover:text-white">Support</button></li>
               <li><Link to="#" className="text-gray-300 hover:text-white">Politique de confidentialité</Link></li>
             </ul>
           </div>
@@ -82,6 +87,12 @@ export default function Footer() {
           </div>
 
         </div>
+
+         {/* Modal FAQ */}
+          {showFAQ && <FAQModal onClose={() => setShowFAQ(false)} />}
+        
+         {/* Modal Support */}
+          {showSupport && <SupportModal onClose={() => setShowSupport(false)} />}
 
         {/* Newsletter / Copyright */}
         <div className="mt-12 max-sm:mt-6 border-t border-gray-700 pt-6 text-center text-sm text-gray-400">

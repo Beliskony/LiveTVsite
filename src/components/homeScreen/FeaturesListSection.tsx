@@ -21,7 +21,7 @@ const FeaturesListSection = () => {
   ]
 
   return (
-    <section className="border-b bg-gradient-to-br from-background to-muted/20 py-16 lg:py-24">
+    <section className="border-b bg-gradient-to-br from-background to-muted/20 py-16 lg:py-24 ">
       <div className="container mx-auto px-4">
         <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
           {/* Content Section */}

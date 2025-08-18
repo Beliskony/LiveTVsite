@@ -6,7 +6,7 @@ import { SlideSection } from "../components/homeScreen/SlideSection";
 export const TVLive = () => {
    
   return (
-    <div className="h-full bg-gray-900">
+    <div className="h-full bg-white">
 
         <section>
           <Header />
@@ -14,10 +14,11 @@ export const TVLive = () => {
 
         <section className="flex flex-col my-4 sm: mx-0 md:px-10 lg:mx-3 xl:mx-10 gap-y-4 items-center justify-center">
           <div className="w-full mb-4">
-            <h1 className="text-6xl text-wrap text-white font-extrabold text-center max-sm:text-2xl max-md:text-3xl max-lg:text-4xl">Votre Chaîne de Télévision en Direct</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-foreground lg:text-5xl max-sm:text-2xl max-md:text-3xl">Votre Chaîne{" "} 
+              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">de Télévision en Direct</span></h1>
           </div>
           {/*la partie Live*/}
-          <div className="bg-gray-800 w-full rounded-2xl">
+          <div className="w-full rounded-2xl">
           <LiveVideo id="test1"
                      title="Live Exclusif : Émission du Matin"
                      description=" Bienvenue sur notre chaîne ! Suivez en direct notre émission spéciale du matin
@@ -31,8 +32,8 @@ export const TVLive = () => {
           </div>
 
           <div className="flex w-full my-3 items-center justify-center
-          max-sm:p-2 lg:p-10 md:p-5 xl:p-10 bg-gray-900 p-4">
-            <p className="text-wrap text-center text-white text-2xl font-bold max-sm:text-xs mx-40 max-sm:mx-2 md:mx-6">
+          max-sm:p-2 lg:p-10 md:p-5 xl:p-10 p-4">
+            <p className="text-wrap text-center font-bold text-xl text-gray-900 lg:text-xl max-sm:text-xs mx-40 max-sm:mx-2 md:mx-6">
               Découvrez des contenus exclusifs, des émissions en direct et des vidéos à la demande, disponibles 24h/24 et 7j/7.
             </p>
           </div>

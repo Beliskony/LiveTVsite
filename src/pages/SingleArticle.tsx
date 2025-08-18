@@ -133,7 +133,7 @@ export default function SingleArticlePage() {
         {/* Articles similaires */}
         <Card className="max-sm:min-h-80 lg:h-screen w-full lg:w-[450px] place-items-center lg:mx-2 ">
           <h3 className="text-xl font-semibold text-gray-900 mb-4 underline">Articles similaires</h3>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="grid lg:grid-cols-1 gap-4 md:grid-cols-3">
             {articleData
               .filter((a) => a.id !== article.id && a.category === article.category)
               .slice(0, 2)

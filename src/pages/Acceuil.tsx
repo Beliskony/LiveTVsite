@@ -10,7 +10,7 @@ import NewsletterSection from "../components/homeScreen/NewsletterSection";
 export const Acceuil = () => {
    
   return (
-    <div className="h-full bg-gray-200">
+    <div className="h-full bg-white">
 
         <section>
           <Header />
@@ -29,7 +29,7 @@ export const Acceuil = () => {
           </div>
         
         {/*OtherSection*/}
-        <div className="w-full bg-white">
+        <div className="w-full">
             <FeaturesListSection/>
         </div>
           
@@ -37,7 +37,6 @@ export const Acceuil = () => {
 
           <EmissionSlideSection />
           
-          <NewsletterSection/>
 
         </section>
 

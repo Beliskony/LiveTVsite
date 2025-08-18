@@ -18,7 +18,7 @@ export default function ArticleCarousel() {
   }
 
   const autoplayOption = Autoplay(
-    {delay: 3000, stopOnInteraction: false},
+    {delay: 5000, stopOnInteraction: false},
   )
 
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [autoplayOption])
@@ -103,7 +103,7 @@ export default function ArticleCarousel() {
 
       <div className="flex w-full items-center justify-center my-4">
         <Button className="mt-4 p-2 flex justify-center items-center bg-gray-900 shadow transition-all ease-in-out">
-          <Link to="/articles" className=" text-white">
+          <Link to="/egliseYeshoua/articles" className=" text-white">
             Voir tous les articles
           </Link>
           <BookOpen className="w-4 h-4" />
