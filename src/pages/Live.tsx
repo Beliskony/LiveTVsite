@@ -13,7 +13,7 @@ export const TVLive = () => {
           <Header />
         </section>
 
-        <section className="flex flex-col my-4 gap-y-4">
+        <section className="flex flex-col my-4 gap-y-4 max-sm:my-0.5">
           {/*la partie Live*/}
           <div className="w-full rounded-2xl">
             <LiveVideoComponent />

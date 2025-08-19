@@ -6,16 +6,20 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
-export const VideoCard = ({ id, title, description, Miniature, category, duration, views, createdAt }: IVideo) => {
+
+
+export const VideoCard = ({ id, title, description, Miniature, category, duration, views, createdAt, videoUrl }: IVideo) => {
   console.log(id);
+  console.log(videoUrl)
+
   
   return (
     <Card className="group w-[350px] overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
       <div className="relative aspect-video overflow-hidden">
         <img
-          src={Miniature || "/placeholder.svg?height=200&width=350&query=video thumbnail"}
+          src={Miniature || "/placeholder.svg"}
           alt={title}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="justify-self-center object-cover transition-transform duration-300 group-hover:scale-105"
         />
 
         {/* Duration badge */}
@@ -33,19 +37,23 @@ export const VideoCard = ({ id, title, description, Miniature, category, duratio
             className="rounded-full bg-white/90 text-black hover:bg-white hover:scale-110 transition-all duration-200"
             asChild
           >
+            <button onClick={() => {}}>
+              {/* Play icon */}
+              <Play className="h-6 w-6" />
+            </button>
             
           </Button>
         </div>
       </div>
 
-      <CardContent className="p-4 space-y-3 w-full h-[250px] bg-gray-800 text-white">
+      <CardContent className="w-full py-2 space-y-1 h-[220px] bg-gray-800 text-white">
         {/* Title */}
-        <h3 className="font-medium text-wrap text-lg leading-tight line-clamp-2 group-hover:text-white hover:font-extrabold transition-colors">
+        <h3 className="m-0 font-medium text-wrap text-lg leading-tight line-clamp-2 group-hover:text-white hover:font-extrabold transition-colors">
           {title}
         </h3>
 
         {/* Description */}
-        <p className="text-sm text-muted-foreground text-wrap line-clamp-3 leading-relaxed">{description}</p>
+        <p className="m-0 text-sm text-muted-foreground text-wrap line-clamp-3 leading-relaxed">{description}</p>
 
         {/* Categories */}
         {category && category.length > 0 && (
@@ -55,16 +63,11 @@ export const VideoCard = ({ id, title, description, Miniature, category, duratio
                 {category}
               </Badge>
             )}
-            {category.length > 3 && (
-              <Badge variant="outline" className="text-xs text-white">
-                +{category.length - 3}
-              </Badge>
-            )}
           </div>
         )}
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-2 border-t">
+        <div className="flex items-center justify-between border-t mt-3 pt-1.5">
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <span>{formatRelativeDate(createdAt.toLocaleDateString())}</span>
             <div className="flex items-center gap-1">

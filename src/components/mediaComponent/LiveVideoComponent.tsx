@@ -33,13 +33,13 @@ const LiveVideoComponent = () => {
   }, [liveProps.lien])
 
   return (
-    <section className="flex flex-row md:flex-col lg:flex-col items-center gap-x-10 max-sm:gap-y-2 max-sm:px-1 justify-between w-full
+    <section className="flex flex-row md:flex-col lg:flex-col items-center gap-x-10 max-sm:gap-y-0.5 max-sm:px-1 justify-between w-full
        max-sm:flex-col md:gap-y-2.5 md:p-3 xl:flex-row 2xl:flex-row md:px-4 lg:px-10">
        <div className="w-4/6 md:w-full max-sm:w-full h-[450px] flex flex-col">
           <LiveVideo/>
        </div>
             <div className="w-2/6 md:w-full md:flex-col flex flex-col max-sm:w-full">
-              <div className="flex flex-col max-sm:p-4 md:p-5 lg:p-5 xl:p-7 bg-gray-900 w-full rounded-xl h-52 overflow-hidden">
+              <div className="flex flex-col max-sm:p-4 md:p-5 lg:p-5 xl:p-7 bg-gray-900 w-full rounded-xl h-52 overflow-hidden max-sm:rounded-none">
                   <h2 className="text-2xl font-bold mb-2 text-white text-wrap">
                     {liveProps.title}
                   </h2>
@@ -51,8 +51,8 @@ const LiveVideoComponent = () => {
                   </div>
               </div>
 
-              <div className="w-full rounded-xl my-2">
-                <div className="flex flex-col items-start justify-start p-4 bg-gray-900 rounded-xl h-full">
+              <div className="w-full rounded-xl my-2 max-sm:my-0">
+                <div className="flex flex-col items-start justify-start p-4 bg-gray-900 rounded-xl h-full max-sm:rounded-none">
                   <div className="flex flex-row items-center justify-between w-full mb-2">
                     <p className="text-sm text-gray-400 mb-2">
                       Début: {liveProps.startTime?? "0"}
