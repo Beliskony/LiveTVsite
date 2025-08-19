@@ -1,24 +1,42 @@
 import { formatRelativeDate } from "@/utilitaires/FormatDate"
 import { formatViews } from "@/utilitaires/FormatViews"
+import { useState } from "react"
 import type { IVideo } from "@/interfaces/Videos"
 import { Eye, Play, Clock } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { VideoModal } from "./VideoModal"
+import { videosData } from "@/data/videosData"
 
 
 
-export const VideoCard = ({ id, title, description, Miniature, category, duration, views, createdAt, videoUrl }: IVideo) => {
-  console.log(id);
-  console.log(videoUrl)
+export const VideoCard = (video: IVideo) => {
+  
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const openModal = () => setIsModalOpen(true)
+  const closeModal = () => setIsModalOpen(false)
 
+    const {
+    id,
+    title,
+    description,
+    category,
+    duration,
+    views,
+    createdAt,
+    videoUrl,
+    Miniature
+  } = video;
   
   return (
+    <>
     <Card className="group w-[350px] overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
       <div className="relative aspect-video overflow-hidden">
-        <img
-          src={Miniature || "/placeholder.svg"}
-          alt={title}
+        <video
+          src={videoUrl}
+          controls={false}
+          preload="metadata"
           className="justify-self-center object-cover transition-transform duration-300 group-hover:scale-105"
         />
 
@@ -37,7 +55,7 @@ export const VideoCard = ({ id, title, description, Miniature, category, duratio
             className="rounded-full bg-white/90 text-black hover:bg-white hover:scale-110 transition-all duration-200"
             asChild
           >
-            <button onClick={() => {}}>
+            <button onClick={openModal}>
               {/* Play icon */}
               <Play className="h-6 w-6" />
             </button>
@@ -77,12 +95,18 @@ export const VideoCard = ({ id, title, description, Miniature, category, duratio
           </div>
 
           <Button variant="ghost" size="sm" asChild>
-            <a href="#" target="_blank" rel="noopener noreferrer">
+            <button onClick={openModal} className="text-white hover:bg-white hover:text-gray-900">
               Regarder
-            </a>
+            </button>
           </Button>
         </div>
       </CardContent>
     </Card>
+
+    <VideoModal video={videosData.find(video => video.id === id) ?? {id: "", title: "", description: "", createdAt: new Date(), duration: "", views: 0, Miniature: "", category: "", status: "draft", videoUrl: ""}}
+                isOpen={isModalOpen}
+                onClose={closeModal}/>
+
+    </>
   )
 }

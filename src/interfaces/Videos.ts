@@ -8,5 +8,5 @@ export interface IVideo {
   createdAt: Date;
   duration: string;
   views?: number;
-  videoUrl?: string; // Optional URL for the video file
+  videoUrl: string;
 }

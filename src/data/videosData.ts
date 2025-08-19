@@ -11,6 +11,7 @@ export const videosData: IVideo[] = [
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Vite",
     category: "Web", // string et pas tableau
     status: "published",
+    videoUrl: "/videos/test1.mp4", // Ajout de l'URL de la vidéo
   },
   {
     id: "V2",
@@ -22,6 +23,7 @@ export const videosData: IVideo[] = [
     Miniature: "/placeholder.svg?height=200&width=350&text=Tailwind+CSS",
     category: "Design",
     status: "published",
+    videoUrl: "/videos/test1.mp4"
   },
   {
     id: "V3",
@@ -33,6 +35,7 @@ export const videosData: IVideo[] = [
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     category: "React",
     status: "draft",
+    videoUrl: "/videos/test1.mp4"
   },
   {
     id: "V4",
@@ -44,6 +47,7 @@ export const videosData: IVideo[] = [
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     category: "React",
     status: "published",
+    videoUrl: "/videos/test1.mp4"
   },
   {
     id: "V5",
@@ -55,6 +59,7 @@ export const videosData: IVideo[] = [
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     category: "React",
     status: "published",
+    videoUrl: "/videos/test1.mp4"
   },
   {
     id: "V6",
@@ -66,5 +71,6 @@ export const videosData: IVideo[] = [
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     category: "React",
     status: "published",
+    videoUrl: "/videos/test1.mp4"
   },
 ];
