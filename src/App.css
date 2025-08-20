@@ -3,6 +3,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@media (min-width: 1680px) {
+  .live-video {
+    height: 900px;
+  }
+}
+
 /* Scrollbar personnalisée */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px; /* largeur de la barre */
