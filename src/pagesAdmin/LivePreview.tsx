@@ -21,7 +21,7 @@ export function LivePreview({ showControls = false }: LivePreviewProps) {
       <CardHeader>
         <div className="flex items-center justify-between p-4">
           <CardTitle className="flex items-center gap-2">
-            Aperçu Live
+           <span className="max-sm:hidden">Aperçu Live </span>
             {isLive && <Badge className="bg-red-100 text-red-800 animate-pulse">🔴 EN DIRECT</Badge>}
           </CardTitle>
           <div className="flex items-center gap-2 text-sm text-gray-600">

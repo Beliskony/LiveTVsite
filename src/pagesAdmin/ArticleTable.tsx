@@ -74,7 +74,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
   }
 
   return (
-    <Card className="p-4">
+    <Card className="px-0 py-4 md:p-4 lg:p-4 xl:p-4">
       <CardHeader>
         <div className="flex flex-col sm:flex-row gap-4 p-4">
           <div className="relative flex-1">
@@ -88,7 +88,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
             />
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex max-sm:flex-col gap-3">
             <div className="relative">
               <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 z-10" />
               <Select value={statusFilter} onValueChange={setStatusFilter}>

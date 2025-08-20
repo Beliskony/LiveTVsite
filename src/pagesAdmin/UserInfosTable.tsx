@@ -37,7 +37,7 @@ export function UserInfoTable() {
 
 
   return (
-    <Card className="p-4">
+    <Card className="px-0 py-4 md:p-4 lg:p-4 xl:p-4">
       <CardHeader>
         <div className="flex flex-col sm:flex-row gap-4 p-4">
           <div className="relative flex-1">

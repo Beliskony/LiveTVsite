@@ -51,10 +51,10 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
   }
 
   return (
-    <Card className="p-4">
+    <Card className="px-0 py-4 md:p-4 lg:p-4 xl:p-4">
       <CardHeader>
         <div className="flex items-center justify-between p-4">
-          <CardTitle>Liste des Vidéos</CardTitle>
+          <CardTitle className="max-sm:hidden">Liste des Vidéos</CardTitle>
           <div className="flex items-center gap-2">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
