@@ -19,7 +19,7 @@ export function LivePreview({ showControls = false }: LivePreviewProps) {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between p-4">
           <CardTitle className="flex items-center gap-2">
             Aperçu Live
             {isLive && <Badge className="bg-red-100 text-red-800 animate-pulse">🔴 EN DIRECT</Badge>}

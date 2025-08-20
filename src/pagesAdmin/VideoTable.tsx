@@ -10,18 +10,28 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Search, MoreHorizontal, Edit, Trash2, Eye } from "lucide-react"
 import { videosData } from "@/data/videosData"
 import type { IVideo } from "@/interfaces/Videos"
+import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 
 interface VideoTableProps {
-  videos: IVideo[]
+  videos?: IVideo[]
   onEdit?: (video: IVideo) => void
   onDelete?: (videoId: string) => void
 }
 
 export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTableProps) {
   const [searchTerm, setSearchTerm] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
 
   const filteredVideos = videos.filter((video) =>
     video.title?.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  const totalItems = filteredVideos.length
+  const totalPages = Math.ceil(totalItems / itemsPerPage)
+  const paginatedVideos = filteredVideos.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   )
 
   const getCategoryColor = (category?: string) => {
@@ -41,9 +51,9 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
   }
 
   return (
-    <Card>
+    <Card className="p-4">
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between p-4">
           <CardTitle>Liste des Vidéos</CardTitle>
           <div className="flex items-center gap-2">
             <div className="relative">
@@ -51,7 +61,7 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
               <Input
                 placeholder="Rechercher une vidéo..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1) }}
                 className="pl-8 w-64"
               />
             </div>
@@ -59,7 +69,7 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
         </div>
       </CardHeader>
       <CardContent>
-       <div className="rounded-md border">
+       <div className="rounded-md border mb-2">
         <Table>
           <TableHeader>
             <TableRow>
@@ -73,7 +83,7 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredVideos.map((video) => (
+            {paginatedVideos.map((video) => (
               <TableRow key={video.id}>
                 <TableCell className="font-medium">{video.title}</TableCell>
                 <TableCell>
@@ -124,7 +134,25 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
           </TableBody>
         </Table>
        </div>
+
+       {paginatedVideos.length === 0 && (
+         <div className="text-center py-12">
+           <p className="text-muted-foreground">Aucune vidéo trouvée</p>
+         </div>
+       )}
+
       </CardContent>
+
+      {/* Pagination */}
+       <div className="ml-4">
+         <PaginationArticle
+           currentPage={currentPage}
+           totalPages={totalPages}
+           totalItems={totalItems}
+           itemsPerPage={itemsPerPage}
+           onPageChange={setCurrentPage}
+         />
+       </div>
     </Card>
   )
 }

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { ChartColumn, Video, CalendarDays, Radio, FileSpreadsheet } from "lucide-react";
+import { ChartColumn, Video, CalendarDays, Radio, FileSpreadsheet, UserRoundCheck } from "lucide-react";
 import VideoManager from "./VideoManager";
 import ProgramManager from "./ProgramManager";
 import { AdminDashboard } from "./AdminDashbord";
-import { LivePreview } from "./LivePreview";
+import UsersManager from "./UserManager";
 import LiveManager from "./LiveManager";
 import ArticleManager from "./ArticleManager";
 
@@ -27,6 +27,9 @@ const ChoixMenu = () => {
             case 5:
                 return <ArticleManager />
             
+            case 6: 
+                return <UsersManager />
+            
             default:
                 return <AdminDashboard />;
         }
@@ -34,7 +37,7 @@ const ChoixMenu = () => {
 
     return (
         <div className=" flex flex-col w-full p-5 md:p-7 lg:p-10 gap-x-2 items-center">
-            <div className="lg:flex lg:flex-row xl:flex xl:flex-row grid grid-cols-2 w-full lg:h-10 xl:h-10 my-5 lg:w-[500px] xl:w-[750px]
+            <div className="lg:flex lg:flex-row xl:flex xl:flex-row grid grid-cols-2 w-full lg:h-10 xl:h-10 my-5 lg:w-[500px] xl:w-[900px]
             xl:space-x-9 space-x-0 p-3 justify-center items-center bg-gray-300 rounded-2xl">
                 
                 {/*La navigation*/}
@@ -61,6 +64,11 @@ const ChoixMenu = () => {
                 <button onClick={() => setChoice(5)} className={`flex flex-row gap-x-2 h-full p-4 items-center rounded transition-all duration-300 ease-in-out ${choice===5 ? 'bg-white shadow-md scale-105' : 'bg-transparent hover:bg-white/30'}`}>
                     <FileSpreadsheet />
                     <h4 className="text-gray-900 text-sm">Article</h4>
+                </button>
+
+                <button onClick={() => setChoice(6)} className={`flex flex-row gap-x-2 h-full p-4 items-center rounded transition-all duration-300 ease-in-out ${choice===6 ? 'bg-white shadow-md scale-105' : 'bg-transparent hover:bg-white/30'}`}>
+                    <UserRoundCheck />
+                    <h4 className="text-gray-900 text-sm">Users</h4>
                 </button>
 
             </div>

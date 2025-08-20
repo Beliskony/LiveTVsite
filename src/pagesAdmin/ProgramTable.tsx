@@ -80,7 +80,7 @@ export function ProgramTable() {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between p-4">
           <CardTitle>Grille des Programmes</CardTitle>
           <div className="flex items-center gap-2">
             <div className="relative">
@@ -96,7 +96,7 @@ export function ProgramTable() {
         </div>
       </CardHeader>
       <CardContent>
-       <div className="rounded-md border">
+       <div className="rounded-md border mb-2">
         <Table>
           <TableHeader>
             <TableRow>

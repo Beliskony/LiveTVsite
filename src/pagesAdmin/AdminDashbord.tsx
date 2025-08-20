@@ -3,17 +3,12 @@
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { StatsCard } from "./StatsCard"
-import { VideoTable } from "./VideoTable"
-import { VideoForm } from "./VideosForm"
-import { ProgramTable } from "./ProgramTable"
-import { ProgramForm } from "./ProgramForm"
 import { LivePreview } from "./LivePreview"
-import { Button } from "@/components/ui/button"
-import { Plus, BarChart3, Video, Calendar, Radio } from "lucide-react"
+import {  BarChart3, Video, Calendar, Radio } from "lucide-react"
+import { dashboardStats } from "@/data/dashboardStats"
+
 
 export function AdminDashboard() {
-  const [showVideoForm, setShowVideoForm] = useState(false)
-  const [showProgramForm, setShowProgramForm] = useState(false)
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -27,9 +22,16 @@ export function AdminDashboard() {
       <div className="container mx-auto px-6 py-8">
      
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <StatsCard title="Total Vidéos" value="156" description="+12 cette semaine" icon={Video} trend="up" />
-              <StatsCard title="Programmes" value="24" description="Cette semaine" icon={Calendar} trend="stable" />
-              <StatsCard title="Vues Live" value="1,234" description="Actuellement" icon={Radio} trend="up" />
+          {dashboardStats.map((stat, index) => (
+            <StatsCard
+              key={index}
+              title={stat.title}
+              value={stat.value}
+              description={stat.description}
+              icon={stat.icon}
+              trend={stat.trend}
+            />
+          ))}
               <StatsCard
                 title="Durée Totale"
                 value="48h"
@@ -40,7 +42,7 @@ export function AdminDashboard() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-3.5">
-              <Card>
+              <Card className="p-4">
                 <CardHeader>
                   <CardTitle>Activité Récente</CardTitle>
                   <CardDescription>Dernières actions sur la plateforme</CardDescription>

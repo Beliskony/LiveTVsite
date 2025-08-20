@@ -4,8 +4,6 @@ import { LivePreview } from "./LivePreview"
 import { LiveForm } from "./LiveForm"
 import { Ellipsis } from "lucide-react"
 
-
-
 const LiveManager = () => {
     const [showLiveForm, setLiveForm] = useState(false)
   return(

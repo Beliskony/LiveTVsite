@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 
 interface ArticleTableProps {
   onEdit?: (article: IArticle) => void
@@ -19,6 +20,8 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [categoryFilter, setCategoryFilter] = useState("all")
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
 
   const categories = ["Actualités", "Sport", "Culture", "Technologie", "Divertissement"]
   const statuses = [
@@ -37,6 +40,14 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
 
     return matchesSearch && matchesStatus && matchesCategory
   })
+
+  //pagination
+  const totalItems = filteredArticles.length
+  const totalPages = Math.ceil(totalItems / itemsPerPage)
+  const paginatedArticles = filteredArticles.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  )
 
   const getStatusBadge = (status: string) => {
     const variants = {
@@ -63,9 +74,9 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
   }
 
   return (
-    <Card>
+    <Card className="p-4">
       <CardHeader>
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col sm:flex-row gap-4 p-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
@@ -112,7 +123,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
       </CardHeader>
 
       <CardContent>
-        <div className="rounded-md border">
+        <div className="rounded-md border mb-2">
           <Table>
             <TableHeader>
               <TableRow>
@@ -124,7 +135,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredArticles.map((article) => (
+              {paginatedArticles.map((article) => (
                 <TableRow key={article.id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
@@ -167,7 +178,19 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
             <p className="text-muted-foreground">Aucun article trouvé</p>
           </div>
         )}
+
       </CardContent>
+
+     <div className="ml-5 max-sm:ml-0">
+       {/* Pagination */}
+        <PaginationArticle 
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setCurrentPage}
+        />
+      </div>
     </Card>
   )
 }
