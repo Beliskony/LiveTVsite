@@ -67,7 +67,7 @@ export const VideoCard = (video: IVideo) => {
             <span>{formatRelativeDate(createdAt.toLocaleDateString())}</span>
           </div>
         {/* Title */}
-        <h3 className="text-wrap text-lg leading-tight line-clamp-2 font-extrabold transition-colors">
+        <h3 className="text-wrap text-sm leading-tight line-clamp-2 font-extrabold transition-colors">
           {title}
         </h3>
 
