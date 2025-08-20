@@ -12,7 +12,6 @@ const LiveVideo = () => {
           title={live.title}
           className="w-full h-full rounded-lg"
           allow="autoplay; fullscreen; picture-in-picture"
-          allowFullScreen
         />
 
          {/* Infos par-dessus */}
