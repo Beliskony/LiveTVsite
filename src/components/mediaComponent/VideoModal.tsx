@@ -109,6 +109,7 @@ export function VideoModal({ video, isOpen, onClose }: VideoModalProps) {
           <video
             ref={videoRef}
             src={video.videoUrl}
+            autoPlay
             className="w-full aspect-video"
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
