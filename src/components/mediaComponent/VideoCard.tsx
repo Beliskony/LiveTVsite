@@ -35,6 +35,7 @@ export const VideoCard = (video: IVideo) => {
         <video
           src={videoUrl}
           controls={false}
+          poster={video.Miniature}
           preload="metadata"
           muted
           loop

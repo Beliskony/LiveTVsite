@@ -20,7 +20,7 @@ export const videosData: IVideo[] = [
     createdAt: new Date("2025-03-02T10:00:00Z"),
     duration: "55:08",
     views: 1894,
-    Miniature: "/placeholder.svg?height=200&width=350&text=Tailwind+CSS",
+    Miniature: "https://i.pinimg.com/736x/88/88/69/8888695935ae01676977fc90bf0464ab.jpg",
     category: "Design",
     status: "published",
     videoUrl: "/videos/test2.mp4"
