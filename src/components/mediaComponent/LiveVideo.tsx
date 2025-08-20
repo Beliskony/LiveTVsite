@@ -10,7 +10,7 @@ const LiveVideo = () => {
         <iframe
           src={`${live.lien}?autoplay=1&loop=1`}
           title={live.title}
-          className="w-full h-full rounded-lg"
+          className="w-full h-full"
           allow="autoplay; fullscreen; picture-in-picture"
         />
 
