@@ -237,7 +237,7 @@ export default function Header() {
                 Replay
               </Link>
 
-              <Link to={"/programmes"} className="hover:text-blue-400 transition-colors font-medium">
+              <Link to={"/programmes"} className="block text-white hover:text-blue-400 transition-colors font-medium">
                 Nos Programmes
               </Link>
               

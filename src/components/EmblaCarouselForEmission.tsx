@@ -91,7 +91,7 @@ export function EmissionCarouselForEmission() {
                     selectedIndex === index ? "opacity-100" : "opacity-0 pointer-events-none"
                   }`}>
                     {/* Logo */}
-                    <div className="mb-8 max-sm:mb-1 max-sm:justify-self-center">
+                    <div className="mb-8 max-sm:mb-1 justify-self-center md:justify-self-start">
                       <img src={emission.couverture || "/placeholder.svg"} alt="Logo" className="h-24 w-auto" />
                     </div>
 
