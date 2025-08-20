@@ -5,16 +5,16 @@ import { ArticlesGrid } from '@/components/articlesPage/ArticleGrid'
 
 function ArticlesListePage() {
   return (
-    <div className="h-full bg-white">
+    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
 
-        <section>
+        <section className='z-10'>
           <Header />
         </section>
 
-        <section className="flex flex-col items-center justify-center">
+        <section className="flex flex-col flex-1 max-sm:my-0.5 backdrop-blur-sm bg-black/50">
 
         {/*liste d'articles*/}
-          <div className="w-full">
+          <div className="w-full md:mt-20 xl:mt-20 max-sm:mt-20 xl:px-10 bg-white">
             <ArticlesGrid />
           </div>
         

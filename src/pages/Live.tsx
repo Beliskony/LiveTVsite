@@ -3,30 +3,27 @@ import Footer from "../components/Footer"
 import Header from "../components/NavBar"
 
 import { SlideSection } from "../components/homeScreen/SlideSection";
+import { EmissionSlideSection } from "@/components/homeScreen/EmissionSlideSection";
 
 export const TVLive = () => {
    
   return (
-    <div className="h-full bg-white">
+    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
 
-        <section>
+        <section className="z-10">
           <Header />
         </section>
 
-        <section className="flex flex-col my-4 gap-y-4 max-sm:my-0.5">
+        <section className="flex flex-col flex-1 max-sm:my-0.5 backdrop-blur-sm bg-black/50">
           {/*la partie Live*/}
-          <div className="w-full rounded-2xl">
+          <div className="w-full md:mt-20 xl:mt-20 max-sm:mt-20 xl:px-10">
             <LiveVideoComponent />
           </div>
 
-          <div className="flex w-full my-3 items-center justify-center
-          max-sm:p-2 lg:p-10 md:p-5 xl:p-10 p-4">
-            <p className="text-wrap text-center font-bold text-xl text-gray-900 lg:text-xl max-sm:text-xs mx-40 max-sm:mx-2 md:mx-6">
-              Découvrez des contenus exclusifs, des émissions en direct et des vidéos à la demande, disponibles 24h/24 et 7j/7.
-            </p>
+          <div className="w-full bg-white">
+            <EmissionSlideSection />
+            <SlideSection />
           </div>
-
-          <SlideSection />
 
         </section>
 

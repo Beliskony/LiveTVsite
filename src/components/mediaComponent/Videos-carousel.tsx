@@ -47,9 +47,9 @@ export default function VideoCarousel({ videos }: VideoCarouselProps) {
   }, [emblaApi, onInit, onSelect])
 
   return (
-    <div className="relative w-full max-w-6xl mx-auto px-4">
+    <div className="relative w-full max-w-6xl mx-auto">
       <div className="embla__viewport overflow-hidden" ref={emblaRef}>
-       <div className="embla__container flex space-x-4 touch-action-pan-y" >
+       <div className="embla__container flex space-x-4 touch-action-pan-y touch-pinch-zoom" >
 
            {videos.map((video) => (
               <div
@@ -61,27 +61,32 @@ export default function VideoCarousel({ videos }: VideoCarouselProps) {
 
       </div>
 
+      {!prevDisabled && (
       <button
         onClick={() => emblaApi?.scrollPrev()}
         disabled={prevDisabled}
-        className="md:hidden absolute -left-20 top-1/2 max-md:-left-5 -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full max-sm:hidden lg:block xl:block disabled:opacity-50 disabled:cursor-not-allowed"
+        className=" absolute -left-5 top-1/3 -translate-y-1/2 p-2 bg-gray-800/50 text-white rounded-full max-sm:hidden md:block lg:block xl:block disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
+      )}
+
+      {!nextDisabled && (
       <button
         onClick={() => emblaApi?.scrollNext()}
         disabled={nextDisabled}
-        className="md:hidden absolute -right-20 top-1/2 max-md:-right-5 -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full max-sm:hidden lg:block xl:block disabled:opacity-50 disabled:cursor-not-allowed"
+        className="md:block absolute -right-5 top-1/3 -translate-y-1/2 p-2 bg-gray-800/50 text-white rounded-full max-sm:hidden lg:block xl:block disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <ChevronRight className="w-6 h-6" />
       </button>
+      )}
 
       <div className="flex justify-center mt-4 space-x-2">
         {Scrollsnaps.map((_, idx) => (
           <div
             key={idx}
             onClick={() => emblaApi?.scrollTo(idx)}
-            className={`w-3 h-3 rounded-full cursor-pointer transition duration-300 ${
+            className={`w-6 h-3 cursor-pointer transition duration-300 ${
               selectedIndex === idx ? 'bg-gray-800 scale-110' : 'bg-gray-400'
             }`}
           />

@@ -5,38 +5,32 @@ import { EmissionSlideSection } from "../components/homeScreen/EmissionSlideSect
 import HeroHeaderSection from "../components/homeScreen/HeroHeaderSection";
 import TestimonialSection from "../components/homeScreen/TestimonialSection";
 import FeaturesListSection from "../components/homeScreen/FeaturesListSection";
-import NewsletterSection from "../components/homeScreen/NewsletterSection";
+import { EmissionCarouselForEmission } from "@/components/EmblaCarouselForEmission";
+import DownloadAppBanner from "@/components/separateur/DownloadAppBanner";
 
 export const Acceuil = () => {
    
   return (
-    <div className="h-full bg-white">
+    <div className="h-full">
 
         <section>
           <Header />
+          <EmissionCarouselForEmission/>
         </section>
 
-        <section className="flex flex-col items-center justify-center">
-         
-          {/*la partie Hero */}
-          <div className="bg-gray-800 w-full">
-            <HeroHeaderSection/>
-          </div>
-
-        {/*Testimonial*/}
-          <div className="w-full">
-            <TestimonialSection/>
-          </div>
-        
-        {/*OtherSection*/}
-        <div className="w-full">
-            <FeaturesListSection/>
-        </div>
+        <section className="flex flex-col items-center justify-center bg-white">
+         <DownloadAppBanner />
           
           <SlideSection />
 
           <EmissionSlideSection />
-          
+
+        {/*Testimonial*/}
+          <TestimonialSection/>
+
+        
+        {/*OtherSection*/}
+          <FeaturesListSection/>
 
         </section>
 

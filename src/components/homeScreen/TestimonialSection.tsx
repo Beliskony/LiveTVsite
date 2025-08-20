@@ -21,7 +21,7 @@ const TestimonialSection = () => {
   ]
 
   return (
-    <section className="flex flex-col w-full justify-center items-center py-16 lg:py-20 xl:py-24 gap-y-16">
+    <section className="flex flex-col w-full justify-center items-center py-4">
       <div className="flex flex-col w-full gap-y-6 text-center max-w-4xl mx-auto px-4">
         <h2 className=" font-bold tracking-tight text-foreground text-3xl lg:text-4xl xl:text-5xl leading-tight">
           Explorez nos ressources{" "} <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent" >& programmes</span>

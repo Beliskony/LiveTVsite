@@ -1,13 +1,13 @@
 export const emissionData = [
     {
     id:'E1',
-    nom:'Cuisine et culture',
-    starting:'217h00',
+    nom:'Emission Sportive',
+    starting:'21h00',
     ending:'18h30',
     when:'tous les jours',
     description: 'courte description du programme mais exploitable',
-    genre:["Jeunesse", "Culture", "Religion", "Divertissement"],
-    couverture:'https://i.pinimg.com/736x/ab/e9/fc/abe9fc3b5abd1f90f3f8ca8f0865f921.jpg'
+    genre:"Sport",
+    couverture:'https://i.pinimg.com/1200x/2b/99/57/2b9957008c0a2a888d0f855ef7e6f928.jpg'
     },
     {
     id: "E2",
@@ -16,48 +16,48 @@ export const emissionData = [
     ending: "10h15",
     when: "Mardi & Jeudi",
     description: 'courte description du programme mais exploitable',
-    genre: ["Culture"],
-    couverture: "https://i.pinimg.com/1200x/a1/fd/e4/a1fde4dd0d05b36b54f147c584162a3b.jpg"
+    genre: "Culture",
+    couverture: "https://i.pinimg.com/1200x/8d/59/7c/8d597cc61560197d72e46f869e5c9228.jpg"
   },
   {
     id: "E3",
     nom: "Foi et Vie",
-    starting: "18:00",
-    ending: "19:00",
+    starting: "18h00",
+    ending: "19h00",
     when: "Dimanche",
     description: 'courte description du programme mais exploitable',
-    genre: ["Religion"],
-    couverture: "https://i.pinimg.com/1200x/39/e9/cd/39e9cde5c202220fa1f3c00fd762117a.jpg"
+    genre: "Religion",
+    couverture: "https://i.pinimg.com/1200x/27/85/c3/2785c30929c8f062d30f46ac54607aa7.jpg"
   },
   {
     id: "E4",
-    nom: "Soirée Détente",
-    starting: "20:00",
-    ending: "22:00",
+    nom: "Culte du soir",
+    starting: "20h00",
+    ending: "22h00",
     when: "Vendredi & Samedi",
     description: 'courte description du programme mais exploitable',
-    genre: ["Divertissement"],
-    couverture: "https://i.pinimg.com/736x/6d/69/8c/6d698c95d3b1d992e17c54b952072e3a.jpg"
+    genre: "Religion",
+    couverture: "https://i.pinimg.com/1200x/0f/66/11/0f66113aa03fc7cbea4a1b56f134dec2.jpg"
   },
   {
     id: "E5",
     nom: "Les Petits Génies",
-    starting: "10:00",
-    ending: "11:00",
+    starting: "10h00",
+    ending: "11h00",
     when: "Mercredi",
     description: 'courte description du programme mais exploitable',
-    genre: ["Jeunesse"],
-    couverture: "https://i.pinimg.com/1200x/21/a4/fc/21a4fcfd2f9b685f1c217839235ae67d.jpg"
+    genre: "Divertissement",
+    couverture: "https://i.pinimg.com/1200x/02/c7/11/02c711dbc4e72dad0ee4424ca87ec558.jpg"
   },
   {
     id: "E6",
     nom: "Rire Ensemble",
-    starting: "21:00",
-    ending: "21:45",
+    starting: "21h00",
+    ending: "21h45",
     when: "Samedi",
     description: 'courte description du programme mais exploitable',
-    genre: ["Divertissement", "Culture"],
-    couverture: "https://i.pinimg.com/1200x/cc/9d/f7/cc9df77efdab1ea3d8de5ff4e874990f.jpg"
+    genre: "Divertissement",
+    couverture: "https://i.pinimg.com/1200x/02/c7/11/02c711dbc4e72dad0ee4424ca87ec558.jpg"
   }
 
 ]

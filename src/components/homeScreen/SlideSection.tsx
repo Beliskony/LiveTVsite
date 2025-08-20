@@ -9,16 +9,14 @@ export const SlideSection = () => {
     return(
           <div className="flex flex-col items-start justify-start p-6 max-sm:p-0.5 bg-white w-full space-y-2.5">
             {/*la partie des videos recommander*/}
-            <div className="flex flex-col max-sm:px-2 items-center justify-center w-full space-y-2.5">
-              <h3 className="text-3xl font-bold tracking-tight text-foreground lg:text-5xl">Recommander{" "}
-                 <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"> pour vous </span></h3>
-              <p className="text-lg text-muted-foreground lg:text-xl max-sm:text-xs">
-                les contenues populaires du moment
-              </p>
+            <div className="flex flex-col mx-auto max-sm:px-2 items-start justify-center w-full space-y-2.5">
+              <h3 className="text-xl font-bold lg:text-4xl xl:text-6xl xl:pl-32 py-5">
+                contenues populaires
+              </h3>
             </div>
                <VideoCarousel videos={videosData} />
             
-            <div className="w-full flex my-7 justify-center items-center">
+           {/* <div className="w-full flex my-7 justify-center items-center">
               <Link to="/catalogue"> 
                 <button
                 onMouseEnter={() => setIsHoverred(true)}
@@ -31,10 +29,10 @@ export const SlideSection = () => {
                     <ArrowRight className="text-white mt-0.5 transition-transform duration-300 ease-in-out"/>
                 )}
                      
-                     {/* si hover <ArrowUpRight className="text-white mt-0.5"/> avec une bonne animation */}
+                    
                 </button>
               </Link>
-            </div>
+            </div> */}
            
           </div>
         )

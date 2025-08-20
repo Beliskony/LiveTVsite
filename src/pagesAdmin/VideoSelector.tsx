@@ -92,7 +92,7 @@ export function SelecteurVideo({ onVideoSelect, selectedFile }: SelecteurVideoPr
         >
           <Upload className={`h-12 w-12 mx-auto mb-4 ${isDragOver ? "text-blue-500" : "text-gray-400"}`} />
           <p className="text-lg font-medium text-gray-700 mb-2">Glissez votre vidéo ici ou cliquez pour sélectionner</p>
-          <p className="text-sm text-gray-500">Formats supportés: MP4, AVI, MOV, WMV</p>
+          <p className="text-sm text-gray-500">Formats supportés: MP4</p>
           <input ref={fileInputRef} type="file" accept="video/*" onChange={handleInputChange} className="hidden" />
         </div>
       ) : (

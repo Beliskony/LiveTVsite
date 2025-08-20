@@ -17,9 +17,12 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">Contenu</h3>
             <ul className="space-y-2 max-sm:justify-center flex flex-row lg:flex-col gap-x-4">
-              <li><Link to="/catalogue" className="text-gray-300 hover:text-white">Emissions</Link></li>
+              <li><Link to="/programmes" className="text-gray-300 hover:text-white">Nos Programmes</Link></li>
               <li><Link to="/egliseYeshoua/articles" className="text-gray-300 hover:text-white">Articles</Link></li>
-              <li><Link to="/live" className="text-gray-300 hover:text-white">Live / Direct</Link></li>
+              <li><Link to={"/"} className="px-2 w-20 gap-x-1 justify-center items-center flex flex-row text-white transition-colors bg-red-500 rounded-lg font-medium cursor-pointer">
+                <img src="/liveIcon.svg" className="h-4 w-4"  />
+                Live
+              </Link></li>
             </ul>
           </div>
 
@@ -38,33 +41,33 @@ export default function Footer() {
             <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">À propos</h3>
             <ul className="space-y-2 max-sm:justify-center flex flex-row lg:flex-col gap-x-4">
               <li><Link to="/egliseYeshoua/presentation" className="text-gray-300 hover:text-white">Eglise de Yeshoua</Link></li>
-              <li><Link to="/contact" className="text-gray-300 hover:text-white">Contact</Link></li>
+              <li><Link to="/contact" className="text-gray-300 hover:text-white">Contact TV</Link></li>
             </ul>
           </div>
 
           {/* Colonne 4: Applications + Réseaux sociaux */}
           <div className="space-y-4 max-sm:w-full md:w-full">
-            <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">Nos applications</h3>
+          {/* <h3 className="text-lg hidden max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">Nos applications</h3>
             <div className="space-y-2 justify-center items-center max-sm:flex max-sm:flex-row max-sm:gap-x-6">
-              <Link to="/app/mobile" className="flex items-center space-x-2 text-gray-300 hover:text-white">
+              <Link to="/app/mobile" className=" items-center space-x-2 text-gray-300 hover:text-white hidden">
                 <Smartphone className="h-5 w-5" />
                 <span className='max-sm:hidden'>Application mobile</span>
                 <span className='sm:hidden'>App mobile</span>
               </Link>
-              <Link to="/app/tv" className="flex items-center space-x-2 text-gray-300 hover:text-white">
+              <Link to="/app/tv" className="hidden items-center space-x-2 text-gray-300 hover:text-white">
                 <Tv className="h-5 w-5" />
                 <span className='max-sm:hidden'>Application TV</span>
                 <span className='sm:hidden'>App TV</span>
               </Link>
-              <Link to="/app/web" className="flex items-center space-x-2 text-gray-300 hover:text-white">
+              <Link to="/app/web" className="hidden items-center space-x-2 text-gray-300 hover:text-white">
                 <Monitor className="h-5 w-5" />
                 <span className='max-sm:hidden'>Version Web</span>
                 <span className='sm:hidden'>Web</span>
               </Link>
-            </div>
+            </div> */}
 
-            <div className="pt-4 max-sm:flex max-sm:flex-col max-sm:items-center max-sm:justify-center max-sm:gap-y-2">
-              <h4 className="text-sm font-medium mb-3 max-sm:text-xl max-sm:items-center">Suivez-nous</h4>
+            <div className="max-sm:flex max-sm:flex-col max-sm:items-center max-sm:justify-center max-sm:gap-y-2">
+              <h4 className="text-lg font-bold mb-3 max-sm:text-xl max-sm:items-center">Suivez-nous</h4>
               <div className="flex space-x-4 max-sm:gap-x-10">
                 <a href="https://facebook.com" target="_blank" className="text-gray-300 hover:text-white">
                   <Facebook className="h-6 w-6 max-sm:h-8 max-sm:w-8" />

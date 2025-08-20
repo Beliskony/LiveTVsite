@@ -16,7 +16,7 @@ const ArticleCard = (articleProps: IArticle) => {
               />
             </div>
             <CardHeader>
-              <Badge variant="secondary" className="w-fit">
+              <Badge variant="secondary" className="w-fit mt-1">
                 {articleProps.category}
               </Badge>
               <CardTitle className="font-sans text-lg">{articleProps.title}</CardTitle>
@@ -24,7 +24,7 @@ const ArticleCard = (articleProps: IArticle) => {
                 {articleProps.contenu.length > 220 ? `${articleProps.contenu.slice(0, 220)}...` : articleProps.contenu}
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="mt-5">
               <p className="font-serif text-sm text-muted-foreground">Par {articleProps.author} • {formatRelativeDate(articleProps.created_at)}</p>
             </CardContent>
     </Card>

@@ -1,6 +1,5 @@
 import { Link, Navigate, useParams } from "react-router-dom"
-import { ArrowLeft, Calendar, Clock, User, Share2, Facebook, Twitter, Linkedin } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Calendar, Clock, User} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { articleData } from "@/data/articlesData"
@@ -33,16 +32,17 @@ export default function SingleArticlePage() {
   const formattedDate = formatRelativeDate(article.created_at)
 
   return (
-    <div className="min-h-screen w-full bg-gray-50">
+    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
 
       {/* En-tête */}
-      <header>
+      <header className="z-10">
           <Header />
       </header>
 
       {/* Contenu principal */}
-      <main className="w-full px-1 md:px-4 lg:px-10 justify-center py-8 gap-4 flex flex-col lg:flex-row">
-        <article className="bg-white rounded-lg border p-1 md:p-4 lg:p-5 shadow-sm overflow-hidden">
+      <section className="w-full md:mt-20 xl:mt-20 max-sm:mt-20 xl:px-10 bg-white">
+      <div className="w-full px-1 md:px-4 lg:px-10 justify-center py-8 gap-4 flex flex-col lg:flex-row">
+        <div className="bg-white rounded-lg border p-1 md:p-4 lg:p-5 shadow-sm overflow-hidden">
           {/* Image principale */}
           {article.featured_image && (
             <div className="aspect-video w-full overflow-hidden">
@@ -128,7 +128,7 @@ export default function SingleArticlePage() {
             </div>
 
           </div>
-        </article>
+        </div>
 
         {/* Articles similaires */}
         <Card className="max-sm:min-h-80 lg:h-screen w-full lg:w-[450px] place-items-center lg:mx-2 ">
@@ -152,11 +152,12 @@ export default function SingleArticlePage() {
               ))}
           </div>
         </Card>
-      </main>
+      </div>
+      </section>
 
-      <footer>
+      <section>
         <Footer />
-      </footer>
+      </section>
     </div>
   )
 }
