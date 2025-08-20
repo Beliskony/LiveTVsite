@@ -51,13 +51,13 @@ export default function VideoCarousel({ videos }: VideoCarouselProps) {
       <div className="embla__viewport overflow-hidden" ref={emblaRef}>
        <div className="embla__container flex space-x-4 touch-action-pan-y touch-pinch-zoom" >
 
-           {videos.map((video) => (
+           {videos.slice(0, 5).map((video) => (
               <div
                 key={video.id}>
           <VideoCard {...video} />
         </div>
-  ))}
-</div>
+        ))}
+      </div>
 
       </div>
 
