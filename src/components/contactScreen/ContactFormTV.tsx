@@ -41,7 +41,7 @@ export default function ContactPage() {
         </div>
 
         {/* Contact Info */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid justify-self-center grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <div className="flex items-center space-x-4">
             <div className="p-3 bg-white/10 rounded-lg backdrop-blur-sm">
               <MapPin className="w-6 h-6" />
