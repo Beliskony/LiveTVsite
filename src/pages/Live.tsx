@@ -22,7 +22,9 @@ export const TVLive = () => {
           </div>
 
           <div className="w-full bg-white">
-            <DownloadAppBanner />
+            <div className="mx-3.5">
+              <DownloadAppBanner />
+            </div>
             <EmissionSlideSection />
             <SlideSection />
           </div>
