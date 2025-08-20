@@ -97,7 +97,7 @@ export function VideoSectionFilter() {
       </div>
 
       {paginatedVideos.length > 0 ? (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-items-center w-full">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-6 md:gap-8 justify-items-center w-full">
           {paginatedVideos.map((video) => (
             <VideoCard key={video.id} {...video} />
           ))}

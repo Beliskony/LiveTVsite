@@ -19,7 +19,7 @@ export function ProgrammesGrid() {
       <h2 className="text-5xl text-white font-bold mb-4">Tous Nos Programmes</h2>
 
       {paginatedArticles.length > 0 ? (
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 max-sm:gap-8 md:gap-6 lg:gap-4 w-full justify-items-center">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-sm:gap-8 md:gap-6 lg:gap-4 w-full justify-items-center">
           {paginatedArticles.map((emissions) => (
             <EmissionCard key={emissions.id} {...emissions} />
           ))}

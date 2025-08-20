@@ -16,7 +16,7 @@ export const TVLive = () => {
 
         <section className="flex flex-col flex-1 max-sm:my-0.5 backdrop-blur-sm bg-black/50">
           {/*la partie Live*/}
-          <div className="w-full md:mt-20 xl:mt-20 max-sm:mt-20 xl:px-10">
+          <div className="w-full md:mt-20 xl:mt-20 max-sm:mt-20">
             <LiveVideoComponent />
           </div>
 

@@ -89,9 +89,9 @@ export function ArticlesGrid() {
       </div>
 
       {paginatedArticles.length > 0 ? (
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 max-sm:gap-8 md:gap-6 lg:gap-4 w-full justify-items-center">
-          {paginatedArticles.map((article) => (
-            <ArticleCard key={article.id} {...article} />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-sm:gap-8 md:gap-6 lg:gap-4 w-full justify-items-center">
+          {paginatedArticles.map((article, index) => (
+            <ArticleCard key={`${article.title}-${index}`} {...article} />
           ))}
         </div>
       ) : (
