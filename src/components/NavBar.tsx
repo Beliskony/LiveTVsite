@@ -65,7 +65,7 @@ export default function Header() {
   return (
     <>
       <header className={`absolute w-full bg-transparent backdrop-blur-sm text-white hover:bg-gray-900 top-0 z-50 ${isScrolled ? " bg-gray-900" : ""}`}>
-        <div className="container mx-auto px-4 md:px-1 md:mx-1 lg:px-6">
+        <div className="container max-w-7xl mx-auto px-4 lg:px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center space-x-2 h-14 w-32 object-cover justify-center">
@@ -75,7 +75,7 @@ export default function Header() {
             </div>
 
             {/* Navigation Desktop */}
-            <nav className="hidden md:flex items-center space-x-10 text-white">
+            <nav className="hidden md:flex items-center space-x-10 xl:px-5 text-white">
 
               <Link to={"/videos"} className="hover:text-blue-400 transition-colors font-medium">
                 Replay

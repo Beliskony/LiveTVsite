@@ -15,7 +15,7 @@ export function CalendarSectionPre() {
         <div className="grid md:grid-cols-3 gap-6">
           <Card>
             <CardHeader>
-              <div className="flex items-center gap-2 text-primary mb-2">
+              <div className="flex items-center gap-2 p-2 text-primary mb-2">
                 <Calendar className="h-5 w-5" />
                 <span className="font-serif text-sm">Dimanche</span>
               </div>
@@ -35,7 +35,7 @@ export function CalendarSectionPre() {
 
           <Card>
             <CardHeader>
-              <div className="flex items-center gap-2 text-primary mb-2">
+              <div className="flex items-center gap-2 p-2 text-primary mb-2">
                 <Calendar className="h-5 w-5" />
                 <span className="font-serif text-sm">Mercredi</span>
               </div>
@@ -55,7 +55,7 @@ export function CalendarSectionPre() {
 
           <Card>
             <CardHeader>
-              <div className="flex items-center gap-2 text-primary mb-2">
+              <div className="flex items-center gap-2 p-2 text-primary mb-2">
                 <Calendar className="h-5 w-5" />
                 <span className="font-serif text-sm">Samedi</span>
               </div>
