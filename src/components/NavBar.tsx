@@ -64,7 +64,7 @@ export default function Header() {
 
   return (
     <>
-      <header className={`absolute w-full bg-transparent backdrop-blur-sm text-white hover:bg-gray-900 top-0 z-50 ${isScrolled ? " bg-gray-900" : ""}`}>
+      <header className={`fixed w-full backdrop-blur-sm text-white hover:bg-gray-900 top-0 z-50 ${isScrolled ? " bg-gray-900" : "bg-transparent"}`}>
         <div className="container max-w-7xl mx-auto px-4 lg:px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}

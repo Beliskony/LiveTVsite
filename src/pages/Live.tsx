@@ -4,6 +4,7 @@ import Header from "../components/NavBar"
 
 import { SlideSection } from "../components/homeScreen/SlideSection";
 import { EmissionSlideSection } from "@/components/homeScreen/EmissionSlideSection";
+import DownloadAppBanner from "@/components/separateur/DownloadAppBanner";
 
 export const TVLive = () => {
    
@@ -16,11 +17,12 @@ export const TVLive = () => {
 
         <section className="flex flex-col flex-1 max-sm:my-0.5 backdrop-blur-sm bg-black/50">
           {/*la partie Live*/}
-          <div className="w-full md:mt-20 xl:mt-20 max-sm:mt-20">
+          <div className="w-full md:mt-20 xl:mt-16 max-sm:mt-20">
             <LiveVideoComponent />
           </div>
 
           <div className="w-full bg-white">
+            <DownloadAppBanner />
             <EmissionSlideSection />
             <SlideSection />
           </div>
