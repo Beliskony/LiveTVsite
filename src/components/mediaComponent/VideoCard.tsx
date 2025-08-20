@@ -1,5 +1,5 @@
 import { formatRelativeDate } from "@/utilitaires/FormatDate"
-import { useRef, useState } from "react"
+import { useState } from "react"
 import type { IVideo } from "@/interfaces/Videos"
 import { Play, Clock } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
@@ -13,7 +13,6 @@ import { videosData } from "@/data/videosData"
 export const VideoCard = (video: IVideo) => {
   
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const previewRef = useRef<HTMLVideoElement | null >(null)
   const openModal = () => setIsModalOpen(true)
   const closeModal = () => setIsModalOpen(false)
 
@@ -33,12 +32,6 @@ export const VideoCard = (video: IVideo) => {
           muted
           loop
           playsInline
-          onTimeUpdate={(e) => {
-            const vid = e.currentTarget 
-            if (vid.currentTime>=5) {
-              vid.pause()
-            }
-          }}
           onMouseEnter={(e) => e.currentTarget.play()}
           onMouseLeave={(e) =>{ e.currentTarget.pause(); e.currentTarget.currentTime = 0; }}
           className="w-full h-full max-h-[80vh] object-contain transition-transform duration-300 group-hover:scale-105"
