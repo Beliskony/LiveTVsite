@@ -1,3 +1,5 @@
+import React, {Suspense, lazy} from "react"
+
 import { formatRelativeDate } from "@/utilitaires/FormatDate"
 import { useState } from "react"
 import type { IVideo } from "@/interfaces/Videos"
@@ -5,10 +7,9 @@ import { Play, Clock } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { VideoModal } from "./VideoModal"
 import { videosData } from "@/data/videosData"
 
-
+const VideoModal = lazy(() => import("@/components/mediaComponent/VideoModal"))
 
 export const VideoCard = (video: IVideo) => {
   
@@ -74,10 +75,12 @@ export const VideoCard = (video: IVideo) => {
       </CardContent>
     </Card>
 
-    <VideoModal video={videosData.find(video => video.id === id) ?? emptyVideo}
-                isOpen={isModalOpen}
-                onClose={closeModal}/>
-
+    
+      <Suspense fallback={<div className="p-6 text-center text-gray-400">Chargement...</div>}>
+        {isModalOpen && (
+          <VideoModal video={videosData.find((video) => video.id === id) ?? emptyVideo} isOpen={isModalOpen} onClose={closeModal} />
+        )}
+      </Suspense>
     </>
   )
 }

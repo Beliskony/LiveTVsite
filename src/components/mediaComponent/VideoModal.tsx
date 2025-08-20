@@ -17,7 +17,7 @@ interface VideoModalProps {
   onClose: () => void
 }
 
-export function VideoModal({ video, isOpen, onClose }: VideoModalProps) {
+export default function VideoModal({ video, isOpen, onClose }: VideoModalProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
