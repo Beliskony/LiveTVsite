@@ -35,7 +35,8 @@ export const VideoCard = (video: IVideo) => {
           onLoadedData={() => setIsLoading(false)}
           onMouseEnter={(e) => e.currentTarget.play()}
           onMouseLeave={(e) =>{ e.currentTarget.pause(); e.currentTarget.currentTime = 0; }}
-          className="w-full h-full max-h-[80vh] object-contain transition-transform duration-300 group-hover:scale-105"
+          className={`w-full h-full max-h-[80vh] object-contain group-hover:scale-105 transition-opacity duration-500 ${
+          isLoading ? "opacity-0" : "opacity-100"}`}
         />
 
         {/* Duration badge */}
@@ -60,13 +61,6 @@ export const VideoCard = (video: IVideo) => {
             
           </Button>
         </div>
-
-        {/* Effet shimmer pendant le chargement */}
-      {isLoading && (
-        <div className="absolute inset-0 opacity-0 duration-500">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-        </div>
-      )}
       </div>
 
       <CardContent className="w-full py-2 space-y-1 h-20 text-gray-800">
