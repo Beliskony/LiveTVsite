@@ -25,6 +25,13 @@ export const VideoCard = (video: IVideo) => {
     <>
     <Card className="group w-[350px] overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
       <div className="relative aspect-video overflow-hidden">
+        {isLoading && (
+        <img
+          src={video.Miniature || "/placeholder.jpg"} // 👈 image miniature
+          alt={video.title}
+          className="absolute inset-0 w-full h-full object-contain animate-bounce"
+        />
+      )}
         <video
           src={videoUrl}
           controls={false}
@@ -35,8 +42,7 @@ export const VideoCard = (video: IVideo) => {
           onLoadedData={() => setIsLoading(false)}
           onMouseEnter={(e) => e.currentTarget.play()}
           onMouseLeave={(e) =>{ e.currentTarget.pause(); e.currentTarget.currentTime = 0; }}
-          className={`w-full h-full max-h-[80vh] object-contain group-hover:scale-105 transition-opacity duration-500 ${
-          isLoading ? "opacity-0" : "opacity-100"}`}
+          className="w-full h-full max-h-[80vh] object-contain transition-transform duration-300 group-hover:scale-105"
         />
 
         {/* Duration badge */}
