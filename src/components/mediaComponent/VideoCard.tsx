@@ -25,13 +25,7 @@ export const VideoCard = (video: IVideo) => {
     <>
     <Card className="group w-[350px] overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
       <div className="relative aspect-video overflow-hidden">
-        {isLoading && (
-        <img
-          src={video.Miniature || "/placeholder.jpg"} // 👈 image miniature
-          alt={video.title}
-          className="absolute inset-0 w-full h-full object-contain animate-bounce"
-        />
-      )}
+        
         <video
           src={videoUrl}
           controls={false}
