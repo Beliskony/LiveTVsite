@@ -22,7 +22,7 @@ export const VideoCard = (video: IVideo) => {
   
   return (
     <>
-    <Card className="group w-[350px] overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+    <Card onClick={openModal} className="group w-[350px] overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
       <div className="relative aspect-video overflow-hidden">
         
         <video
