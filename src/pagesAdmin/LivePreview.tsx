@@ -33,7 +33,12 @@ export function LivePreview({ showControls = false }: LivePreviewProps) {
       <CardContent className="space-y-4">
         {/* Aperçu vidéo simulé */}
         <div className="aspect-video bg-gray-900 rounded-lg flex items-center justify-center relative overflow-hidden">
-          <LiveVideo/>
+           <iframe
+          src={`${liveData.lien}?autoplay=1&loop=1`}
+          title={liveData.title}
+          className="w-full h-full rounded-md"
+          allow="autoplay; fullscreen; picture-in-picture"
+        />
         </div>
 
         {/* Informations du programme actuel */}

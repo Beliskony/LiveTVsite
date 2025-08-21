@@ -14,6 +14,7 @@ import type { IVideo } from "@/interfaces/Videos"
 import { SelecteurVideo } from "./VideoSelector"
 import { programmeData } from "@/data/programmeData"
 import type { IProgramme } from "@/interfaces/Programme"
+import { ImageSelector } from "./ImageSelector"
 
 
 interface VideoFormProps {
@@ -31,6 +32,7 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
   })
 
    const [selectedVideoFile, setSelectedVideoFile] = useState<File | null>(null)
+   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
    const [isSubmitting, setIsSubmitting] = useState(false)
    const [isSuccess, setIsSuccess] = useState(false)
 
@@ -124,7 +126,7 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex flex-col lg:flex-row gap-4 w-full">
             <div className="space-y-2">
               <Label htmlFor="duration">Durée (mm:ss)</Label>
               <Input
@@ -134,9 +136,15 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
                 placeholder="ex: 15:30"
               />
             </div>
+          
             <div className="space-y-2">
               <Label>Fichier vidéo</Label>
               <SelecteurVideo onVideoSelect={setSelectedVideoFile} selectedFile={selectedVideoFile} />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Fichier image(pour la cover)</Label>
+              <ImageSelector onImageSelect={setSelectedImageFile} selectedFile={selectedImageFile} />
             </div>
           </div>
 
