@@ -1,4 +1,3 @@
-import React, {Suspense, lazy} from "react"
 
 import { formatRelativeDate } from "@/utilitaires/FormatDate"
 import type { IVideo } from "@/interfaces/Videos"
@@ -7,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 
-const VideoModal = lazy(() => import("@/components/mediaComponent/VideoModal"))
+
 
 export const VideoCard = (video: IVideo) => {
   
@@ -35,7 +34,7 @@ export const VideoCard = (video: IVideo) => {
 
       <CardContent className="w-full py-2 space-y-1 h-20 text-gray-800">
 
-        <div className="flex justify-between items-center gap-4 text-sm text-muted-foreground">
+        <div className="flex flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
             <span>{formatRelativeDate(createdAt.toLocaleDateString())}</span>
             {/* Duration badge */}
          {duration && (
