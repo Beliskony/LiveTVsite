@@ -17,18 +17,31 @@ export const VideoCard = (video: IVideo) => {
   const openModal = () => setIsModalOpen(true)
   const closeModal = () => setIsModalOpen(false)
 
+  const handleOpen = (e: React.MouseEvent) => {
+  e.stopPropagation();
+  const vid = e.currentTarget
+    .closest("div")
+    ?.querySelector("video") as HTMLVideoElement | null;
+  if (vid) {
+    vid.pause();
+    vid.currentTime = 0; // reset
+  }
+  openModal();
+};
+
   const { id, title, duration, createdAt, videoUrl, } = video;
   const emptyVideo: IVideo = { id: "", title: "Vidéo non trouvée", description: "", createdAt: new Date(), duration: "", views: 0, Miniature: "", category: "", status: "draft", videoUrl: "", };
 
   
   return (
     <>
-    <Card onClick={openModal} className="group w-[350px] overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+    <Card
+       className="group w-[350px] overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
       <div className="relative aspect-video overflow-hidden">
         
         <video
           src={videoUrl}
-          controls={false}
+          controls
           preload="metadata"
           muted
           loop
@@ -46,20 +59,7 @@ export const VideoCard = (video: IVideo) => {
           </Badge>
         )}
 
-        {/* Play button overlay */}
-        <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <Button
-            size="lg"
-            className="rounded-full bg-white/90 text-black hover:bg-white hover:scale-110 transition-all duration-200 cursor-pointer"
-            asChild
-          >
-            <button onClick={openModal}>
-              {/* Play icon */}
-              <Play className="h-6 w-6" />
-            </button>
-            
-          </Button>
-        </div>
+ 
       </div>
 
       <CardContent className="w-full py-2 space-y-1 h-20 text-gray-800">

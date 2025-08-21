@@ -107,14 +107,15 @@ export default function VideoModal({ video, isOpen, onClose }: VideoModalProps) 
         {/* Video Player */}
         <div className="relative bg-black">
           <video
-            ref={videoRef}
-            src={video.videoUrl}
-            autoPlay
+            preload="none"
             className="w-full aspect-video"
+            src={video.videoUrl}
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
             onEnded={() => setIsPlaying(false)}
             onClick={togglePlay}
+            playsInline
+            controls={false}
           />
 
           {/* Video Controls Overlay */}
