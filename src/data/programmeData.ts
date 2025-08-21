@@ -1,4 +1,4 @@
-export const emissionData = [
+export const programmeData = [
     {
     id:'E1',
     nom:'Emission Sportive',

@@ -1,11 +1,11 @@
-import type { IEmission } from "../../interfaces/Emission";
+import type { IProgramme } from "../../interfaces/Programme";
 import { CalendarCheck2 } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Link } from "react-router-dom";
 
 interface propsEmission {
-  contenu: IEmission
+  contenu: IProgramme
   textCouleur: string
 }
 

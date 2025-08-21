@@ -1,5 +1,5 @@
 import type { IVideo } from "./Videos";
-export interface IEmission {
+export interface IProgramme {
   id: string;
   nom: string;
   description: string,

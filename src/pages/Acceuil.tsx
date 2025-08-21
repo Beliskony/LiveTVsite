@@ -5,7 +5,6 @@ import { EmissionSlideSection } from "../components/homeScreen/EmissionSlideSect
 import TestimonialSection from "../components/homeScreen/TestimonialSection";
 import FeaturesListSection from "../components/homeScreen/FeaturesListSection";
 import { EmissionCarouselForEmission } from "@/components/EmblaCarouselForEmission";
-import DownloadAppBanner from "@/components/separateur/DownloadAppBanner";
 
 export const Acceuil = () => {
    

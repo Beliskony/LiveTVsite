@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react"
 import { EmissionCard } from "../mediaComponent/EmissionCard"
 import { PaginationArticle } from "../articlesPage/PaginationArticle"
-import { emissionData } from "@/data/emissionsData"
+import { programmeData } from "@/data/programmeData"
 
 
 const ITEMS_PER_PAGE = 9
@@ -9,9 +9,9 @@ const ITEMS_PER_PAGE = 9
 export function ProgrammesGrid() {
   const [currentPage, setCurrentPage] = useState(1)
 
-  const totalPages = Math.ceil(emissionData.length / ITEMS_PER_PAGE)
+  const totalPages = Math.ceil(programmeData.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-  const paginatedArticles = emissionData.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+  const paginatedArticles = programmeData.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
 
   return (
@@ -34,7 +34,7 @@ export function ProgrammesGrid() {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
-        totalItems={emissionData.length}
+        totalItems={programmeData.length}
         itemsPerPage={ITEMS_PER_PAGE}
       />
     </section>

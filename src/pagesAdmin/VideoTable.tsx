@@ -10,8 +10,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Search, MoreHorizontal, Edit, Trash2, Eye } from "lucide-react"
 import { videosData } from "@/data/videosData"
 import type { IVideo } from "@/interfaces/Videos"
-import { emissionData } from "@/data/emissionsData"
-import type { IEmission } from "@/interfaces/Emission"
+import { programmeData } from "@/data/programmeData"
+import type { IProgramme} from "@/interfaces/Programme"
 import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 
 interface VideoTableProps {
@@ -54,7 +54,7 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
   }
 
   const getEmissionName = (emissionId?: string) => {
-    const emission = emissionData.find((e: IEmission) => e.id === emissionId)
+    const emission = programmeData.find((e: IProgramme) => e.id === emissionId)
     return emission ? emission.nom: "_"
   }
 

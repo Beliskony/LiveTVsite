@@ -5,7 +5,7 @@ import Autoplay from "embla-carousel-autoplay"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCallback, useEffect, useState, useRef } from "react"
-import { emissionData } from "@/data/emissionsData"
+import { programmeData } from "@/data/programmeData"
 
 export function EmissionCarouselForEmission() {
   const autoplay = useRef(
@@ -73,7 +73,7 @@ export function EmissionCarouselForEmission() {
         onMouseLeave={() => emblaApi?.plugins()?.autoplay?.play()}
       >
         <div className="embla__container flex h-full">
-          {emissionData.map((emission, index) => (
+          {programmeData.map((emission, index) => (
             <div key={emission.id} className="embla__slide flex-none w-full h-full relative overflow-hidden">
               {/* Background with gradient overlay */}
               <div

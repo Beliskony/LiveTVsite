@@ -1,6 +1,6 @@
 //import { useState } from "react";
 //import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { emissionData } from "@/data/emissionsData";
+import { programmeData } from "@/data/programmeData";
 import EmissionCarousel from "../mediaComponent/Emission-carousel";
 
 export const EmissionSlideSection = () => {
@@ -12,7 +12,7 @@ export const EmissionSlideSection = () => {
               <h1 className="font-bold text-white text-6xl md:text-5xl max-sm:text-2xl">A suivre sur votre chaine</h1>
               <h3 className="font-light text-white text-lg max-sm:text-xs">Progamme de la semaine</h3>
             </div>
-               <EmissionCarousel emissions={emissionData} />
+               <EmissionCarousel emissions={programmeData} />
             
           {/* <div className="w-full flex my-7 justify-center items-center">
                 <button onClick={() =>({})}

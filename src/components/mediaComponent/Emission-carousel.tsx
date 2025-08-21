@@ -5,11 +5,11 @@ import type { EmblaOptionsType, EmblaCarouselType } from 'embla-carousel'
 import { useState, useCallback, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { EmissionCard } from './EmissionCard'
-import type { IEmission } from '@/interfaces/Emission'
+import type { IProgramme } from '@/interfaces/Programme'
 import Autoplay from 'embla-carousel-autoplay'
 
 interface EmissionCarouselProps {
-  emissions: IEmission[]
+  emissions: IProgramme[]
 }
 
 const autoplay = Autoplay({ delay: 5000, stopOnInteraction: false })

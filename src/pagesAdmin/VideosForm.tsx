@@ -12,8 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { X, CheckCircle } from "lucide-react"
 import type { IVideo } from "@/interfaces/Videos"
 import { SelecteurVideo } from "./VideoSelector"
-import { emissionData } from "@/data/emissionsData"
-import type { IEmission } from "@/interfaces/Emission"
+import { programmeData } from "@/data/programmeData"
+import type { IProgramme } from "@/interfaces/Programme"
 
 
 interface VideoFormProps {
@@ -105,7 +105,7 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
                   <SelectValue placeholder="Sélectionnez une emistion" />
                 </SelectTrigger>
                 <SelectContent>
-                  {emissionData.map((emission: IEmission) =>
+                  {programmeData.map((emission: IProgramme) =>
                     <SelectItem key={emission.id} value={emission.id}>{emission.nom}</SelectItem>
                   )}
                 </SelectContent>

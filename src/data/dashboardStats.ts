@@ -1,7 +1,7 @@
 // dashboardStats.ts
 import { Video, Calendar, Radio, BarChart3, type LucideIcon } from "lucide-react"
 import { videosData } from "@/data/videosData"
-import { emissionData } from "./emissionsData"
+import { programmeData } from "./programmeData"
 import { liveData } from "@/data/liveData"
 import { formatViews } from "@/utilitaires/FormatViews"
 
@@ -24,7 +24,7 @@ export const dashboardStats: StatItem[] = [
   },
   {
     title: "Programmes",
-    value: String(emissionData.length),
+    value: String(programmeData.length),
     description: "Cette semaine",
     icon: Calendar,
     trend: "stable",

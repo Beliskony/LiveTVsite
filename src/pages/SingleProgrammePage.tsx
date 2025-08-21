@@ -6,17 +6,17 @@ import { Calendar, Clapperboard, Clock} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import Header from "@/components/NavBar"
 import Footer from "@/components/Footer"
-import { emissionData } from "@/data/emissionsData"
+import { programmeData } from "@/data/programmeData"
 import { videosData } from "@/data/videosData"
-import type { IEmission } from "@/interfaces/Emission"
+import type {IProgramme} from "@/interfaces/Programme"
 import type { IVideo } from "@/interfaces/Videos"
 import { VideoCard } from "@/components/mediaComponent/VideoCard"
 import { VideosFilters } from "@/components/mediaComponent/VideoFilter"
 
 
 // Récupérer l'émission par id
-function getEmissionById(id: string): IEmission | undefined {
-  return emissionData.find((emission) => emission.id === id)
+function getEmissionById(id: string): IProgramme | undefined {
+  return programmeData.find((emission) => emission.id === id)
 }
 
 export default function SingleProgrammePage() {

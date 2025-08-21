@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { Programmes } from './pages/Programmes';
 import { Acceuil } from './pages/Acceuil';
-import { Videos } from './pages/Videos';
 import './App.css';
 import { TVLive } from './pages/Live';
 import Admin from './pages/Admin';
@@ -22,7 +21,6 @@ export default function App() {
         <Route path="/programmes" element={<Programmes />} />
         <Route path="/programmes/:id" element={<SingleProgrammePage />} />
         <Route path="/contact" element={<ContactTV />} />
-        <Route path="/videos/:id" element={<Videos />} />
         <Route path="/egliseYeshoua/articles" element={<ArticlesListePage />} />
         <Route path="/egliseYeshoua/articles/:id" element={<SingleArticlePage  />} />
         <Route path="/egliseYeshoua/presentation" element={<PresentationEglise />} />

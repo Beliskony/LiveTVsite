@@ -3,7 +3,7 @@ import { Search, Menu, X, User, Bell, ChevronDown, LogOut } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useAuth } from "./auth-context" // branchement sur ton AuthProvider
 import { LogSignIn } from "./LogSignIn"
-import { emissionData } from "@/data/emissionsData"
+import { programmeData } from "@/data/programmeData"
 import { articleData } from "@/data/articlesData"
 
 
@@ -47,7 +47,7 @@ export default function Header() {
   const lowerQuery = query.toLowerCase()
 
 
-  const emissionResults = emissionData.filter((emission) =>
+  const emissionResults = programmeData.filter((emission) =>
     emission.nom.toLowerCase().includes(lowerQuery) 
   )
 
