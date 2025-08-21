@@ -10,6 +10,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Search, MoreHorizontal, Edit, Trash2, Eye } from "lucide-react"
 import { videosData } from "@/data/videosData"
 import type { IVideo } from "@/interfaces/Videos"
+import { emissionData } from "@/data/emissionsData"
+import type { IEmission } from "@/interfaces/Emission"
 import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 
 interface VideoTableProps {
@@ -34,6 +36,7 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
     currentPage * itemsPerPage
   )
 
+
   const getCategoryColor = (category?: string) => {
     const colors: Record<string, string> = {
       news: "bg-blue-100 text-blue-800",
@@ -48,6 +51,11 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
 
   const getStatusColor = (status?: "published" | "draft") => {
     return status === "published" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
+  }
+
+  const getEmissionName = (emissionId?: string) => {
+    const emission = emissionData.find((e: IEmission) => e.id === emissionId)
+    return emission ? emission.nom: "_"
   }
 
   return (
@@ -74,7 +82,7 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
           <TableHeader>
             <TableRow>
               <TableHead>Titre</TableHead>
-              <TableHead>Catégorie</TableHead>
+              <TableHead>Emission</TableHead>
               <TableHead>Durée</TableHead>
               <TableHead>Vues</TableHead>
               <TableHead>Status</TableHead>
@@ -87,7 +95,7 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
               <TableRow key={video.id}>
                 <TableCell className="font-medium">{video.title}</TableCell>
                 <TableCell>
-                  <Badge className={getCategoryColor(video.category)}>{video.category}</Badge>
+                  <Badge className={getCategoryColor(video.emissionId)}>{getEmissionName(video.emissionId)}</Badge>
                 </TableCell>
                 <TableCell>{video.duration}</TableCell>
                 <TableCell>{video.views?.toLocaleString()}</TableCell>

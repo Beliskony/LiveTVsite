@@ -2,6 +2,7 @@ import type { IEmission } from "../../interfaces/Emission";
 import { CalendarCheck2 } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
+import { Link } from "react-router-dom";
 
 interface propsEmission {
   contenu: IEmission
@@ -12,6 +13,7 @@ export const EmissionCard = (Emission:propsEmission) => {
   return (
   <>
    <div className="flex flex-col items-center justify-center p-4">
+    <Link to={`/programmes/${Emission.contenu.id}`} className="no-underline">
     <Card className="group relative w-[250px] max-sm:w-[300px] h-[420px] lg:h-96 xl:h-[420px] overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
       {/* Image de couverture avec effet de zoom */}
       <div
@@ -62,6 +64,7 @@ export const EmissionCard = (Emission:propsEmission) => {
     <div className={`mt-1 text-wrap text-xl text-center font-bold ${Emission.textCouleur}`}>
       <h2>{Emission.contenu.nom}</h2>
     </div>
+    </Link>
   </div>
   </>
   )

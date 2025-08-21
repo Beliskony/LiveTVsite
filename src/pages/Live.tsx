@@ -26,7 +26,7 @@ export const TVLive = () => {
               <DownloadAppBanner />
             </div>
             <EmissionSlideSection />
-            <SlideSection />
+            <SlideSection textVues="" />
           </div>
 
         </section>

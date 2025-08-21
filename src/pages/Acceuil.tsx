@@ -2,7 +2,6 @@ import Footer from "../components/Footer"
 import Header from "../components/NavBar"
 import { SlideSection } from "../components/homeScreen/SlideSection";
 import { EmissionSlideSection } from "../components/homeScreen/EmissionSlideSection";
-import HeroHeaderSection from "../components/homeScreen/HeroHeaderSection";
 import TestimonialSection from "../components/homeScreen/TestimonialSection";
 import FeaturesListSection from "../components/homeScreen/FeaturesListSection";
 import { EmissionCarouselForEmission } from "@/components/EmblaCarouselForEmission";
@@ -19,9 +18,8 @@ export const Acceuil = () => {
         </section>
 
         <section className="flex flex-col flex-1 max-sm:my-0.5 backdrop-blur-sm bg-black/50">
-         <DownloadAppBanner />
           
-          <SlideSection />
+          <SlideSection textVues="hidden" />
 
           <EmissionSlideSection />
 

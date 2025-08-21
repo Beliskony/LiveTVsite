@@ -3,7 +3,7 @@ export interface IVideo {
   title?: string;
   description?: string;
   Miniature?: string;
-  category?: string;
+  emissionId: string;
   status?: "published" | "draft";
   createdAt: Date;
   duration: string;

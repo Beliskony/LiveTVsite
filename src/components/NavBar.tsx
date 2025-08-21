@@ -69,7 +69,7 @@ export default function Header() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center space-x-2 h-14 w-32 object-cover justify-center">
-              <Link to={"/home"}>
+              <Link to={"/"}>
                 <img src="/logotvRM.png" className="h-full p-2 w-32 lg:w-44" />
               </Link>
             </div>
@@ -77,8 +77,8 @@ export default function Header() {
             {/* Navigation Desktop */}
             <nav className="hidden md:flex items-center space-x-10 xl:px-5 text-white">
 
-              <Link to={"/videos"} className="hover:text-blue-400 transition-colors font-medium">
-                Replay
+              <Link to={"/home"} className="hover:text-blue-400 transition-colors font-medium">
+                Notre chaîne
               </Link>
 
               <Link to={"/programmes"} className="hover:text-blue-400 transition-colors font-medium">
@@ -233,8 +233,8 @@ export default function Header() {
                 Live
               </Link>
               
-              <Link to={"/videos"} className="block text-white hover:text-blue-400 transition-colors font-medium">
-                Replay
+              <Link to={"/home"} className="block text-white hover:text-blue-400 transition-colors font-medium">
+                Notre chaîne
               </Link>
 
               <Link to={"/programmes"} className="block text-white hover:text-blue-400 transition-colors font-medium">

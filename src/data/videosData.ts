@@ -5,13 +5,13 @@ export const videosData: IVideo[] = [
     id: "V1",
     title: "Introduction à React avec Vite",
     description: "Apprenez à démarrer rapidement un projet React avec Vite pour un développement ultra-rapide.",
-    createdAt: new Date("2025-08-07T10:00:00Z"), // ISO → Date
+    createdAt: new Date("2025-08-07T10:00:00Z"),
     duration: "22:00",
     views: 289,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Vite",
-    category: "Web", // string et pas tableau
+    emissionId: "E1", // Émission Sportive
     status: "published",
-    videoUrl: "/videos/test1.mp4", // Ajout de l'URL de la vidéo
+    videoUrl: "/videos/test1.mp4",
   },
   {
     id: "V2",
@@ -21,7 +21,7 @@ export const videosData: IVideo[] = [
     duration: "55:08",
     views: 1894,
     Miniature: "https://i.pinimg.com/736x/88/88/69/8888695935ae01676977fc90bf0464ab.jpg",
-    category: "Design",
+    emissionId: "E5", // Les Petits Génies
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
@@ -33,7 +33,7 @@ export const videosData: IVideo[] = [
     duration: "43:09",
     views: 4789,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    category: "React",
+    emissionId: "E2", // Cultures du Monde
     status: "draft",
     videoUrl: "/videos/test3.mp4"
   },
@@ -45,7 +45,7 @@ export const videosData: IVideo[] = [
     duration: "08:46",
     views: 105463,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    category: "React",
+    emissionId: "E3", // Foi et Vie
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
@@ -57,7 +57,7 @@ export const videosData: IVideo[] = [
     duration: "45:09",
     views: 43289746,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    category: "React",
+    emissionId: "E4", // Culte du soir
     status: "published",
     videoUrl: "/videos/test3.mp4"
   },
@@ -69,11 +69,11 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    category: "React",
+    emissionId: "E6", // Rire Ensemble
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
-    {
+  {
     id: "V7",
     title: "Etat et droit de la vidéo view1",
     description: "Encore une variante populaire.",
@@ -81,11 +81,11 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    category: "React",
+    emissionId: "E1", // Émission Sportive
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
-    {
+  {
     id: "V8",
     title: "Etat et droit de la vidéo config",
     description: "Encore une variante populaire.",
@@ -93,11 +93,11 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    category: "React",
+    emissionId: "E2", // Cultures du Monde
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
-    {
+  {
     id: "V9",
     title: "Etat et droit de la vidéo test1",
     description: "Encore une variante populaire.",
@@ -105,11 +105,11 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    category: "React",
+    emissionId: "E3", // Foi et Vie
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
-    {
+  {
     id: "V10",
     title: "Etat et droit de la vidéo test2",
     description: "Encore une variante populaire.",
@@ -117,11 +117,11 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    category: "React",
+    emissionId: "E4", // Culte du soir
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
-    {
+  {
     id: "V11",
     title: "Etat et droit",
     description: "Encore une variante populaire.",
@@ -129,11 +129,11 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    category: "React",
+    emissionId: "E5", // Les Petits Génies
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
-    {
+  {
     id: "V12",
     title: "Etat et droit de la vidéo",
     description: "Encore une variante populaire.",
@@ -141,7 +141,7 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    category: "React",
+    emissionId: "E6", // Rire Ensemble
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },

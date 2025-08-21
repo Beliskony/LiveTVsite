@@ -10,6 +10,7 @@ import PresentationEglise from './pages/PresentationEglise';
 import ArticlesListePage from './pages/ArticlesListePage';
 import SingleArticlePage from './pages/SingleArticle';
 import { ContactTV } from './pages/ContactTV';
+import SingleProgrammePage from './pages/SingleProgrammePage';
 
 export default function App() {
   return (
@@ -19,7 +20,7 @@ export default function App() {
         <Route path='/' element={<TVLive />} />
         <Route path="/home" element={<Acceuil />} />
         <Route path="/programmes" element={<Programmes />} />
-        <Route path="/videos" element={<Videos />} />
+        <Route path="/programmes/:id" element={<SingleProgrammePage />} />
         <Route path="/contact" element={<ContactTV />} />
         <Route path="/videos/:id" element={<Videos />} />
         <Route path="/egliseYeshoua/articles" element={<ArticlesListePage />} />

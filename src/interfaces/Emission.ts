@@ -1,3 +1,4 @@
+import type { IVideo } from "./Videos";
 export interface IEmission {
   id: string;
   nom: string;
@@ -7,4 +8,5 @@ export interface IEmission {
   when: string;
   genre: string; // tableau de catégories
   couverture: string; // URL ou chemin de l'image
+  videos?: IVideo[],
 }

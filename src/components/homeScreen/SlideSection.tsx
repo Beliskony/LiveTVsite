@@ -1,13 +1,16 @@
-import { useState } from "react";
 import VideoCarousel from "../mediaComponent/Videos-carousel";
 import { videosData } from "../../data/videosData";
 
-export const SlideSection = () => {
+interface optionShow {
+  textVues: string
+}
+
+export const SlideSection = (valeur: optionShow) => {
     return(
           <div className="flex flex-col items-start justify-start p-6 max-sm:p-0.5 max-sm:mb-3 w-full space-y-2.5">
             {/*la partie des videos recommander*/}
             <div className="flex flex-col mx-auto max-sm:px-2 items-start justify-center w-full space-y-2.5">
-              <h3 className="text-2xl font-bold lg:text-4xl xl:text-6xl xl:pl-32 py-5 text-white">
+              <h3 className={`text-2xl font-bold lg:text-4xl xl:text-6xl xl:pl-32 py-5 text-white ${valeur}`}>
                 contenues populaires
               </h3>
             </div>

@@ -1,10 +1,8 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
 import { Search, X } from "lucide-react"
 
 interface ArticleFiltersProps {
@@ -55,7 +53,8 @@ export function ArticleFilters({
         <Input
           placeholder="Rechercher des articles..."
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {setSearchValue(e.target.value)
+                            onSearchChange(e.target.value)}}
           className="pl-10 pr-4"
         />
       </form>
@@ -68,7 +67,7 @@ export function ArticleFilters({
 
         {/* Category Filter */}
         <Select value={activeFilters.category} onValueChange={onCategoryChange}>
-          <SelectTrigger className="w-[180px] max-sm:w-32 border rounded-md shadow bg-white">
+          <SelectTrigger className="w-[160px] max-sm:w-32 border rounded-md shadow bg-white">
             <SelectValue placeholder="Catégorie" />
           </SelectTrigger>
           <SelectContent>

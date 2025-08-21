@@ -12,6 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { X, CheckCircle } from "lucide-react"
 import type { IVideo } from "@/interfaces/Videos"
 import { SelecteurVideo } from "./VideoSelector"
+import { emissionData } from "@/data/emissionsData"
+import type { IEmission } from "@/interfaces/Emission"
 
 
 interface VideoFormProps {
@@ -23,9 +25,9 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
   const [formData, setFormData] = useState({
     title: video?.title || "",
     description: video?.description || "",
-    category: video?.category || "",
     duration: video?.duration || "",
     thumbnail: video?.Miniature || "",
+    emissionId: video?.emissionId || ""
   })
 
    const [selectedVideoFile, setSelectedVideoFile] = useState<File | null>(null)
@@ -73,7 +75,7 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
   
 
   return (
-    <Card className="mb-6">
+    <Card className="mb-6 p-4">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{video ? "Modifier la vidéo" : "Ajouter une nouvelle vidéo"}</CardTitle>
         <Button variant="ghost" size="sm" onClick={onClose}>
@@ -96,18 +98,16 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
             <div className="space-y-2">
               <Label htmlFor="category">Catégorie</Label>
               <Select
-                value={formData.category}
-                onValueChange={(value) => setFormData({ ...formData, category: value })}
+                value={formData.emissionId}
+                onValueChange={(value) => setFormData({ ...formData, emissionId: value })}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionnez une catégorie" />
+                  <SelectValue placeholder="Sélectionnez une emistion" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="news">Actualités</SelectItem>
-                  <SelectItem value="entertainment">Divertissement</SelectItem>
-                  <SelectItem value="sports">Sports</SelectItem>
-                  <SelectItem value="documentary">Documentaire</SelectItem>
-                  <SelectItem value="music">Musique</SelectItem>
+                  {emissionData.map((emission: IEmission) =>
+                    <SelectItem key={emission.id} value={emission.id}>{emission.nom}</SelectItem>
+                  )}
                 </SelectContent>
               </Select>
             </div>
