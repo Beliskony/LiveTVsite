@@ -57,7 +57,7 @@ export default function EmissionCarousel({ emissions }: EmissionCarouselProps) {
            {emissions.map((emission) => (
               <div
                 key={emission.id}>
-          <EmissionCard {...emission} />
+          <EmissionCard contenu={emission} textCouleur='text-white' />
         </div>
   ))}
 </div>

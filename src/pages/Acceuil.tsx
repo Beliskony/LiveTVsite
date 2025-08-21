@@ -11,14 +11,14 @@ import DownloadAppBanner from "@/components/separateur/DownloadAppBanner";
 export const Acceuil = () => {
    
   return (
-    <div className="h-full">
+    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
 
-        <section>
+        <section className="z-10">
           <Header />
           <EmissionCarouselForEmission/>
         </section>
 
-        <section className="flex flex-col items-center justify-center bg-white">
+        <section className="flex flex-col flex-1 max-sm:my-0.5 backdrop-blur-sm bg-black/50">
          <DownloadAppBanner />
           
           <SlideSection />

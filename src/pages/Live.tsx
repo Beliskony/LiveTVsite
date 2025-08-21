@@ -21,7 +21,7 @@ export const TVLive = () => {
             <LiveVideoComponent />
           </div>
 
-          <div className="w-full bg-white">
+          <div className="w-full">
             <div className="mx-3.5">
               <DownloadAppBanner />
             </div>

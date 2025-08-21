@@ -10,14 +10,14 @@ export function VideoSectionFilter() {
   const [filters, setFilters] = useState({
     search: "",
     category: "all",
-    sort: "", // latest | oldest
+    sort: "recent", // latest | oldest
     popularity: "", // most-viewed | top-rated
     status: "",
   })
   const [currentPage, setCurrentPage] = useState(1)
 
    // 🔎 Récupérer toutes les catégories disponibles
-  const categories = Array.from(new Set(videosData.map((v) => v.category)))
+  const categories = [...new Set(videosData.map((v) => v.category).filter((c): c is string => typeof c === 'string' && c.trim() !== ""))].sort()
 
   // 🔎 Gestion des vidéos filtrées et triées
   const filteredAndSortedVideos = useMemo(() => {
@@ -36,7 +36,7 @@ export function VideoSectionFilter() {
     }
 
     // Trier par date
-    if (filters.sort === "latest") {
+    if (filters.sort === "recent") {
       filtered.sort(
         (a, b) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -48,12 +48,12 @@ export function VideoSectionFilter() {
       )
     }
 
-    // Trier par popularité
-    if (filters.popularity === "most-viewed") {
-      filtered.sort((a, b) => (b.views ?? 0) - (a.views ?? 0))
-    } else if (filters.popularity === "top-rated") {
-      filtered.sort((a, b) => (b.views ?? 0) - (a.views ?? 0))
+    if (filters.sort === "title") {
+      filtered.sort((a, b) => (a.title || "").localeCompare(b.title || ""))
+    } else if (filters.sort === "title-desc") {
+      filtered.sort((a, b) => (b.title || "").localeCompare(a.title || ""))
     }
+
 
     return filtered
   }, [filters])
@@ -83,7 +83,7 @@ export function VideoSectionFilter() {
                 onSortChange={(sort) => handleFilterChange({ sort })}
                 onStatusChange={(status) => handleFilterChange({ status })}
                 activeFilters={filters}
-                categories={videosData.map((video) => video.category).filter((c): c is string => c !== undefined)}
+                categories={categories}
          />
       </div>
 

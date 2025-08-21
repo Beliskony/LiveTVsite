@@ -1,13 +1,11 @@
 import React from "react"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
 import { Search, X } from "lucide-react"
 
-interface ArticleFiltersProps {
+interface VideosFiltersProps {
   onSearchChange: (search: string) => void
   onCategoryChange: (category: string) => void
   onSortChange: (sort: string) => void
@@ -16,7 +14,6 @@ interface ArticleFiltersProps {
     search: string
     category: string
     sort: string
-    status: string
   }
   categories: string[]
 }
@@ -25,10 +22,9 @@ export function VideosFilters({
   onSearchChange,
   onCategoryChange,
   onSortChange,
-  onStatusChange,
   activeFilters,
   categories,
-}: ArticleFiltersProps) {
+}: VideosFiltersProps) {
   const [searchValue, setSearchValue] = useState(activeFilters.search)
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -41,11 +37,10 @@ export function VideosFilters({
     onSearchChange("")
     onCategoryChange("")
     onSortChange("recent")
-    onStatusChange("")
   }
 
   const hasActiveFilters =
-    activeFilters.search || activeFilters.category || activeFilters.status || activeFilters.sort !== "recent"
+    activeFilters.search || activeFilters.category || activeFilters.sort !== "recent"
 
   return (
     <div className="flex lg:flex-row md:flex-col max-sm:flex-col w-full items-center justify-around max-sm:gap-y-4 md:gap-y-4 mb-8" >
@@ -53,9 +48,12 @@ export function VideosFilters({
       <form onSubmit={handleSearchSubmit} className="relative bg-white lg:w-[500px] xl:w-[600px] max-sm:w-full md:w-full rounded-md border shadow">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
         <Input
-          placeholder="Rechercher des articles..."
+          placeholder="Rechercher des videos..."
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            setSearchValue(e.target.value)
+            onSearchChange(e.target.value)
+          }}
           className="pl-10 pr-4"
         />
       </form>

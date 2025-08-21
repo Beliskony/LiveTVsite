@@ -1,16 +1,13 @@
 import { useState } from "react";
 import VideoCarousel from "../mediaComponent/Videos-carousel";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { videosData } from "../../data/videosData";
-import { Link } from "react-router-dom";
 
 export const SlideSection = () => {
-    const [isHovered, setIsHoverred] = useState(false)
     return(
-          <div className="flex flex-col items-start justify-start p-6 max-sm:p-0.5 max-sm:mb-3 bg-white w-full space-y-2.5">
+          <div className="flex flex-col items-start justify-start p-6 max-sm:p-0.5 max-sm:mb-3 w-full space-y-2.5">
             {/*la partie des videos recommander*/}
             <div className="flex flex-col mx-auto max-sm:px-2 items-start justify-center w-full space-y-2.5">
-              <h3 className="text-2xl font-bold lg:text-4xl xl:text-6xl xl:pl-32 py-5">
+              <h3 className="text-2xl font-bold lg:text-4xl xl:text-6xl xl:pl-32 py-5 text-white">
                 contenues populaires
               </h3>
             </div>

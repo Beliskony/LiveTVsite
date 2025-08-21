@@ -1,10 +1,14 @@
 import type { IEmission } from "../../interfaces/Emission";
-import { Timer, CalendarCheck2, Play } from "lucide-react";
+import { CalendarCheck2 } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
 
+interface propsEmission {
+  contenu: IEmission
+  textCouleur: string
+}
 
-export const EmissionCard = (propsEmission: IEmission) => {
+export const EmissionCard = (Emission:propsEmission) => {
   return (
   <>
    <div className="flex flex-col items-center justify-center p-4">
@@ -12,9 +16,9 @@ export const EmissionCard = (propsEmission: IEmission) => {
       {/* Image de couverture avec effet de zoom */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-        style={{ backgroundImage: `url(${propsEmission.couverture})` }}
+        style={{ backgroundImage: `url(${Emission.contenu.couverture})` }}
         role="img"
-        aria-label={`Couverture de l'émission: ${propsEmission.nom}`}
+        aria-label={`Couverture de l'émission: ${Emission.contenu.nom}`}
       />
 
       {/* Overlay gradient moderne */}
@@ -23,10 +27,10 @@ export const EmissionCard = (propsEmission: IEmission) => {
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 delay-500 flex items-center justify-center">
          <div className="text-center text-white p-6 space-y-4 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 delay-700">
           <div className="space-y-2">
-            <h3 className="text-xl text-white">{propsEmission.starting} à {propsEmission.ending}</h3>
+            <h3 className="text-xl text-white">{Emission.contenu.starting} à {Emission.contenu.ending}</h3>
           </div>
 
-          <p className="text-sm md:text-base text-gray-200 max-w-xs mx-auto leading-relaxed">{propsEmission.description}</p>
+          <p className="text-sm md:text-base text-gray-200 max-w-xs mx-auto leading-relaxed">{Emission.contenu.description}</p>
       </div>
       </div>
 
@@ -37,14 +41,14 @@ export const EmissionCard = (propsEmission: IEmission) => {
                 variant="secondary"
                 className="bg-gray-900/90 backdrop-blur-sm text-white border-gray-400/30 hover:bg-gray-900/50"
               >
-                {propsEmission.genre}
+                {Emission.contenu.genre}
               </Badge>
 
               <Badge
                 variant="secondary"
                 className="bg-gray-900/90 backdrop-blur-sm text-white border-gray-400/30 hover:bg-gray-900/50">
                 <CalendarCheck2 className="w-4 h-4 mr-1" />
-                {propsEmission.when}
+                {Emission.contenu.when}
               </Badge>
           </div>
       </CardContent>
@@ -55,8 +59,8 @@ export const EmissionCard = (propsEmission: IEmission) => {
       </div>
     </Card>
 
-    <div className="mt-1 text-wrap text-xl text-center font-bold text-gray-900">
-      <h2>{propsEmission.nom}</h2>
+    <div className={`mt-1 text-wrap text-xl text-center font-bold ${Emission.textCouleur}`}>
+      <h2>{Emission.contenu.nom}</h2>
     </div>
   </div>
   </>

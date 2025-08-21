@@ -23,10 +23,10 @@ const TestimonialSection = () => {
   return (
     <section className="flex flex-col w-full justify-center items-center py-4">
       <div className="flex flex-col w-full gap-y-6 text-center max-w-4xl mx-auto px-4">
-        <h2 className=" font-bold tracking-tight text-foreground text-3xl lg:text-4xl xl:text-5xl leading-tight">
-          Explorez nos ressources{" "} <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent" >& programmes</span>
+        <h2 className=" font-bold tracking-tight text-3xl lg:text-4xl xl:text-5xl leading-tight text-white">
+          Explorez nos ressources{" "} <span className="bg-gradient-to-r from-white to-gray-300/60 bg-clip-text text-transparent" >& programmes</span>
         </h2>
-        <p className="text-muted-foreground text-lg lg:text-xl mx-auto leading-relaxed">
+        <p className="text-gray-200/65 text-lg lg:text-xl mx-auto leading-relaxed mb-3">
           Divertissement, Religion, Découverte, Culture sont au rendez-vous
         </p>
       </div>
@@ -37,7 +37,7 @@ const TestimonialSection = () => {
           return (
             <Card
               key={index}
-              className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/20 bg-gradient-to-br from-background to-muted/20"
+              className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/20 bg-gradient-to-b from-background to-gray-950/30"
             >
               <CardContent className="flex flex-col justify-center items-center p-8 text-center space-y-4">
                 <div className="relative">
@@ -52,7 +52,7 @@ const TestimonialSection = () => {
                   {resource.title}
                 </h3>
 
-                <p className="text-muted-foreground leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
+                <p className="text-white leading-relaxed transition-colors duration-300">
                   {resource.description}
                 </p>
               </CardContent>
