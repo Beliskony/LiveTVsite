@@ -33,7 +33,7 @@ const LiveVideoComponent = () => {
   return (
     <section className="flex flex-col items-center max-sm:gap-y-0 justify-between w-full max-sm:flex-col md:gap-y-2.5">
        
-      <div className="live-video w-full min-h-[500px] md:h-[560px] lg:h-[560px] xl:h-[560px] @max-3xl:h-[1350px] max-sm:h-[450px]"
+      <div className="live-video w-full min-h-[300px] md:h-[560px] lg:h-[560px] xl:h-[560px] max-sm:h-[450px]"
       style={{}}>
           <LiveVideo/>
       </div>

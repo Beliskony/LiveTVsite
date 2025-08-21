@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { Search, Menu, X, User, Bell, ChevronDown, LogOut } from "lucide-react"
+import { Search, Menu, X, User, Bell, ChevronDown, LogOut, PlayCircle, GalleryHorizontal, GalleryHorizontalEnd, GalleryVerticalEnd, Home } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useAuth } from "./auth-context" // branchement sur ton AuthProvider
 import { LogSignIn } from "./LogSignIn"
 import { programmeData } from "@/data/programmeData"
 import { articleData } from "@/data/articlesData"
+import { useLocation } from "react-router-dom"
 
 
 export default function Header() {
@@ -13,8 +14,9 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
-  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false)
+  const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false)
   const [results, setResults] = useState<any[]>()
+  const location = useLocation()
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
   const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen)
@@ -64,18 +66,18 @@ export default function Header() {
 
   return (
     <>
-      <header className={`fixed w-full backdrop-blur-sm text-white hover:bg-gray-900 top-0 z-50 ${isScrolled ? " bg-gray-900" : "bg-transparent"}`}>
-        <div className="container max-w-7xl mx-auto px-4 lg:px-6">
-          <div className="flex items-center justify-between h-16">
+      <header className={`fixed backdrop-blur-sm text-white hover:bg-gray-900 top-0 z-50 ${isScrolled ? " bg-gray-900" : "bg-transparent"}`}>
+        <div className="w-screen px-4">
+          <div className="flex items-center max-sm:hidden justify-between w-full h-16">
             {/* Logo */}
-            <div className="flex items-center space-x-2 h-14 w-32 object-cover justify-center">
+            <div className="flex items-center">
               <Link to={"/"}>
                 <img src="/logotvRM.png" className="h-full p-2 w-32 lg:w-44" />
               </Link>
             </div>
 
             {/* Navigation Desktop */}
-            <nav className="hidden md:flex items-center space-x-10 xl:px-5 text-white">
+            <nav className="hidden md:flex items-center space-x-10 md:space-x-4 lg:space-x-5 xl:px-5 text-white">
 
               <Link to={"/home"} className="hover:text-blue-400 transition-colors font-medium">
                 Notre chaîne
@@ -116,7 +118,7 @@ export default function Header() {
             </nav>
 
             {/* Search Bar Desktop */}
-            <div className="hidden lg:flex items-center flex-1 max-w-md mx-8">
+            <div className="hidden xl:flex items-center flex-1 max-w-md">
               <div className="relative w-full">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white h-4 w-4" />
                 <input
@@ -151,16 +153,17 @@ export default function Header() {
             </div>
 
             {/* User Actions Desktop */}
-            <div className="hidden md:flex items-center space-x-4 md:space-x-0">
+            <div className="hidden md:flex items-center md:space-x-0 md:mx-1 ">
 
-              <div className="relative">
+              <div className="relative lg:mr-2 xl:mr-6">
                 {!isAuthenticated ? (
                   <button
                     onClick={openAuthModal}
                     className="flex items-center space-x-2 p-2 rounded-full transition-colors text-white  border border-white hover:bg-white hover:text-gray-900"
                   >
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center">
+                    <div className=" flex items-center justify-center gap-1.5">
                       <User className="h-4 w-4" />
+                      <h4>S'identifier</h4>
                     </div>
                     
                   </button>
@@ -168,8 +171,7 @@ export default function Header() {
                   <>
                     <button
                       onClick={toggleUserMenu}
-                      className="flex items-center space-x-2 p-2 rounded-md transition-colors text-white hover:bg-gray-800 hover:text-white"
-                    >
+                      className="flex items-center space-x-2 p-2 rounded-md transition-colors text-white hover:bg-gray-800 hover:text-white">
                       <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
                         <span className="text-sm font-medium text-white ">
                           {user?.name?.charAt(0).toUpperCase()}
@@ -194,118 +196,122 @@ export default function Header() {
                 )}
               </div>
             </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center space-x-2">
-              <button className="hidden p-2 text-gray-900 hover:bg-gray-800 rounded-md transition-colors lg:hidden">
-                <Search className="h-5 w-5" />
-              </button>
-              <button
-                onClick={toggleMenu}
-                className="p-2 text-white hover:bg-gray-800 rounded-md transition-colors"
-              >
-                {isMenuOpen ? <X className="h-10 w-10" /> : <Menu className="h-10 w-10 font-bold" />}
-              </button>
-            </div>
           </div>
 
-          {/* Mobile Search Bar */}
-          <div className="hidden pb-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <input
-                type="text"
-                placeholder="Rechercher..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-gray-800/50 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors"
-              />
-            </div>
-          </div>
         </div>
 
         {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-gray-900 border-t border-gray-800">
-            <nav className="px-4 py-4 space-y-4">
-              <Link to={"/"} className="px-2 w-20 gap-x-1 justify-center items-center flex flex-row text-white transition-colors bg-red-500 rounded-lg font-medium cursor-pointer">
-                <img src="/liveIcon.svg" className="h-4 w-4"  />
-                Live
-              </Link>
-              
-              <Link to={"/home"} className="block text-white hover:text-blue-400 transition-colors font-medium">
-                Notre chaîne
-              </Link>
+          <div className="md:hidden w-full fixed top-0 z-50">
+            <div className="flex  bg-gray-900 border-t border-gray-800 p-2 justify-around items-center text-white font-bold text-[12px]">
+    
+            {/* Menu Toggle */}
+              <button onClick={() => setIsRightDrawerOpen(true)} className="flex flex-col items-center">
+                <Menu className="h-5 w-5" />
+                <span className="mt-1">Menu</span>
+              </button>
 
-              <Link to={"/programmes"} className="block text-white hover:text-blue-400 transition-colors font-medium">
-                Nos Programmes
-              </Link>
-              
-              <div>
-                  <button onClick={() => setIsSubmenuOpen(!isSubmenuOpen)}
-                  className="hover:text-blue-400 transition-colors font-medium flex items-center gap-1">
-                      Eglise Yeshoua
-                      <ChevronDown className="h-4 w-4" />
-                  </button>
-                  {isSubmenuOpen && (
-                  <div className="ml-5 bg-gray-900 text-white mt-1 min-w-[150px] z-10 transition-all ease-in-out delay-75">
-                      <Link to="/egliseYeshoua/presentation"
-                            className="block px-4 py-2 hover:bg-gray-700 transition-colors">
-                          Presentation
-                      </Link>
-                      
-                      <Link to="/egliseYeshoua/articles"
-                            className="block px-4 py-2 hover:bg-gray-700 transition-colors">
-                          Articles
-                      </Link>
-                  </div>
-                  )}
-              </div>
+              {isRightDrawerOpen && (
+                <>
+                  <div className="fixed inset-0 bg-black bg-opacity-50 z-20"
+                  onClick={() => setIsRightDrawerOpen(false)}></div>
 
-              {isAdmin && (
-                <Link
-                  to={"/admin"}
-                  className="block text-yellow-300 hover:text-yellow-400 transition-colors font-medium"
-                >
-                  Admin
-                </Link>
-              )}
-              <div className="border-t border-gray-900 pt-4 space-y-3">
-                {isAuthenticated && (
-                  <>
-                    <Link to={""} className="flex items-center space-x-3 text-white hover:text-blue-400 transition-colors">
-                      <Bell className="h-5 w-5" />
-                      <span>Notifications</span>
-                    </Link>
-                    <div className="flex flex-row items-center gap-x-2">
-                        <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-                          <span className="text-sm font-medium text-white">
-                            {user?.name?.charAt(0).toUpperCase()}
-                          </span>
-                        </div>
-                      <span className="text-sm font-medium">{user?.name}</span>
+                  {/* Drawer Content*/}
+                  <div className="fixed top-0 left-0 w-2/3 h-screen bg-gray-900 z-50 rounded-l p-3 transition-transform duration-300">
+                    <div className="flex justify-between items-center mb-4">
+                      <img src="/logotvRM.png" className="h-16 w-24"/>
+                      <button onClick={() => setIsRightDrawerOpen(false)}>
+                        <X className="text-white h-7 w-7"/>
+                      </button>
                     </div>
 
-                    <button
-                      onClick={handleLogout}
-                      className="block text-white hover:text-blue-400 transition-colors"
-                    >
-                      Se déconnecter
-                    </button>
-                  </>
+                    <nav className="mt-10 flex flex-col gap-y-4 text-white text-xl">
+                      <Link to="/home" onClick={() => setIsRightDrawerOpen(false)} className="hover:text-blue-400">Notre chaîne</Link>
+                      <Link to="/programmes" onClick={() => setIsRightDrawerOpen(false)} className="">Programmes</Link>
+                      <Link to="/replay" onClick={() => setIsRightDrawerOpen(false)} className="hover:text-blue-400">Replay</Link>
+                      <Link to="/" onClick={() => setIsRightDrawerOpen(false)} className="hover:text-red-400">Live</Link>
+                      <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="flex justify-between items-center w-full text-white transition-colors">
+                            <span>Eglise Yeshoua</span>
+                            <ChevronDown className={`h-5 w-5 transition-transform duration-300 ${isMenuOpen ? "rotate-180" : ""}`}/>
+                      </button>
+
+                    {isMenuOpen && (
+                    <div className="ml-4 mt-2 space-y-2">
+                      <Link to="/egliseYeshoua/presentation" onClick={() => setIsMenuOpen(false)} className="block text-white hover:text-blue-400" >
+                        Présentation
+                      </Link>
+                      
+                      <Link to="/egliseYeshoua/articles" onClick={() => setIsMenuOpen(false)} className="block text-white hover:text-blue-400" >
+                        Articles
+                      </Link>
+                    </div>
+                    )}
+                        {isAdmin && (
+                          <Link to="/admin" onClick={() => setIsRightDrawerOpen(false)} className="text-yellow-300 hover:text-yellow-400">
+                            Admin
+                          </Link>
+                        )}
+                    </nav>
+                  </div>
+                </>
+              )}
+
+            {/* Replay */}
+              <Link to="/home" className={`flex flex-col items-center text-white ${
+              location.pathname.startsWith("/home") ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-blue-500" : ""
+              }`}>
+                <Home className="h-5 w-5" />
+                <span className="mt-1">Home</span>
+              </Link>
+
+            {/* Live */}
+              <Link to="/" className={`flex flex-col items-center text-white ${
+              location.pathname === "/" ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-blue-500" : ""
+              }`}>
+                <img src="/liveRed.svg" className="h-5 w-5"/>
+                <span className="mt-1">Live</span>
+              </Link>
+
+            {/* Programmes */}
+              <Link to="/programmes" className={`flex flex-col items-center text-white ${
+              location.pathname.startsWith("/programmes") ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-blue-500" : ""
+              }`}>
+                <GalleryVerticalEnd className="h-5 w-5 rotate-180" />
+                <span className="mt-1">Programmes</span>
+              </Link>
+
+            {/* Connexion */}
+              {!isAuthenticated ? (
+                <button onClick={openAuthModal} className="flex flex-col items-center">
+                  <User className="h-5 w-5" />
+                  <span className="mt-1">Connexion</span>
+                </button>
+                ) : (
+                  <>
+                <button onClick={toggleUserMenu} className="flex flex-col items-center">
+                  <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+                        <span className="text-sm font-medium text-white ">
+                          {user?.name?.charAt(0).toUpperCase()}
+                        </span>
+                  </div>
+                  <span className="mt-1">{user?.name?.split(" ")[0]}</span>
+                </button>
+
+                {isUserMenuOpen && (
+                      <div className="absolute top-14 right-5 mt-2 w-48 bg-gray-900 border border-gray-700 rounded-md shadow-lg py-1 z-50">
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center space-x-2 w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition-colors"
+                        >
+                          <LogOut className="h-4 w-4" />
+                          <span>Se déconnecter</span>
+                        </button>
+                      </div>
+                    )}
+                    </>
                 )}
-                {!isAuthenticated && (
-                  <button
-                    onClick={openAuthModal}
-                    className="block text-white hover:text-blue-400 transition-colors"
-                  >
-                    Se connecter
-                  </button>
-                )}
-              </div>
-            </nav>
+              
+            </div>
           </div>
-        )}
 
         {/* Overlay fermeture menu utilisateur */}
         {isUserMenuOpen && (
