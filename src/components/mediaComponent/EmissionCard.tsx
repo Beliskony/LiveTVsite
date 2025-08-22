@@ -50,7 +50,7 @@ export const EmissionCard = (Emission:propsEmission) => {
                 variant="secondary"
                 className="bg-gray-900/90 backdrop-blur-sm text-white border-gray-400/30 hover:bg-gray-900/50">
                 <CalendarCheck2 className="w-4 h-4 mr-1" />
-                {Emission.contenu.when}
+               <span className="space-x-0.5 truncate"> {Emission.contenu.when.join(", ")} </span>
               </Badge>
           </div>
       </CardContent>

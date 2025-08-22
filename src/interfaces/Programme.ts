@@ -5,7 +5,7 @@ export interface IProgramme {
   description: string,
   starting: string;
   ending: string;
-  when: string;
+  when: string[];
   genre: string; // tableau de catégories
   couverture: string; // URL ou chemin de l'image
   videos?: IVideo[],

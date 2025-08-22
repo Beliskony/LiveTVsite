@@ -3,59 +3,83 @@
 import type React from "react"
 
 import { useState } from "react"
-import { X, Save, Eye } from "lucide-react"
+import { X, Save, Eye, CheckCircle } from "lucide-react"
+import type { IArticle } from "@/interfaces/Articles"
+import { ImageSelector } from "./ImageSelector"
 
 interface ArticleFormProps {
   onClose: () => void
-  article?: {
-    id: number
-    title: string
-    content: string
-    excerpt: string
-    author: string
-    category: string
-    status: string
-    featured_image?: string
-    tags: string[]
-  }
+  article?: IArticle
 }
 
 export function ArticleForm({ onClose, article }: ArticleFormProps) {
   const [formData, setFormData] = useState({
     title: article?.title || "",
-    content: article?.content || "",
-    excerpt: article?.excerpt || "",
+    content: article?.contenu || "",
     author: article?.author || "",
     category: article?.category || "",
-    status: article?.status || "draft",
+    status: article?.status || "suprimé",
     featured_image: article?.featured_image || "",
-    tags: article?.tags?.join(", ") || "",
   })
 
   const [isPreview, setIsPreview] = useState(false)
+  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // Ici vous intégrerez avec votre API Laravel
-    console.log("Article data:", {
-      ...formData,
-      tags: formData.tags
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter(Boolean),
+  const payload = new FormData()
+      payload.append("title", formData.title)
+      payload.append("contenu", formData.content)
+      payload.append("author", formData.author)
+      payload.append("category", formData.category)
+      payload.append("status", formData.status)
+      if (selectedImageFile) payload.append("featured_image", selectedImageFile)
+
+   try {
+    const response = await fetch( article ? `https://api.yeshouatv.com/api/articles/$article.id`: "https://api.yeshouatv.com/api/articles",{
+      method: article ? "PUT" : "POST",
+      body: payload
     })
-    onClose()
+
+     if (!response.ok) throw new Error("Erreur lors de l'envoi")
+      setIsSubmitting(false)
+      setIsSuccess(true)
+
+      setTimeout(() => onClose(), 3000)
+   } catch (error) {
+      setIsSubmitting(false)
+      console.error(error)
+   }
+
   }
 
+    if (isSuccess) {
+    return (
+      <div className="bg-white rounded-lg shadow-md p-6 text-center">
+        <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+        <h3 className="text-xl font-semibold text-green-700">Article publié avec succès !</h3>
+        <p className="text-gray-600">"{formData.title}" a été ajouté/modifié.</p>
+        <button onClick={onClose} className="mt-4 px-4 py-2 bg-gray-900 text-white rounded-md">
+          Fermer
+        </button>
+      </div>
+    )
+  }
+
+
   const categories = ["Actualités", "Sport", "Culture", "Technologie", "Divertissement"]
-  const statuses = [
+  const status = [
     { value: "brouillon", label: "Brouillon" },
     { value: "publié", label: "Publié" },
     { value: "supprimé", label: "Supprimé" },
   ]
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
+    <div className="bg-white rounded-lg border border-gray-200 shadow-sm mb-2">
       <div className="flex items-center justify-between p-6 border-b border-gray-200">
         <div className="flex items-center gap-4">
           <h3 className="text-lg font-semibold">{article ? "Modifier l'article" : "Nouvel article"}</h3>
@@ -124,35 +148,18 @@ export function ArticleForm({ onClose, article }: ArticleFormProps) {
                   onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  {statuses.map((status) => (
-                    <option key={status.value} value={status.value}>
-                      {status.label}
-                    </option>
+                  {status.map((statuses) => (
+                    <option key={statuses.value} value={statuses.value}>
+                      {statuses.label}
+                    </option> 
                   ))}
                 </select>
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">Image à la une</label>
-                <input
-                  type="url"
-                  value={formData.featured_image}
-                  onChange={(e) => setFormData({ ...formData, featured_image: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="URL de l'image"
-                />
+                <ImageSelector onImageSelect={setSelectedImageFile} selectedFile={selectedImageFile} />
               </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Extrait</label>
-              <textarea
-                value={formData.excerpt}
-                onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Résumé de l'article..."
-              />
             </div>
 
             <div className="space-y-2">
@@ -165,18 +172,6 @@ export function ArticleForm({ onClose, article }: ArticleFormProps) {
                 placeholder="Contenu de l'article..."
                 required
               />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Tags</label>
-              <input
-                type="text"
-                value={formData.tags}
-                onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="tag1, tag2, tag3..."
-              />
-              <p className="text-xs text-gray-500">Séparez les tags par des virgules</p>
             </div>
           </div>
         ) : (
@@ -204,24 +199,9 @@ export function ArticleForm({ onClose, article }: ArticleFormProps) {
                         : "bg-gray-100 text-gray-800"
                   }`}
                 >
-                  {statuses.find((s) => s.value === formData.status)?.label}
+                  {status.find((s) => s.value === formData.status)?.label}
                 </span>
               </div>
-              {formData.excerpt && <p className="text-lg text-gray-600 italic mb-6">{formData.excerpt}</p>}
-              <div className="whitespace-pre-wrap">{formData.content || "Contenu de l'article..."}</div>
-              {formData.tags && (
-                <div className="flex flex-wrap gap-2 mt-6">
-                  {formData.tags
-                    .split(",")
-                    .map((tag) => tag.trim())
-                    .filter(Boolean)
-                    .map((tag, index) => (
-                      <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
-                        #{tag}
-                      </span>
-                    ))}
-                </div>
-              )}
             </div>
           </div>
         )}
@@ -236,7 +216,7 @@ export function ArticleForm({ onClose, article }: ArticleFormProps) {
           </button>
           <button
             type="submit"
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-md transition-colors"
           >
             <Save className="h-4 w-4" />
             {article ? "Mettre à jour" : "Publier"}

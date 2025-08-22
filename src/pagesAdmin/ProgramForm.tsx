@@ -9,37 +9,38 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { X } from "lucide-react"
+import { CheckCircle, X } from "lucide-react"
+import { ImageSelector } from "./ImageSelector"
+import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover"
+import { Checkbox } from "@/components/ui/checkbox"
 
 interface ProgramFormProps {
   onClose: () => void
   program?: {
     id: string
-    title: string
+    nom: string
     description: string
-    day: string
-    startTime: string
-    endTime: string
-    type: string
+    when: string
+    starting: string
+    ending: string
+    genre: string
+    couverture:string
   }
 }
 
 export function ProgramForm({ onClose, program }: ProgramFormProps) {
   const [formData, setFormData] = useState({
-    title: program?.title || "",
+    title: program?.nom || "",
     description: program?.description || "",
-    day: program?.day || "",
-    startTime: program?.startTime || "",
-    endTime: program?.endTime || "",
-    type: program?.type || "",
+    day: [] as string[],
+    startTime: program?.starting || "",
+    endTime: program?.ending || "",
+    type: program?.genre || "",
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Ici vous intégrerez avec votre API Laravel
-    console.log("Données du programme:", formData)
-    onClose()
-  }
+  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
 
   const days = [
     { value: "monday", label: "Lundi" },
@@ -51,8 +52,56 @@ export function ProgramForm({ onClose, program }: ProgramFormProps) {
     { value: "sunday", label: "Dimanche" },
   ]
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    
+    try {
+      const payload = new FormData()
+      payload.append("nom", formData.title)
+      payload.append("description", formData.description)
+      payload.append("starting", formData.startTime)
+      payload.append("ending", formData.endTime)
+      payload.append("when", formData.day.join(","))
+      payload.append("genre", formData.type)
+
+      if (selectedImageFile) payload.append("couverture", selectedImageFile)
+
+      const response = await fetch(program? `http://api.yeshouatv.com/api/programmes/${program.id}` : "http://localhost:8000/api/programmes", {
+        method: program ? "PUT" : "POST",
+        body: payload,
+      })
+
+       if (!response.ok) throw new Error("Erreur lors de l'envoi")
+
+      setIsSuccess(true)
+      setTimeout(onClose, 3000)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+    if (isSuccess) {
+    return (
+      <Card className="mb-6">
+        <CardContent className="pt-6">
+          <div className="text-center space-y-4">
+            <CheckCircle className="h-16 w-16 text-green-500 mx-auto" />
+            <h3 className="text-xl font-semibold text-green-700">Programme enregistré !</h3>
+            <p className="text-gray-600">Le programme "{formData.title}" a été ajouté.</p>
+            <Button onClick={onClose} className="mt-4">
+              Fermer
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
-    <Card className="mb-6">
+    <Card className="mb-6 p-4">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{program ? "Modifier le programme" : "Ajouter un nouveau programme"}</CardTitle>
         <Button variant="ghost" size="sm" onClick={onClose}>
@@ -79,9 +128,10 @@ export function ProgramForm({ onClose, program }: ProgramFormProps) {
                   <SelectValue placeholder="Sélectionnez un type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="live">Direct</SelectItem>
-                  <SelectItem value="recorded">Enregistré</SelectItem>
-                  <SelectItem value="rerun">Rediffusion</SelectItem>
+                  <SelectItem value="sport">Sport</SelectItem>
+                  <SelectItem value="divertissement">Divertissement</SelectItem>
+                  <SelectItem value="religion">Religion</SelectItem>
+                  <SelectItem value="culture">Culture</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -100,20 +150,31 @@ export function ProgramForm({ onClose, program }: ProgramFormProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="day">Jour</Label>
-              <Select value={formData.day} onValueChange={(value) => setFormData({ ...formData, day: value })}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionnez un jour" />
-                </SelectTrigger>
-                <SelectContent>
-                  {days.map((day) => (
-                    <SelectItem key={day.value} value={day.value}>
-                      {day.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Label htmlFor="days">Jours</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="w-full justify-start">
+                      {formData.day.length > 0 ? days
+                       .filter((d) => formData.day.includes(d.value)).map((d) => d.label).join(", ") : "Sélectionnez des jours"}
+                    </Button>
+                  </PopoverTrigger>
+                <PopoverContent className="w-64 bg-white">
+                  <div className="space-y-2 bg-white shadow p-2">
+                    {days.map((day) => (
+                    <div key={day.value} className="flex items-center space-x-2">
+                      <Checkbox id={day.value} checked={formData.day.includes(day.value)} onCheckedChange={(checked) => {
+                        setFormData((prev) => { const updatedDays = checked ? [...prev.day, day.value] : prev.day.filter((d) => d !== day.value)
+                          return { ...prev, day: updatedDays }
+                    })
+                    }}/>
+                    <Label htmlFor={day.value}>{day.label}</Label>
+                    </div>
+                   ))}
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="startTime">Heure de début</Label>
               <Input
@@ -136,11 +197,16 @@ export function ProgramForm({ onClose, program }: ProgramFormProps) {
             </div>
           </div>
 
+          <div className="space-y-2">
+            <Label>Image de couverture</Label>
+            <ImageSelector onImageSelect={setSelectedImageFile} selectedFile={selectedImageFile} />
+          </div>
+
           <div className="flex justify-end gap-2">
             <Button type="button" variant="outline" onClick={onClose}>
               Annuler
             </Button>
-            <Button type="submit">{program ? "Mettre à jour" : "Ajouter le programme"}</Button>
+            <Button type="submit">{isSubmitting ? "Envoi..." : program ? "Mettre à jour" : "Ajouter le programme"}</Button>
           </div>
         </form>
       </CardContent>

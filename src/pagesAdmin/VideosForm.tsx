@@ -43,15 +43,25 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500))
 
-      console.log("Données du formulaire:", formData)
-      console.log("Fichier vidéo:", selectedVideoFile)
+      const form = new FormData()
+        form.append("title", formData.title || "");
+        form.append("description", formData.description || "");
+        form.append("duration", formData.duration || "");
+        form.append("emissionId", formData.emissionId);
+          if (selectedImageFile) form.append("Miniature", selectedImageFile);
+          if (selectedVideoFile) form.append("videoFile", selectedVideoFile);
+
+      const response = await fetch("https://api.yeshouatv.com/api/videos", {
+        method: video ? "PUT" : "POST",
+        body: form,
+      });
+
+      if (!response.ok) throw new Error("Erreur lors de l'envoi");
 
       setIsSubmitting(false)
       setIsSuccess(true)
 
-      setTimeout(() => {
-        onClose()
-      }, 3000)
+      setTimeout(() => {onClose()}, 3000)
     } catch (error) {
       setIsSubmitting(false)
       console.error("Erreur lors de l'envoi:", error)
@@ -107,9 +117,16 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
                   <SelectValue placeholder="Sélectionnez une emistion" />
                 </SelectTrigger>
                 <SelectContent>
-                  {programmeData.map((emission: IProgramme) =>
-                    <SelectItem key={emission.id} value={emission.id}>{emission.nom}</SelectItem>
-                  )}
+                  {programmeData.map((emission) => {
+                    const emissionNorm: IProgramme ={...emission,
+                      when: Array.isArray(emission.when) ? emission.when : [emission.when],
+                    }
+                    return (
+                      <SelectItem key={emissionNorm.id} value={emissionNorm.id}>
+                        {emissionNorm.nom}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
             </div>

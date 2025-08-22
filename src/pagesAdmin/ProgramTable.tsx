@@ -8,43 +8,14 @@ import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Search, MoreHorizontal, Edit, Trash2, Clock } from "lucide-react"
+import { programmeData } from "@/data/programmeData"
 
-// Données d'exemple - à remplacer par vos données Laravel
-const mockPrograms = [
-  {
-    id: "1",
-    title: "Journal du matin",
-    day: "monday",
-    startTime: "08:00",
-    endTime: "09:00",
-    type: "live",
-    description: "Actualités du jour",
-  },
-  {
-    id: "2",
-    title: "Sport en direct",
-    day: "saturday",
-    startTime: "20:00",
-    endTime: "22:00",
-    type: "live",
-    description: "Match de football",
-  },
-  {
-    id: "3",
-    title: "Documentaire Nature",
-    day: "sunday",
-    startTime: "14:00",
-    endTime: "15:00",
-    type: "recorded",
-    description: "La vie sauvage en Afrique",
-  },
-]
 
 export function ProgramTable() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [programs] = useState(mockPrograms)
+  const [programs] = useState(programmeData)
 
-  const filteredPrograms = programs.filter((program) => program.title.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredPrograms = programs.filter((program) => program.nom.toLowerCase().includes(searchTerm.toLowerCase()))
 
   const getDayLabel = (day: string) => {
     const days = {
@@ -111,16 +82,16 @@ export function ProgramTable() {
           <TableBody>
             {filteredPrograms.map((program) => (
               <TableRow key={program.id}>
-                <TableCell className="font-medium">{program.title}</TableCell>
-                <TableCell>{getDayLabel(program.day)}</TableCell>
+                <TableCell className="font-medium">{program.nom}</TableCell>
+                <TableCell>{getDayLabel(program.when.join(", "))}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1">
                     <Clock className="h-4 w-4 text-gray-500" />
-                    {program.startTime} - {program.endTime}
+                    {program.starting} - {program.ending}
                   </div>
                 </TableCell>
                 <TableCell>
-                  <Badge className={getTypeColor(program.type)}>{getTypeLabel(program.type)}</Badge>
+                  <Badge className={getTypeColor(program.genre)}>{getTypeLabel(program.genre)}</Badge>
                 </TableCell>
                 <TableCell className="max-w-xs truncate">{program.description}</TableCell>
                 <TableCell>

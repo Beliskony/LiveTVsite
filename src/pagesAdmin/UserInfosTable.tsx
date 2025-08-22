@@ -1,14 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Edit, Trash2, Eye, Search, Filter } from "lucide-react"
-import type { IUser } from "@/interfaces/User"
+import { Search } from "lucide-react"
 import { mockUsers } from "@/data/mockUser"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 
