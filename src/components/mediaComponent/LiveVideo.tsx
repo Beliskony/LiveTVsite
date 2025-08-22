@@ -1,8 +1,35 @@
-import React from "react"
+import { useState, useEffect } from "react"
+import type { ILive } from "@/interfaces/Live"
 import { liveData } from "@/data/liveData"
 
 const LiveVideo = () => {
   const live = liveData
+
+  const [lives, setLives] = useState<ILive | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+
+
+  
+{/*  useEffect(() => {
+    const fetchLive = async () => {
+      try {
+        const res = await fetch("http://api.yeshouatv.com/api/live") // 🔁 adapte à ton endpoint Laravel
+        if (!res.ok) throw new Error("Erreur lors du chargement du live")
+        const data: ILive = await res.json()
+        setLives(data)
+      } catch (err) {
+        console.error(err)
+        setError("Impossible de charger le live pour le moment.")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchLive()
+  }, []) */}
+
+  //supprimer liveData et live par lives partout
 
   return (
     <div className="w-full h-full flex flex-col lg:flex-row lg:p-16 xl:p-16 gap-4 justify-center items-center">

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useParams, Navigate } from "react-router-dom"
 import { Calendar, Clapperboard, Clock} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
@@ -22,6 +22,10 @@ function getEmissionById(id: string): IProgramme | undefined {
 export default function SingleProgrammePage() {
   const { id } = useParams<{ id: string }>()
   const emission = id ? getEmissionById(id) : undefined
+  const [allVideos, setAllVideos] = useState<IVideo[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+
 
   if (!emission) {
     return null //<Navigate to="/404" replace />
@@ -66,6 +70,25 @@ export default function SingleProgrammePage() {
   })
 
 
+ {/*  useEffect(() => {
+   fetch("http://api.yeshouatv.com/api/videos")
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Erreur réseau")
+      }
+      return res.json()
+    })
+    .then((data: IVideo[]) => {
+      const formatted = data.map(video => ({
+        ...video,
+        createdAt: new Date(video.createdAt),
+      }))
+      setAllVideos(formatted)
+    })
+    .catch(() => setError("Erreur lors du chargement des vidéos"))
+    .finally(() => setLoading(false))
+  }, []) 
+  */}
 
 
   return (

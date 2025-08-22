@@ -14,4 +14,18 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src")
     },
   },
+   build: {
+    // Augmente la limite d'avertissement si nécessaire
+    chunkSizeWarningLimit: 1000, // 1000 kB au lieu de 500 kB
+
+    rollupOptions: {
+      output: {
+        // Crée des chunks séparés pour les librairies volumineuses
+        manualChunks: {
+          react: ['react', 'react-dom'],
+          lucide: ['lucide-react'],
+        },
+      },
+    },
+  },
 })

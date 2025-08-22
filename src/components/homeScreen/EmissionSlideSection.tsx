@@ -1,10 +1,29 @@
 //import { useState } from "react";
 //import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { useEffect, useState } from "react";
 import { programmeData } from "@/data/programmeData";
 import EmissionCarousel from "../mediaComponent/Emission-carousel";
 
 export const EmissionSlideSection = () => {
     //const [isHovered, setIsHoverred] = useState(false)
+      //--- Fetch backend ---
+{/*  useEffect(() =>{
+    const fetcEmissions = async () => {
+      try {
+        const response = await fetch("https://api.yeshouatv.com/api/programmes")
+        if (!response.ok) throw new Error ("Erreur lors de la récupération des programmes")
+        const data: IProgramme[] = await response.json()
+        setEmissions(data)
+
+      } catch (error) {
+        console.error(error)
+      } finally{
+        setLoading(false)
+      }
+    }
+    fetcEmissions()
+  }, []) */}
+  
     return(
           <div className="flex flex-col items-start justify-start p-6 w-full gap-y-2.5 ">
             {/*la partie des videos recommander*/}

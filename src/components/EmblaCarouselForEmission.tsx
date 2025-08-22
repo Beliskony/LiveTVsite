@@ -6,14 +6,14 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCallback, useEffect, useState, useRef } from "react"
 import { programmeData } from "@/data/programmeData"
+import type { IProgramme } from "@/interfaces/Programme"
 
 export function EmissionCarouselForEmission() {
+  const [emissions, setEmissions] = useState<IProgramme[]>([])
+  const [loading, setLoading] = useState(true)
+
   const autoplay = useRef(
-    Autoplay({
-      delay: 4000,
-      stopOnInteraction: true,
-      playOnInit: true,
-    })
+    Autoplay({ delay: 4000, stopOnInteraction: true, playOnInit: true })
   )
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 4000, stopOnInteraction: true })])
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -62,6 +62,25 @@ export function EmissionCarouselForEmission() {
     emblaApi.on("reInit", onInit)
     emblaApi.on("select", onSelect)
   }, [emblaApi, onInit, onSelect])
+
+
+  //--- Fetch backend ---
+{/*  useEffect(() =>{
+    const fetcEmissions = async () => {
+      try {
+        const response = await fetch("https://api.yeshouatv.com/api/programmes")
+        if (!response.ok) throw new Error ("Erreur lors de la récupération des programmes")
+        const data: IProgramme[] = await response.json()
+        setEmissions(data)
+
+      } catch (error) {
+        console.error(error)
+      } finally{
+        setLoading(false)
+      }
+    }
+    fetcEmissions()
+  }, []) */}
 
   return (
     <div className="relative w-full h-[600px] font-normal text-[22px] lg:h-screen md:h-[500px] overflow-hidden mt-0">

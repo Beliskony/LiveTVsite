@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 import { liveData } from "@/data/liveData";
+import type { ILive } from "@/interfaces/Live";
 import LiveVideo from "./LiveVideo";
 
 
@@ -8,6 +9,31 @@ import LiveVideo from "./LiveVideo";
 const LiveVideoComponent = () => {
    const liveVideoRef = useRef<HTMLVideoElement>(null);
    const liveProps = liveData;
+   const [lives, setLives] = useState<ILive | null>(null)
+   const [loading, setLoading] = useState(true)
+   const [error, setError] = useState("")
+
+
+ {/* useEffect(() => {
+    const fetchLive = async () => {
+      try {
+        const res = await fetch("http://api.yeshouatv.com/api/live")
+        if (!res.ok) throw new Error("Erreur lors du chargement du live")
+        const data: ILive = await res.json()
+        setLives(data)
+      } catch (err) {
+        console.error(err)
+        setError("Impossible de charger le live.")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchLive()
+  }, []) */}
+
+  //supprimer liveData et remplacer par lives du fetch
+
 
    useEffect(() => {
     if (Hls.isSupported() && liveVideoRef.current) {
