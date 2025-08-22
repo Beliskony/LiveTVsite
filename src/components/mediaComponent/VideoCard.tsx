@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { formatRelativeDate } from "@/utilitaires/FormatDate"
 import type { IVideo } from "@/interfaces/Videos"
 import { Clock } from "lucide-react"
@@ -6,17 +6,29 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 export const VideoCard = (video: IVideo) => {
-  const { title, duration, createdAt, videoUrl } = video
+  const { title, duration, createdAt, videoUrl, Miniature } = video
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
-  const [posterUrl, setPosterUrl] = useState<string | null>(null)
-  const hasCapturedRef = useRef(false) // 👈 empêche recapture
+  const [frame0Poster, setFrame0Poster] = useState<string | null>(null)
+  const [isIOS, setIsIOS] = useState(false)
+  const hasCapturedRef = useRef(false)
 
+  // Détecte si l'utilisateur est sur iOS
   useEffect(() => {
-    const videoEl = videoRef.current
-    if (!videoEl || hasCapturedRef.current) return
+    if (typeof window !== "undefined") {
+      const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent)
+      setIsIOS(isIOSDevice)
+    }
+  }, [])
 
-    const capturePoster = () => {
+  // Capture frame 0 uniquement si non-iOS
+  useEffect(() => {
+    if (isIOS || hasCapturedRef.current) return
+
+    const videoEl = videoRef.current
+    if (!videoEl) return
+
+    const captureFrame0 = () => {
       try {
         const canvas = document.createElement("canvas")
         canvas.width = videoEl.videoWidth
@@ -25,22 +37,22 @@ export const VideoCard = (video: IVideo) => {
         if (ctx) {
           ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height)
           const dataUrl = canvas.toDataURL("image/png")
-          setPosterUrl(dataUrl)
+          setFrame0Poster(dataUrl)
           hasCapturedRef.current = true
           videoEl.pause()
           videoEl.currentTime = 0
         }
       } catch (err) {
-        console.warn("Erreur lors de la capture de la frame vidéo", err)
+        console.warn("Erreur lors de la capture de la frame 0", err)
       }
     }
 
-    videoEl.addEventListener("loadeddata", capturePoster, { once: true })
+    videoEl.addEventListener("loadeddata", captureFrame0, { once: true })
 
     return () => {
-      videoEl.removeEventListener("loadeddata", capturePoster)
+      videoEl.removeEventListener("loadeddata", captureFrame0)
     }
-  }, [])
+  }, [isIOS])
 
   return (
     <Card className="group w-[350px] font-normal overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
@@ -48,7 +60,7 @@ export const VideoCard = (video: IVideo) => {
         <video
           ref={videoRef}
           src={videoUrl}
-          poster={posterUrl || undefined} // 👈 affiche frame 0 ou poster capturé
+          poster={isIOS ? Miniature : frame0Poster || undefined}
           controls
           preload="metadata"
           muted={false}
