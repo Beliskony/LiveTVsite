@@ -20,16 +20,22 @@ export const VideoCard = (video: IVideo) => {
   if (!videoEl || Miniature) return // si déjà une miniature => pas besoin
 
   const capturePoster = () => {
-    const canvas = document.createElement("canvas")
-    canvas.width = videoEl.videoWidth
-    canvas.height = videoEl.videoHeight
-    const ctx = canvas.getContext("2d")
-    if (ctx) {
-      ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height)
-      const dataUrl = canvas.toDataURL("image/png")
-      setPosterUrl(dataUrl)
+      try {
+        const canvas = document.createElement("canvas")
+        canvas.width = videoEl.videoWidth
+        canvas.height = videoEl.videoHeight
+        const ctx = canvas.getContext("2d")
+        if (ctx) {
+          ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height)
+          const dataUrl = canvas.toDataURL("image/png")
+          setPosterUrl(dataUrl)
+          videoEl.pause()
+          videoEl.currentTime = 0
+        }
+      } catch (err) {
+        console.warn("Erreur lors de la capture de la frame vidéo", err)
+      }
     }
-  }
 
   videoEl.addEventListener("loadeddata", capturePoster, { once: true })
 
@@ -48,7 +54,7 @@ export const VideoCard = (video: IVideo) => {
           src={videoUrl}
           ref={videoRef}
           controls
-          poster={posterUrl || "/placeholder.svg"}
+          poster={posterUrl ?? undefined}
           preload="metadata"
           muted={false}
           loop
