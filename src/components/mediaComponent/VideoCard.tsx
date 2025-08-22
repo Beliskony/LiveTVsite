@@ -10,14 +10,14 @@ import { Badge } from "@/components/ui/badge"
 
 export const VideoCard = (video: IVideo) => {
   
-  const { title, duration, createdAt, videoUrl, Miniature } = video;
+  const { title, duration, createdAt, videoUrl } = video;
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
-  const [posterUrl, setPosterUrl] = useState<string | null>(Miniature || null)
+  const [posterUrl, setPosterUrl] = useState<string | null>( null)
 
   useEffect(() => {
   const videoEl = videoRef.current
-  if (!videoEl || Miniature) return // si déjà une miniature => pas besoin
+  if (!videoEl) return // si déjà une miniature => pas besoin
 
   const capturePoster = () => {
       try {
@@ -42,7 +42,7 @@ export const VideoCard = (video: IVideo) => {
   return () => {
     videoEl.removeEventListener("loadeddata", capturePoster)
     }
-  }, [Miniature])
+  }, [])
   
   return (
     <>
