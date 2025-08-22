@@ -1,4 +1,4 @@
-
+import { useState, useEffect, useRef } from "react"
 import { formatRelativeDate } from "@/utilitaires/FormatDate"
 import type { IVideo } from "@/interfaces/Videos"
 import { Clock } from "lucide-react"
@@ -10,7 +10,33 @@ import { Badge } from "@/components/ui/badge"
 
 export const VideoCard = (video: IVideo) => {
   
-  const { title, duration, createdAt, videoUrl, } = video;
+  const { title, duration, createdAt, videoUrl, Miniature } = video;
+
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const [posterUrl, setPosterUrl] = useState<string | null>(Miniature || null)
+
+  useEffect(() => {
+  const videoEl = videoRef.current
+  if (!videoEl || Miniature) return // si déjà une miniature => pas besoin
+
+  const capturePoster = () => {
+    const canvas = document.createElement("canvas")
+    canvas.width = videoEl.videoWidth
+    canvas.height = videoEl.videoHeight
+    const ctx = canvas.getContext("2d")
+    if (ctx) {
+      ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height)
+      const dataUrl = canvas.toDataURL("image/png")
+      setPosterUrl(dataUrl)
+    }
+  }
+
+  videoEl.addEventListener("loadeddata", capturePoster, { once: true })
+
+  return () => {
+    videoEl.removeEventListener("loadeddata", capturePoster)
+    }
+  }, [Miniature])
   
   return (
     <>
@@ -20,7 +46,9 @@ export const VideoCard = (video: IVideo) => {
         
         <video
           src={videoUrl}
+          ref={videoRef}
           controls
+          poster={posterUrl || "/placeholder.svg"}
           preload="metadata"
           muted={false}
           loop
