@@ -67,7 +67,7 @@ export function ArticleFilters({
 
         {/* Category Filter */}
         <Select value={activeFilters.category} onValueChange={onCategoryChange}>
-          <SelectTrigger className="w-[160px] max-sm:w-32 border rounded-md shadow bg-white">
+          <SelectTrigger className="w-[160px] max-sm:w-32 border rounded-md bg-white">
             <SelectValue placeholder="Catégorie" />
           </SelectTrigger>
           <SelectContent>

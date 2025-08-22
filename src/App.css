@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@600&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -8,6 +9,15 @@
     height: 900px;
   }
 }
+
+
+.sora {
+  font-family: "Sora", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
 
 /* Scrollbar personnalisée */
 .custom-scrollbar::-webkit-scrollbar {
@@ -158,5 +168,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Sora", sans-serif;
+    font-weight: 600;
   }
 }

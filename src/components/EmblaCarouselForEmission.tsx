@@ -64,7 +64,7 @@ export function EmissionCarouselForEmission() {
   }, [emblaApi, onInit, onSelect])
 
   return (
-    <div className="relative w-full h-[600px] lg:h-screen md:h-[500px] overflow-hidden mt-0">
+    <div className="relative w-full h-[600px] font-normal text-[22px] lg:h-screen md:h-[500px] overflow-hidden mt-0">
       {/* Carousel */}
       <div
         className="embla h-full"

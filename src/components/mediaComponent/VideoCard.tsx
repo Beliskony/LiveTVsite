@@ -15,7 +15,7 @@ export const VideoCard = (video: IVideo) => {
   return (
     <>
     <Card
-       className="group w-[350px] overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+       className="group w-[350px] font-normal overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
       <div className="relative aspect-video overflow-hidden">
         
         <video
@@ -45,7 +45,7 @@ export const VideoCard = (video: IVideo) => {
           )}
         </div>
         {/* Title */}
-        <h3 className="text-wrap text-sm leading-tight line-clamp-2 font-extrabold transition-colors">
+        <h3 className="text-wrap truncate text-sm leading-tight line-clamp-2 font-extrabold transition-colors">
           {title}
         </h3>
 
