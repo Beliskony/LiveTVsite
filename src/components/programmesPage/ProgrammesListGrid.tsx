@@ -23,7 +23,7 @@ export function ProgrammesGrid() {
       setLoading(true)
 
       try {
-        const res = await fetch("http://api.yeshouatv.com/api/programmes")
+        const res = await fetch("https://api.yeshouatv.com/api/programmes")
         if (!res.ok) throw new Error("Erreur lors du chargement des programmes")
 
           const data: IProgramme[] = await res.json()

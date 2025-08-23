@@ -22,7 +22,7 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
     password: "",
   })
@@ -38,11 +38,11 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
       if (isLogin) {
         success = await login(formData.email, formData.password)
       } else {
-        success = await register(formData.email, formData.password, formData.fullName)
+        success = await register(formData.email, formData.password, formData.name)
       }
 
       if (success) {
-        setFormData({ fullName: "", email: "", password: "" })
+        setFormData({ name: "", email: "", password: "" })
         onClose()
       }
     } catch (error) {
@@ -50,7 +50,7 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
     }
   }
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: "name" | "email" | "password", value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
 
     if (field === "password") {
@@ -70,7 +70,7 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
       />
 
       {/* Modal */}
-      <Card className="relative w-full max-w-md bg-white shadow-2xl animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
+      <Card className="relative p-4 w-full max-w-md bg-white shadow-2xl animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
         {/* Close button */}
         <button
           onClick={onClose}
@@ -101,8 +101,8 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
                   id="fullName"
                   type="text"
                   placeholder="Votre nom complet"
-                  value={formData.fullName}
-                  onChange={(e) => handleInputChange("fullName", e.target.value)}
+                  value={formData.name}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
                   className="h-11 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 transition-all duration-200"
                   required={!isLogin}
                 />

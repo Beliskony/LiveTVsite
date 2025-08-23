@@ -71,7 +71,7 @@ export default function SingleProgrammePage() {
 
 
  {/*  useEffect(() => {
-   fetch("http://api.yeshouatv.com/api/videos")
+   fetch("https://api.yeshouatv.com/api/videos")
     .then((res) => {
       if (!res.ok) {
         throw new Error("Erreur réseau")

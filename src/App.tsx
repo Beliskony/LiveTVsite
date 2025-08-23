@@ -10,6 +10,7 @@ import ArticlesListePage from './pages/ArticlesListePage';
 import SingleArticlePage from './pages/SingleArticle';
 import { ContactTV } from './pages/ContactTV';
 import SingleProgrammePage from './pages/SingleProgrammePage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
   return (
@@ -24,7 +25,11 @@ export default function App() {
         <Route path="/egliseYeshoua/articles" element={<ArticlesListePage />} />
         <Route path="/egliseYeshoua/articles/:id" element={<SingleArticlePage  />} />
         <Route path="/egliseYeshoua/presentation" element={<PresentationEglise />} />
-        <Route path="/admin" element={<Admin />} />
+        
+        <Route path="/admin" element={
+          <ProtectedRoute element={<Admin />} />
+           } />
+           
       </Routes>
     </Router>
    </AuthProvider>

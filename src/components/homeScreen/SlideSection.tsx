@@ -15,8 +15,8 @@ export const SlideSection = (valeur: optionShow) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
-  useEffect(() => {
-    fetch("http://api.yeshouatv.com/api/videos")
+{/*  useEffect(() => {
+    fetch("https://api.yeshouatv.com/api/videos")
      .then((res) => res.json())
      .then((data: IVideo[]) =>{ const formatted = data.map(video => ({...video, createdAt: new Date(video.createdAt), 
      }))
@@ -24,7 +24,7 @@ export const SlideSection = (valeur: optionShow) => {
     })
     .catch(() => setError("Erreur lors du chargement des videos"))
     .finally(() => setLoading(false)) 
-  }, [])
+  }, []) */}
 
     return(
           <div className="flex flex-col items-start justify-start p-6 max-sm:p-0.5 max-sm:mb-3 w-full space-y-2.5">
