@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { X, Eye, EyeOff, Loader2 } from "lucide-react"
 import { useAuth } from "./auth-context"
-import { set } from "date-fns"
+
 
 interface AuthModalProps {
   isOpen: boolean
@@ -33,22 +33,23 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
     e.preventDefault()
 
     try {
-      let success = false
+      const user = isLogin
+        ? await login(formData.email, formData.password)
+        : await register(formData.email, formData.password, formData.name)
 
-      if (isLogin) {
-        success = await login(formData.email, formData.password)
-      } else {
-        success = await register(formData.email, formData.password, formData.name)
+      if (!user) {
+        setError(isLogin
+          ? "Email ou mot de passe incorrect."
+          : "Erreur lors de la création du compte.")
+        return
       }
 
-      if (success) {
-        setFormData({ name: "", email: "", password: "" })
-        onClose()
-      }
-    } catch (error) {
-      console.error("Authentication error:", error)
+      onClose()
+    } catch (err: any) {
+      console.error("Authentication error:", err)
+      setError(err?.message || "Une erreur inattendue est survenue.")
     }
-  }
+   }
 
   const handleInputChange = (field: "name" | "email" | "password", value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))

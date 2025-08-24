@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react"
 import { EmissionCard } from "../mediaComponent/EmissionCard"
 import { PaginationArticle } from "../articlesPage/PaginationArticle"
-import { programmeData } from "@/data/programmeData"
 import type { IProgramme } from "@/interfaces/Programme"
-import { data } from "react-router-dom"
+
 
 
 const ITEMS_PER_PAGE = 9
@@ -14,16 +13,16 @@ export function ProgrammesGrid() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
-  const totalPages = Math.ceil(programmeData.length / ITEMS_PER_PAGE)
+  const totalPages = Math.ceil(programmes.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-  const paginatedProgramme = programmeData.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+  const paginatedProgramme = programmes.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
- {/* useEffect(() => {
+ useEffect(() => {
     const fetchProgrammes = async () => {
       setLoading(true)
 
       try {
-        const res = await fetch("https://api.yeshouatv.com/api/programmes")
+        const res = await fetch("https://api.yeshouatv.com/api/list_programmes")
         if (!res.ok) throw new Error("Erreur lors du chargement des programmes")
 
           const data: IProgramme[] = await res.json()
@@ -37,7 +36,7 @@ export function ProgrammesGrid() {
       }
     }
       fetchProgrammes()
-  }, [])*/}
+  }, [])
 
   //remplacer programmeData par programmes partout
 
@@ -61,7 +60,7 @@ export function ProgrammesGrid() {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
-        totalItems={programmeData.length}
+        totalItems={programmes.length}
         itemsPerPage={ITEMS_PER_PAGE}
       />
     </section>

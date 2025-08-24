@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -8,14 +8,36 @@ import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Search, MoreHorizontal, Edit, Trash2, Clock } from "lucide-react"
-import { programmeData } from "@/data/programmeData"
+import type { IProgramme } from "@/interfaces/Programme"
 
 
 export function ProgramTable() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [programs] = useState(programmeData)
+  const [programmes, setProgrammes] = useState<IProgramme[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const filteredPrograms = programs.filter((program) => program.nom.toLowerCase().includes(searchTerm.toLowerCase()))
+  useEffect(() => {
+  const fetchProgrammes = async () => {
+    setLoading(true)
+    try {
+      const res = await fetch("https://api.yeshouatv.com/api/list_programmes")
+      if (!res.ok) throw new Error("Erreur lors du chargement des programmes")
+      const data: IProgramme[] = await res.json()
+      setProgrammes(data)
+    } catch (error) {
+      setError("Erreur lors du chargement des programmes")
+      console.error("Erreur Api: ", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+  fetchProgrammes()
+}, [])
+
+const filteredPrograms = programmes.filter((program) =>
+  program.nom.toLowerCase().includes(searchTerm.toLowerCase())
+)
 
   const getDayLabel = (day: string) => {
     const days = {
@@ -68,6 +90,11 @@ export function ProgramTable() {
       </CardHeader>
       <CardContent>
        <div className="rounded-md border mb-2">
+        {loading ?(
+                 <div className="flex justify-center py-8">
+                  <div className="w-8 h-8 border-4 border-gray-300 border-t-gray-100 rounded-full animate-spin" />
+                </div>
+            ) : (
         <Table>
           <TableHeader>
             <TableRow>
@@ -116,7 +143,8 @@ export function ProgramTable() {
               </TableRow>
             ))}
           </TableBody>
-        </Table>
+        </Table> 
+      )}
        </div>
       </CardContent>
     </Card>
