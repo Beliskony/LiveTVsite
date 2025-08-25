@@ -4,7 +4,7 @@ import { ProgrammesGrid } from '@/components/programmesPage/ProgrammesListGrid'
 
 export const Programmes = () => {
   return (
-    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
+    <div className="h-screen flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
 
         <section className="z-10">
           <Header />

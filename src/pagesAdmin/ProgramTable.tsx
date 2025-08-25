@@ -11,20 +11,44 @@ import { Search, MoreHorizontal, Edit, Trash2, Clock } from "lucide-react"
 import type { IProgramme } from "@/interfaces/Programme"
 
 
-export function ProgramTable() {
+interface ProgramTableProps {
+  onEdit: (program: IProgramme) => void
+  programmes: IProgramme[];
+}
+
+export function ProgramTable({ onEdit}: ProgramTableProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [programmes, setProgrammes] = useState<IProgramme[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  
 
   useEffect(() => {
   const fetchProgrammes = async () => {
     setLoading(true)
     try {
-      const res = await fetch("https://api.yeshouatv.com/api/list_programmes")
-      if (!res.ok) throw new Error("Erreur lors du chargement des programmes")
-      const data: IProgramme[] = await res.json()
-      setProgrammes(data)
+      const token = localStorage.getItem("token")
+      const res = await fetch("https://api.yeshouatv.com/api/list_programmes",{
+        method: "GET",
+        headers: {Authorization: `Bearer ${token}`}
+      })
+      if (!res.ok) {
+        const errorText = await res.text()
+        console.error("Erreur API:", errorText)
+      throw new Error("Erreur lors du chargement des programmes")
+    }
+      const result = await res.json()
+
+      if (!Array.isArray(result.data)) {
+        throw new Error("La réponse API ne contient pas un tableau de programmes.")
+      }
+      // Transformer la string 'when' en tableau string[]
+      const programmesWithArrayWhen = result.data.map((prog: any) => ({
+        ...prog,
+        when: typeof prog.when === "string" ? prog.when.split(",").map((d: string) => d.trim()) : prog.when,
+      }));
+
+      setProgrammes(programmesWithArrayWhen);
     } catch (error) {
       setError("Erreur lors du chargement des programmes")
       console.error("Erreur Api: ", error)
@@ -34,6 +58,59 @@ export function ProgramTable() {
   }
   fetchProgrammes()
 }, [])
+
+const updateProgramme = async (id: string, updatedData: Partial<IProgramme>) => {
+  try {
+    const token = localStorage.getItem("token")
+    const res = await fetch(`https://api.yeshouatv.com/api/programmes/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(updatedData)
+    })
+
+    if (!res.ok) {
+      const errorText = await res.text()
+      console.error("Erreur API PUT:", errorText)
+      throw new Error("Erreur lors de la mise à jour du programme")
+    }
+
+    const result = await res.json()
+    console.log("Programme mis à jour:", result)
+    return result
+  } catch (error) {
+    console.error("Erreur lors du PUT:", error)
+    throw error
+  }
+}
+
+
+const deleteProgramme = async (id: string) => {
+  try {
+    const token = localStorage.getItem("token")
+    const res = await fetch(`https://api.yeshouatv.com/api/programmes/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    if (!res.ok) {
+      const errorText = await res.text()
+      console.error("Erreur API DELETE:", errorText)
+      throw new Error("Erreur lors de la suppression du programme")
+    }
+
+    console.log("Programme supprimé avec succès")
+  } catch (error) {
+    console.error("Erreur lors du DELETE:", error)
+    throw error
+  }
+}
+
+
 
 const filteredPrograms = programmes.filter((program) =>
   program.nom.toLowerCase().includes(searchTerm.toLowerCase())
@@ -129,11 +206,14 @@ const filteredPrograms = programmes.filter((program) =>
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onEdit(program)}>
                         <Edit className="h-4 w-4 mr-2" />
                         Modifier
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-600">
+                      <DropdownMenuItem className="text-red-600" 
+                      onClick={() => {
+                        deleteProgramme(program.id).catch(()=> alert("Erreur lors de la suppression"))
+                      }}>
                         <Trash2 className="h-4 w-4 mr-2" />
                         Supprimer
                       </DropdownMenuItem>

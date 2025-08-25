@@ -1,4 +1,4 @@
-import { type JSX } from "react"
+import { useState, useEffect, type JSX } from "react"
 import { Navigate } from "react-router-dom"
 import { useAuth } from "./auth-context"
 
@@ -8,14 +8,24 @@ type ProtectedRouteProps = {
 }
 
 const ProtectedRoute = ({ element, requiredRole }: ProtectedRouteProps) => {
-  const { isAuthenticated, user } = useAuth()
+  const { isAuthenticated, user, loading } = useAuth()
+
+
+    if (loading) {
+    // Pendant que l'auth se charge, on peut afficher un loader ou rien
+    return (
+       <div className="flex justify-center py-8">
+          <div className="w-8 h-8 border-4 border-gray-300 border-t-gray-100 rounded-full animate-spin" />
+        </div>
+    )
+  }
 
   if (!isAuthenticated) {
-    return <Navigate to="/home" replace />
+    return <Navigate to="/" replace />
   }
 
   if (requiredRole && user?.role !== requiredRole) {
-    return <Navigate to="/home" replace />
+    return <Navigate to="/" replace />
   }
 
   return element

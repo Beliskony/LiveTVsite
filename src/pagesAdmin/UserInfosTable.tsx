@@ -1,24 +1,48 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Search } from "lucide-react"
-import { mockUsers } from "@/data/mockUser"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 
-
-
 export function UserInfoTable() {
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
+  const [users, setUsers] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
 
-  const filteredUsers = mockUsers.filter((users) => {
-    return(
-      users.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      users.name.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setLoading(true)
+      try {
+        const token = localStorage.getItem("token")
+        const res = await fetch("https://api.yeshouatv.com/api/users", {
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+        })
+        if (!res.ok) throw new Error("Erreur lors du chargement des utilisateurs")
+        const data = await res.json()
+        setUsers(data)
+      } catch (error) {
+        console.error(error)
+        setUsers([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchUsers()
+  }, [])
+
+  const filteredUsers = users.filter((user) => {
+    return (
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
   })
 
@@ -29,8 +53,6 @@ export function UserInfoTable() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   )
-
-
 
   return (
     <Card className="px-0 py-4 md:p-4 lg:p-4 xl:p-4">
@@ -62,11 +84,9 @@ export function UserInfoTable() {
             <TableBody>
               {paginatedUsers.map((user) => (
                 <TableRow key={user.id}>
-
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.password}</TableCell>
-
                 </TableRow>
               ))}
             </TableBody>
@@ -75,15 +95,19 @@ export function UserInfoTable() {
 
         {filteredUsers.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-muted-foreground">Aucun article trouvé</p>
+            <p className="text-muted-foreground">Aucun utilisateur trouvé</p>
           </div>
         )}
-
+        {loading && (
+          <div className="text-center py-4">
+            <p className="text-muted-foreground">Chargement...</p>
+          </div>
+        )}
       </CardContent>
 
-     <div className="ml-5 max-sm:ml-0">
-       {/* Pagination */}
-        <PaginationArticle 
+      <div className="ml-5 max-sm:ml-0">
+        {/* Pagination */}
+        <PaginationArticle
           currentPage={currentPage}
           totalPages={totalPages}
           totalItems={totalItems}

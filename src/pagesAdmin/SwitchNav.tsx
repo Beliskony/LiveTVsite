@@ -37,7 +37,7 @@ const ChoixMenu = () => {
 
     return (
         <div className=" flex flex-col w-full p-5 md:p-7 lg:p-10 gap-x-2 items-center">
-            <div className="lg:flex lg:flex-row xl:flex xl:flex-row grid grid-cols-2 w-full lg:h-10 xl:h-10 my-5 lg:w-[500px] xl:w-[900px] mt-20
+            <div className="lg:flex lg:flex-row xl:flex xl:flex-row grid grid-cols-2 w-full lg:h-10 xl:h-10 my-5 lg:w-[700px] xl:w-[900px] mt-20
             xl:space-x-9 space-x-0 p-3 justify-center items-center bg-gray-300 rounded-2xl">
                 
                 {/*La navigation*/}

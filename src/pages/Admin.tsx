@@ -5,7 +5,7 @@ import ChoixMenu from '../pagesAdmin/SwitchNav'
 
 function Admin() {
   return (
-    <div className="h-full bg-gray-200">
+    <div className="h-screen bg-gray-200">
     
             <section>
               <Header />

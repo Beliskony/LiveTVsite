@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,7 +12,8 @@ import { CheckCircle, X } from "lucide-react"
 import { ImageSelector } from "./ImageSelector"
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover"
 import { Checkbox } from "@/components/ui/checkbox"
-
+import { useAuth } from "@/components/auth-context"
+import type { IProgramme } from "@/interfaces/Programme"
 interface ProgramFormProps {
   onClose: () => void
   program?: {
@@ -24,15 +24,20 @@ interface ProgramFormProps {
     starting: string
     ending: string
     genre: string
-    couverture:string
+    couverture: string
   }
+
+
 }
 
 export function ProgramForm({ onClose, program }: ProgramFormProps) {
+  // Initialise day from program.when CSV string or empty array
+  const initialDays = program?.when ? program.when.split(",") : []
+
   const [formData, setFormData] = useState({
     title: program?.nom || "",
     description: program?.description || "",
-    day: [] as string[],
+    day: initialDays,
     startTime: program?.starting || "",
     endTime: program?.ending || "",
     type: program?.genre || "",
@@ -41,6 +46,8 @@ export function ProgramForm({ onClose, program }: ProgramFormProps) {
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const { user } = useAuth()
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
 
   const days = [
     { value: "monday", label: "Lundi" },
@@ -55,7 +62,7 @@ export function ProgramForm({ onClose, program }: ProgramFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
+
     try {
       const payload = new FormData()
       payload.append("nom", formData.title)
@@ -67,30 +74,46 @@ export function ProgramForm({ onClose, program }: ProgramFormProps) {
 
       if (selectedImageFile) payload.append("couverture", selectedImageFile)
 
-      const response = await fetch(program? `http://api.yeshouatv.com/api/programmes/${program.id}` : "http://localhost:8000/api/programmes", {
-        method: program ? "PUT" : "POST",
+      // Choix de l'URL et méthode selon création ou modification
+      const url = program?.id
+        ? `http://api.yeshouatv.com/api/update_programme/${program.id}`
+        : "http://api.yeshouatv.com/api/add_programme"
+      const method = program?.id ? "PUT" : "POST"
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          Authorization: `Bearer ${token ?? ""}`,
+          // Ne pas définir 'Content-Type' avec FormData, le navigateur le gère
+        },
         body: payload,
       })
 
-       if (!response.ok) throw new Error("Erreur lors de l'envoi")
+      const text = await response.text()
+      console.log("Status:", response.status)
+      console.log("Response body:", text)
+
+      if (!response.ok) throw new Error("Erreur lors de l'envoi")
 
       setIsSuccess(true)
+      
       setTimeout(onClose, 3000)
     } catch (error) {
       console.error(error)
+      alert("Une erreur est survenue lors de l'envoi du formulaire.")
     } finally {
       setIsSubmitting(false)
     }
   }
 
-    if (isSuccess) {
+  if (isSuccess) {
     return (
       <Card className="mb-6">
         <CardContent className="pt-6">
           <div className="text-center space-y-4">
             <CheckCircle className="h-16 w-16 text-green-500 mx-auto" />
             <h3 className="text-xl font-semibold text-green-700">Programme enregistré !</h3>
-            <p className="text-gray-600">Le programme "{formData.title}" a été ajouté.</p>
+            <p className="text-gray-600">Le programme "{formData.title}" a été {program ? "modifié" : "ajouté"}.</p>
             <Button onClick={onClose} className="mt-4">
               Fermer
             </Button>
@@ -151,25 +174,36 @@ export function ProgramForm({ onClose, program }: ProgramFormProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label htmlFor="days">Jours</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start">
-                      {formData.day.length > 0 ? days
-                       .filter((d) => formData.day.includes(d.value)).map((d) => d.label).join(", ") : "Sélectionnez des jours"}
-                    </Button>
-                  </PopoverTrigger>
+              <Popover>
+                <PopoverTrigger asChild className="z-50">
+                  <Button variant="outline" className="w-full justify-start">
+                    {formData.day.length > 0
+                      ? days
+                          .filter((d) => formData.day.includes(d.value))
+                          .map((d) => d.label)
+                          .join(", ")
+                      : "Sélectionnez des jours"}
+                  </Button>
+                </PopoverTrigger>
                 <PopoverContent className="w-64 bg-white">
                   <div className="space-y-2 bg-white shadow p-2">
                     {days.map((day) => (
-                    <div key={day.value} className="flex items-center space-x-2">
-                      <Checkbox id={day.value} checked={formData.day.includes(day.value)} onCheckedChange={(checked) => {
-                        setFormData((prev) => { const updatedDays = checked ? [...prev.day, day.value] : prev.day.filter((d) => d !== day.value)
-                          return { ...prev, day: updatedDays }
-                    })
-                    }}/>
-                    <Label htmlFor={day.value}>{day.label}</Label>
-                    </div>
-                   ))}
+                      <div key={day.value} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={day.value}
+                          checked={formData.day.includes(day.value)}
+                          onCheckedChange={(checked) => {
+                            setFormData((prev) => {
+                              const updatedDays = checked
+                                ? [...prev.day, day.value]
+                                : prev.day.filter((d) => d !== day.value)
+                              return { ...prev, day: updatedDays }
+                            })
+                          }}
+                        />
+                        <Label htmlFor={day.value}>{day.label}</Label>
+                      </div>
+                    ))}
                   </div>
                 </PopoverContent>
               </Popover>
@@ -206,7 +240,9 @@ export function ProgramForm({ onClose, program }: ProgramFormProps) {
             <Button type="button" variant="outline" onClick={onClose}>
               Annuler
             </Button>
-            <Button type="submit">{isSubmitting ? "Envoi..." : program ? "Mettre à jour" : "Ajouter le programme"}</Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? (program ? "Modification en cours..." : "Envoi en cours...") : program ? "Modifier le programme" : "Ajouter le programme"}
+            </Button>
           </div>
         </form>
       </CardContent>

@@ -3,98 +3,129 @@ import type { IUser } from "@/interfaces/User"
 import type { AuthContextType } from "@/hooks/auth-contextInterface"
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 
-
-const API_URL = "https://api.yeshouatv.com/api" // Ton URL backend Laravel
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<IUser | null>(null)
   const [loading, setLoading] = useState(false)
+  const [token, setToken] = useState<string | null>(null)
 
-    // Fonction utilitaire pour stocker / retirer l'utilisateur
   const saveUserToLocal = (user: IUser) => localStorage.setItem("user", JSON.stringify(user))
   const removeUserFromLocal = () => localStorage.removeItem("user")
 
- // Récupérer l'utilisateur connecté au démarrage
+  const fetchUser = async (tokenToUse: string) => {
+    setLoading(true)
+    try {
+      const res = await fetch(`https://api.yeshouatv.com/api/user`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${tokenToUse}`,
+        },
+      })
+
+      if (!res.ok) {
+        console.warn("Échec récupération user (token expiré ?)", res.status)
+        setUser(null)
+        removeUserFromLocal()
+        localStorage.removeItem("token")
+        return null
+      }
+
+      const result = await res.json()
+      setUser(result.data)
+      saveUserToLocal(result.data)
+      setToken(tokenToUse)
+      return result.data
+    } catch (error) {
+      console.error("Erreur lors du fetch user :", error)
+      setUser(null)
+      removeUserFromLocal()
+      localStorage.removeItem("token")
+      return null
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
+    const storedToken = localStorage.getItem("token")
     const savedUser = localStorage.getItem("user")
+
     if (savedUser) {
       setUser(JSON.parse(savedUser))
     }
 
-    const fetchUser = async () => {
-      setLoading(true)
-      try {
-        const res = await fetch(`${API_URL}/user`, {
-          credentials: "include",
-        })
-
-        if (!res.ok) {
-          setUser(null)
-          removeUserFromLocal()
-          return
-        }
-
-        const data = await res.json()
-        setUser(data)
-        saveUserToLocal(data)
-      } catch (error) {
-        console.error("Erreur lors du fetch user :", error)
-        setUser(null)
-        removeUserFromLocal()
-      } finally {
-        setLoading(false)
-      }
+    if (storedToken) {
+      setToken(storedToken)
+      fetchUser(storedToken)
     }
-
-    fetchUser()
   }, [])
-
 
   const login = async (email: string, password: string): Promise<IUser | null> => {
     setLoading(true)
-   try {
-        const reponse = await fetch (`${API_URL}/login`,{
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            credentials: "include",
-            body: JSON.stringify({ email, password }),
-        })
-        if (!reponse.ok) throw new Error("Échec de connexion")
+    try {
+      const res = await fetch(`https://api.yeshouatv.com/api/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      })
 
-       // Récupérer l'utilisateur après login
-        const userRes = await fetch(`${API_URL}/user`, { credentials: "include" })
-        const userData = await userRes.json()
-          setUser(userData)
-          saveUserToLocal(userData)
+      if (!res.ok) {
+        const errorText = await res.text()
+        console.error("Échec de connexion :", errorText)
+        throw new Error("Échec de connexion")
+      }
 
-            return userData
-          } catch (error) {
-            console.error("Erreur login :", error)
-            return null
-          } finally {
-          setLoading(false)
-          }
-        }
+      const data = await res.json()
+      const token = data.token
 
- const register = async (name: string, email: string, password: string): Promise<IUser | null> => {
+      if (!token) throw new Error("Token manquant dans la réponse")
+
+      localStorage.setItem("token", token)
+      setToken(token)
+
+      // Aller chercher l'utilisateur avec le token
+      const fecthedUser = await fetchUser(token)
+      return fecthedUser
+    } catch (error) {
+      console.error("Erreur login :", error)
+      return null
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const register = async (name: string, email: string, password: string): Promise<IUser | null> => {
     setLoading(true)
     try {
-      const res = await fetch(`${API_URL}/register`, {
+      const res = await fetch(`https://api.yeshouatv.com/api/register`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
         body: JSON.stringify({ name, email, password }),
       })
-      if (!res.ok) throw new Error("Échec d'inscription")
 
-      // Récupérer l'utilisateur après register
-      const userRes = await fetch(`${API_URL}/user`, { credentials: "include" })
-      const userData = await userRes.json()
-      setUser(userData)
-      saveUserToLocal(userData)
-      return userData
+      if (!res.ok) {
+        const errorText = await res.text()
+        console.error("Échec d'inscription :", errorText)
+        throw new Error("Échec d'inscription")
+      }
+
+      const data = await res.json()
+      const token = data.token
+
+      if (!token) throw new Error("Token manquant après inscription")
+
+      localStorage.setItem("token", token)
+      setToken(token)
+
+      const fetchedUser = await fetchUser(token)
+      return fetchedUser
     } catch (error) {
       console.error("Erreur register :", error)
       return null
@@ -103,25 +134,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-
-
-   // Déconnexion
   const logout = async () => {
-    const token = localStorage.getItem("token")
-
     try {
-      await fetch(`${API_URL}/logout`, {
+      await fetch(`https://api.yeshouatv.com/api/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          credentials: "include",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
         },
       })
     } catch (error) {
       console.error("Erreur logout :", error)
     } finally {
       setUser(null)
+      setToken(null)
       removeUserFromLocal()
+      localStorage.removeItem("token")
     }
   }
 
@@ -135,7 +164,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loading,
   }
 
-
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
@@ -146,5 +174,3 @@ export function useAuth() {
   }
   return context
 }
-
-

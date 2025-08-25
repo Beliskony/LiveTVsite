@@ -31,11 +31,18 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
+
+    const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email)
+      if (!isValidEmail(formData.email)) {
+    setError("Veuillez entrer une adresse email valide.")
+    return
+  }
 
     try {
       const user = isLogin
         ? await login(formData.email, formData.password)
-        : await register(formData.email, formData.password, formData.name)
+        : await register(formData.name, formData.email, formData.password)
 
       if (!user) {
         setError(isLogin
