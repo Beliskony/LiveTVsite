@@ -28,7 +28,7 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
     description: video?.description || "",
     duration: video?.duration || "",
     thumbnail: video?.Miniature || "",
-    emissionId: video?.emissionId || ""
+    programmeId: video?.programmeId || ""
   })
 
    const [selectedVideoFile, setSelectedVideoFile] = useState<File | null>(null)
@@ -47,7 +47,7 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
         form.append("title", formData.title || "");
         form.append("description", formData.description || "");
         form.append("duration", formData.duration || "");
-        form.append("emissionId", formData.emissionId);
+        form.append("emissionId", formData.programmeId);
           if (selectedImageFile) form.append("Miniature", selectedImageFile);
           if (selectedVideoFile) form.append("videoFile", selectedVideoFile);
 
@@ -108,10 +108,10 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="category">Catégorie</Label>
+              <Label htmlFor="category">Programme</Label>
               <Select
-                value={formData.emissionId}
-                onValueChange={(value) => setFormData({ ...formData, emissionId: value })}
+                value={formData.programmeId}
+                onValueChange={(value) => setFormData({ ...formData, programmeId: value })}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Sélectionnez une emistion" />
