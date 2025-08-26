@@ -27,7 +27,7 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
     title: video?.title || "",
     description: video?.description || "",
     duration: video?.duration || "",
-    thumbnail: video?.Miniature || "",
+    thumbnail: video?.couverture || "",
     programmeId: video?.programmeId || ""
   })
 
@@ -48,7 +48,7 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
         form.append("description", formData.description || "");
         form.append("duration", formData.duration || "");
         form.append("emissionId", formData.programmeId);
-          if (selectedImageFile) form.append("Miniature", selectedImageFile);
+          if (selectedImageFile) form.append("couverture", selectedImageFile);
           if (selectedVideoFile) form.append("videoFile", selectedVideoFile);
 
       const response = await fetch("https://api.yeshouatv.com/api/videos", {

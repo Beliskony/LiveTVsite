@@ -2,7 +2,7 @@ export interface IVideo {
   id: string;
   title?: string;
   description?: string;
-  Miniature?: string;
+  couverture?: string;
   programmeId: string;
   status?: "published" | "draft";
   createdAt: Date;

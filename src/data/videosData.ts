@@ -8,7 +8,7 @@ export const videosData: IVideo[] = [
     createdAt: new Date("2025-08-07T10:00:00Z"),
     duration: "22:00",
     views: 289,
-    Miniature: "/placeholder.svg?height=200&width=350&text=React+Vite",
+    couverture: "/placeholder.svg?height=200&width=350&text=React+Vite",
     programmeId: "E1", // Émission Sportive
     status: "published",
     videoUrl: "/videos/test1.mp4",
@@ -20,7 +20,7 @@ export const videosData: IVideo[] = [
     createdAt: new Date("2025-03-02T10:00:00Z"),
     duration: "55:08",
     views: 1894,
-    Miniature: "https://i.pinimg.com/736x/88/88/69/8888695935ae01676977fc90bf0464ab.jpg",
+    couverture: "https://i.pinimg.com/736x/88/88/69/8888695935ae01676977fc90bf0464ab.jpg",
     programmeId: "E5", // Les Petits Génies
     status: "published",
     videoUrl: "/videos/test2.mp4"
@@ -32,7 +32,7 @@ export const videosData: IVideo[] = [
     createdAt: new Date("2024-10-05T09:00:00Z"),
     duration: "43:09",
     views: 4789,
-    Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
+    couverture: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     programmeId: "E2", // Cultures du Monde
     status: "draft",
     videoUrl: "/videos/test3.mp4"
@@ -44,7 +44,7 @@ export const videosData: IVideo[] = [
     createdAt: new Date("2024-10-05T09:00:00Z"),
     duration: "08:46",
     views: 105463,
-    Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
+    couverture: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     programmeId: "E3", // Foi et Vie
     status: "published",
     videoUrl: "/videos/test2.mp4"
@@ -56,7 +56,7 @@ export const videosData: IVideo[] = [
     createdAt: new Date("2024-10-05T09:00:00Z"),
     duration: "45:09",
     views: 43289746,
-    Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
+    couverture: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     programmeId: "E4", // Culte du soir
     status: "published",
     videoUrl: "/videos/test3.mp4"
@@ -68,7 +68,7 @@ export const videosData: IVideo[] = [
     createdAt: new Date("2024-10-05T09:00:00Z"),
     duration: "10:45",
     views: 536567,
-    Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
+    couverture: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     programmeId: "E6", // Rire Ensemble
     status: "published",
     videoUrl: "/videos/test2.mp4"
@@ -80,7 +80,7 @@ export const videosData: IVideo[] = [
     createdAt: new Date("2024-10-05T09:00:00Z"),
     duration: "10:45",
     views: 536567,
-    Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
+    couverture: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     programmeId: "E1", // Émission Sportive
     status: "published",
     videoUrl: "/videos/test2.mp4"
@@ -92,7 +92,7 @@ export const videosData: IVideo[] = [
     createdAt: new Date("2024-10-05T09:00:00Z"),
     duration: "10:45",
     views: 536567,
-    Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
+    couverture: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     programmeId: "E2", // Cultures du Monde
     status: "published",
     videoUrl: "/videos/test2.mp4"
@@ -104,7 +104,7 @@ export const videosData: IVideo[] = [
     createdAt: new Date("2024-10-05T09:00:00Z"),
     duration: "10:45",
     views: 536567,
-    Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
+    couverture: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     programmeId: "E3", // Foi et Vie
     status: "published",
     videoUrl: "/videos/test2.mp4"
@@ -116,7 +116,7 @@ export const videosData: IVideo[] = [
     createdAt: new Date("2024-10-05T09:00:00Z"),
     duration: "10:45",
     views: 536567,
-    Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
+    couverture: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     programmeId: "E4", // Culte du soir
     status: "published",
     videoUrl: "/videos/test2.mp4"
@@ -128,7 +128,7 @@ export const videosData: IVideo[] = [
     createdAt: new Date("2024-10-05T09:00:00Z"),
     duration: "10:45",
     views: 536567,
-    Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
+    couverture: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     programmeId: "E5", // Les Petits Génies
     status: "published",
     videoUrl: "/videos/test2.mp4"
@@ -140,7 +140,7 @@ export const videosData: IVideo[] = [
     createdAt: new Date("2024-10-05T09:00:00Z"),
     duration: "10:45",
     views: 536567,
-    Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
+    couverture: "/placeholder.svg?height=200&width=350&text=React+Hooks",
     programmeId: "E6", // Rire Ensemble
     status: "published",
     videoUrl: "/videos/test2.mp4"

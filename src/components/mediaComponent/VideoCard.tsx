@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 export const VideoCard = (video: IVideo) => {
-  const { title, duration, createdAt, videoUrl, Miniature } = video
+  const { title, duration, createdAt, videoUrl, couverture } = video
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [frame0Poster, setFrame0Poster] = useState<string | null>(null)
@@ -60,7 +60,7 @@ export const VideoCard = (video: IVideo) => {
         <video
           ref={videoRef}
           src={videoUrl}
-          poster={isIOS ? Miniature : frame0Poster || "/placeholder.svg"}
+          poster={isIOS ? couverture : frame0Poster || "/placeholder.svg"}
           controls
           preload="metadata"
           muted={false}
