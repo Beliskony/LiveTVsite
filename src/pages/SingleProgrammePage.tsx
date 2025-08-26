@@ -15,25 +15,25 @@ import { VideosFilters } from "@/components/mediaComponent/VideoFilter"
 
 
 // Récupérer l'émission par id
-function getEmissionById(id: string): IProgramme | undefined {
-  return programmeData.find((emission) => emission.id === id)
+function getProgrammeById(id: string): IProgramme | undefined {
+  return programmeData.find((programme) => programme.id === id)
 }
 
 export default function SingleProgrammePage() {
   const { id } = useParams<{ id: string }>()
-  const emission = id ? getEmissionById(id) : undefined
+  const programme = id ? getProgrammeById(id) : undefined
   const [allVideos, setAllVideos] = useState<IVideo[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
 
-  if (!emission) {
+  if (!programme) {
     return null //<Navigate to="/404" replace />
   }
 
     // Lier automatiquement les vidéos à l'émission
   const linkedVideos: IVideo[] = videosData.filter(
-    (video) => video.emissionId === emission.id // Assurez-vous que vos vidéos ont la propriété `emissionId`
+    (video) => video.programmeId === programme.id // Assurez-vous que vos vidéos ont la propriété `programmeId`
   )
 
   const [filters, setFilters] = useState({
@@ -97,7 +97,7 @@ export default function SingleProgrammePage() {
          {/* Image de couverture en fond */}
       <div
         className="absolute inset-0 bg-cover bg-center z-[-2]"
-        style={{ backgroundImage: `url(${emission.couverture})` }}
+        style={{ backgroundImage: `url(${programme.couverture})` }}
       />
 
       {/* Overlay noir + blur progressif */}
@@ -112,12 +112,12 @@ export default function SingleProgrammePage() {
         
         {/* Infos de l’émission */}
         <div className="max-w-5xl my-10 max-sm:h-[200px] md:h-[400px]  md:pt-16 lg:pt-16 xl:pt-16">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">{emission.nom}</h1>
-          <p className="mb-6 text-lg md:text-xl leading-relaxed">{emission.description}</p>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">{programme.nom}</h1>
+          <p className="mb-6 text-lg md:text-xl leading-relaxed">{programme.description}</p>
           <div className="flex flex-wrap items-center gap-4 text-sm">
-            <Badge className="bg-indigo-100 text-indigo-800">{emission.genre}</Badge>
-            <div className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {emission.when}</div>
-            <div className="flex items-center gap-1"><Clock className="w-4 h-4" /> {emission.starting} - {emission.ending}</div>
+            <Badge className="bg-indigo-100 text-indigo-800">{programme.genre}</Badge>
+            <div className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {programme.when}</div>
+            <div className="flex items-center gap-1"><Clock className="w-4 h-4" /> {programme.starting} - {programme.ending}</div>
           </div>
 
             <div className="flex items-center my-2.5 gap-1"><Clapperboard className="w-4 h-4" /> {linkedVideos.length} <span>Video(s)</span></div>

@@ -9,7 +9,7 @@ export const videosData: IVideo[] = [
     duration: "22:00",
     views: 289,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Vite",
-    emissionId: "E1", // Émission Sportive
+    programmeId: "E1", // Émission Sportive
     status: "published",
     videoUrl: "/videos/test1.mp4",
   },
@@ -21,7 +21,7 @@ export const videosData: IVideo[] = [
     duration: "55:08",
     views: 1894,
     Miniature: "https://i.pinimg.com/736x/88/88/69/8888695935ae01676977fc90bf0464ab.jpg",
-    emissionId: "E5", // Les Petits Génies
+    programmeId: "E5", // Les Petits Génies
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
@@ -33,7 +33,7 @@ export const videosData: IVideo[] = [
     duration: "43:09",
     views: 4789,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    emissionId: "E2", // Cultures du Monde
+    programmeId: "E2", // Cultures du Monde
     status: "draft",
     videoUrl: "/videos/test3.mp4"
   },
@@ -45,7 +45,7 @@ export const videosData: IVideo[] = [
     duration: "08:46",
     views: 105463,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    emissionId: "E3", // Foi et Vie
+    programmeId: "E3", // Foi et Vie
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
@@ -57,7 +57,7 @@ export const videosData: IVideo[] = [
     duration: "45:09",
     views: 43289746,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    emissionId: "E4", // Culte du soir
+    programmeId: "E4", // Culte du soir
     status: "published",
     videoUrl: "/videos/test3.mp4"
   },
@@ -69,7 +69,7 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    emissionId: "E6", // Rire Ensemble
+    programmeId: "E6", // Rire Ensemble
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
@@ -81,7 +81,7 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    emissionId: "E1", // Émission Sportive
+    programmeId: "E1", // Émission Sportive
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
@@ -93,7 +93,7 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    emissionId: "E2", // Cultures du Monde
+    programmeId: "E2", // Cultures du Monde
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
@@ -105,7 +105,7 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    emissionId: "E3", // Foi et Vie
+    programmeId: "E3", // Foi et Vie
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
@@ -117,7 +117,7 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    emissionId: "E4", // Culte du soir
+    programmeId: "E4", // Culte du soir
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
@@ -129,7 +129,7 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    emissionId: "E5", // Les Petits Génies
+    programmeId: "E5", // Les Petits Génies
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },
@@ -141,7 +141,7 @@ export const videosData: IVideo[] = [
     duration: "10:45",
     views: 536567,
     Miniature: "/placeholder.svg?height=200&width=350&text=React+Hooks",
-    emissionId: "E6", // Rire Ensemble
+    programmeId: "E6", // Rire Ensemble
     status: "published",
     videoUrl: "/videos/test2.mp4"
   },

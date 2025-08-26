@@ -53,9 +53,9 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
     return status === "published" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
   }
 
-  const getEmissionName = (emissionId?: string) => {
-    const emission = programmeData.find((e: IProgramme) => e.id === emissionId)
-    return emission ? emission.nom: "_"
+  const getprogrammeName = (programmeId?: string) => {
+    const programme = programmeData.find((e: IProgramme) => e.id === programmeId)
+    return programme ? programme.nom: "_"
   }
 
   return (
@@ -82,7 +82,7 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
           <TableHeader>
             <TableRow>
               <TableHead>Titre</TableHead>
-              <TableHead>Emission</TableHead>
+              <TableHead>programme</TableHead>
               <TableHead>Durée</TableHead>
               <TableHead>Vues</TableHead>
               <TableHead>Status</TableHead>
@@ -95,7 +95,7 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
               <TableRow key={video.id}>
                 <TableCell className="font-medium">{video.title}</TableCell>
                 <TableCell>
-                  <Badge className={getCategoryColor(video.emissionId)}>{getEmissionName(video.emissionId)}</Badge>
+                  <Badge className={getCategoryColor(video.programmeId)}>{getprogrammeName(video.programmeId)}</Badge>
                 </TableCell>
                 <TableCell>{video.duration}</TableCell>
                 <TableCell>{video.views?.toLocaleString()}</TableCell>
