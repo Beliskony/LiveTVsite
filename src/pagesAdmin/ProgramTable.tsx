@@ -198,7 +198,7 @@ const filteredPrograms = programmes.filter((program) =>
                   <Badge className={getTypeColor(program.genre)}>{getTypeLabel(program.genre)}</Badge>
                 </TableCell>
                 <TableCell className="max-w-xs truncate">{program.description}</TableCell>
-                <TableCell>
+                <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="sm">

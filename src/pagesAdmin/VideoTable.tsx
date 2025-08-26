@@ -119,10 +119,6 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
-                        <Eye className="h-4 w-4 mr-2" />
-                        Voir
-                      </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => onEdit?.(video)}>
                         <Edit className="h-4 w-4 mr-2" />
                         Modifier

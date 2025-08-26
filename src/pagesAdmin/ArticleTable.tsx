@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Edit, Trash2, Eye, Search, Filter } from "lucide-react"
+import { Edit, Trash2, Eye, Search, Filter, MoreHorizontal } from "lucide-react"
 import type { IArticle } from "@/interfaces/Articles"
 import { articleData } from "@/data/articlesData"
 import { Input } from "@/components/ui/input"
@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 
 interface ArticleTableProps {
@@ -67,7 +68,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
     return <Badge variant={variant}>{labels[status as keyof typeof labels]}</Badge>
   }
 
-  const handleDelete = (id: string) => {
+  const onDelete = (id: string) => {
     if (confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
       console.log("Delete article:", id)
     }
@@ -154,19 +155,28 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
                   <TableCell>{article.author}</TableCell>
                   <TableCell>{article.category}</TableCell>
                   <TableCell>{new Date(article.created_at).toLocaleDateString("fr-FR")}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex items-center justify-end gap-2">
+                   <TableCell className="text-right">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="sm">
-                        <Eye className="h-4 w-4" />
+                        <MoreHorizontal className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="sm" onClick={() => onEdit?.(article)}>
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={() => handleDelete(article.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="items-end">
+                      <DropdownMenuItem onClick={() => onEdit?.(article)}>
+                        <Edit className="h-4 w-4 mr-2" />
+                        Modifier
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="text-red-600"
+                        onClick={() => onDelete?.(article.id)}
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Supprimer
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
                 </TableRow>
               ))}
             </TableBody>
