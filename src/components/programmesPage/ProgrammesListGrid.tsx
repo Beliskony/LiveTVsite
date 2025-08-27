@@ -16,43 +16,38 @@ export function ProgrammesGrid() {
   const paginatedProgramme = programmes.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
   useEffect(() => {
-    const fetchProgrammes = async () => {
-      setLoading(true)
-      try {
-        const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
-          method: "GET",
-        })
-
-        if (!res.ok) {
-          const errorText = await res.text()
-          console.error("Erreur API:", errorText)
-          throw new Error("Erreur lors du chargement des programmes")
-        }
-
-        const result = await res.json()
-
-        if (!Array.isArray(result.data)) {
-          throw new Error("La réponse API ne contient pas un tableau de programmes.")
-        }
-
-        // Transformer 'when' string en tableau string[]
-        const programmesWithArrayWhen = result.data.map((prog: any) => ({
-          ...prog,
-          when: typeof prog.when === "string" ? prog.when.split(",").map((d: string) => d.trim()) : prog.when,
-        }))
-
-        setProgrammes(programmesWithArrayWhen)
-        setError("")
-      } catch (err) {
-        setError("Erreur lors du chargement des programmes")
-        console.error(err)
-      } finally {
-        setLoading(false)
-      }
+  const fetchProgrammes = async () => {
+    setLoading(true)
+    try {
+      const res = await fetch("http://api.yeshouatv.com/api/list_programmes_for_user",{
+        method: "GET",
+      })
+      if (!res.ok) {
+        const errorText = await res.text()
+        console.error("Erreur API:", errorText)
+      throw new Error("Erreur lors du chargement des programmes")
     }
+      const result = await res.json()
 
-    fetchProgrammes()
-  }, [])
+      if (!Array.isArray(result.data)) {
+        throw new Error("La réponse API ne contient pas un tableau de programmes.")
+      }
+      // Transformer la string 'when' en tableau string[]
+      const programmesWithArrayWhen = result.data.map((prog: any) => ({
+        ...prog,
+        when: typeof prog.when === "string" ? prog.when.split(",").map((d: string) => d.trim()) : prog.when,
+      }));
+
+      setProgrammes(programmesWithArrayWhen);
+    } catch (error) {
+      setError("Erreur lors du chargement des programmes")
+      console.error("Erreur Api: ", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+  fetchProgrammes()
+}, [])
 
   if (loading) {
     return (
