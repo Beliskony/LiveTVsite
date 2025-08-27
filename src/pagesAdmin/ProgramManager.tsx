@@ -10,28 +10,35 @@ const ProgramManager = () => {
   const [editingProgram, setEditingProgram] = useState<IProgramme | null>(null)
   const [programmes, setProgrammes] = useState<IProgramme[]>([]) // Pour stocker les programmes
 
+const fetchProgrammes = async () => {
+  try {
+    const token = localStorage.getItem("token")
+    const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+
+    const result = await res.json()
+
+    const programmesWithArrayWhen = result.data.map((prog: any) => ({
+      ...prog,
+      when: typeof prog.when === "string" ? prog.when.split(",").map((d: string) => d.trim()) : prog.when,
+    }))
+
+    setProgrammes(programmesWithArrayWhen)
+  } catch (error) {
+    console.error("Erreur chargement programmes:", error)
+  }
+}
+
+useEffect(() => {
+  fetchProgrammes()
+}, [])
+
 
   const closeForm = () => {
     setShowProgramForm(false)
     setEditingProgram(null)
   }
-
-    // Mettre à jour la liste des programmes après un ajout ou une modification
-  const updateProgramList = (updatedProgram: IProgramme) => {
-    setProgrammes((prevPrograms) => {
-      if (editingProgram) {
-        // Si nous étions en train de modifier un programme, on remplace celui-ci
-        return prevPrograms.map((prog) =>
-          prog.id === updatedProgram.id ? updatedProgram : prog
-        )
-      } else {
-        // Sinon, on ajoute le programme à la liste
-        return [...prevPrograms, updatedProgram]
-      }
-    })
-    closeForm()
-  }
-
 
     // Ouverture du formulaire pour l'édition
   const handleEdit = (program: IProgramme) => {
@@ -57,10 +64,11 @@ const ProgramManager = () => {
         <ProgramForm
           program={editingProgram ? { ...editingProgram, when: editingProgram.when.join(", ") } : undefined}
           onClose={closeForm}
+          onRefresh={fetchProgrammes}
         />
       )}
 
-      <ProgramTable programmes={programmes} onEdit={handleEdit} />
+      <ProgramTable programmes={programmes} onEdit={handleEdit} onRefresh={fetchProgrammes} />
     </section>
   )
 }

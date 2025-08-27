@@ -41,16 +41,26 @@ export const EmissionCard = (Emission:propsEmission) => {
           <div className="absolute w-full top-4 left-4 flex flex-wrap gap-2">
               <Badge
                 variant="secondary"
-                className="bg-gray-900/90 backdrop-blur-sm text-white border-gray-400/30 hover:bg-gray-900/50"
+                className="bg-gray-900/90 backdrop-blur-sm text-white border-gray-400/30 hover:bg-gray-900/50 h-5"
               >
                 {Emission.contenu.genre}
               </Badge>
 
               <Badge
                 variant="secondary"
-                className="bg-gray-900/90 backdrop-blur-sm text-white border-gray-400/30 hover:bg-gray-900/50">
+                className="bg-gray-900/90 backdrop-blur-sm text-white border-gray-400/30 hover:bg-gray-900/50 max-h-20 overflow-y-scroll">
                 <CalendarCheck2 className="w-4 h-4 mr-1" />
-               <span className="space-x-0.5 truncate"> {Emission.contenu.when.join(", ")} </span>
+                {Emission.contenu.when.length > 1 ? (
+                  <div className="flex flex-col space-y-0.5">
+                    {Emission.contenu.when.map((day, index) => (
+                      <span key={index} className="truncate">
+                        {day}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="truncate">{Emission.contenu.when[0]}</span>
+                )}
               </Badge>
           </div>
       </CardContent>

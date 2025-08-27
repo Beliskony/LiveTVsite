@@ -13,6 +13,7 @@ import type { IProgramme } from "@/interfaces/Programme"
 
 interface ProgramTableProps {
   onEdit: (program: IProgramme) => void
+  onRefresh: () => void
   programmes: IProgramme[];
 }
 
@@ -23,32 +24,33 @@ export function ProgramTable({ onEdit}: ProgramTableProps) {
   const [error, setError] = useState<string | null>(null)
   
 
-  useEffect(() => {
-  const fetchProgrammes = async () => {
+ const fetchProgrammes = async () => {
     setLoading(true)
     try {
       const token = localStorage.getItem("token")
-      const res = await fetch("https://api.yeshouatv.com/api/list_programmes",{
+      const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
         method: "GET",
-        headers: {Authorization: `Bearer ${token}`}
+        headers: { Authorization: `Bearer ${token}` }
       })
+
       if (!res.ok) {
         const errorText = await res.text()
         console.error("Erreur API:", errorText)
-      throw new Error("Erreur lors du chargement des programmes")
-    }
+        throw new Error("Erreur lors du chargement des programmes")
+      }
+
       const result = await res.json()
 
       if (!Array.isArray(result.data)) {
         throw new Error("La réponse API ne contient pas un tableau de programmes.")
       }
-      // Transformer la string 'when' en tableau string[]
+
       const programmesWithArrayWhen = result.data.map((prog: any) => ({
         ...prog,
         when: typeof prog.when === "string" ? prog.when.split(",").map((d: string) => d.trim()) : prog.when,
-      }));
+      }))
 
-      setProgrammes(programmesWithArrayWhen);
+      setProgrammes(programmesWithArrayWhen)
     } catch (error) {
       setError("Erreur lors du chargement des programmes")
       console.error("Erreur Api: ", error)
@@ -56,8 +58,11 @@ export function ProgramTable({ onEdit}: ProgramTableProps) {
       setLoading(false)
     }
   }
-  fetchProgrammes()
-}, [])
+
+  // Appel initial
+  useEffect(() => {
+    fetchProgrammes()
+  }, [])
 
 const updateProgramme = async (id: string, updatedData: Partial<IProgramme>) => {
   try {
@@ -79,6 +84,7 @@ const updateProgramme = async (id: string, updatedData: Partial<IProgramme>) => 
 
     const result = await res.json()
     console.log("Programme mis à jour:", result)
+    await fetchProgrammes()
     return result
   } catch (error) {
     console.error("Erreur lors du PUT:", error)
@@ -90,7 +96,7 @@ const updateProgramme = async (id: string, updatedData: Partial<IProgramme>) => 
 const deleteProgramme = async (id: string) => {
   try {
     const token = localStorage.getItem("token")
-    const res = await fetch(`https://api.yeshouatv.com/api/programmes/${id}`, {
+    const res = await fetch(`https://api.yeshouatv.com/api/delete_programme/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`
@@ -104,6 +110,9 @@ const deleteProgramme = async (id: string) => {
     }
 
     console.log("Programme supprimé avec succès")
+    await fetchProgrammes(
+      
+    )
   } catch (error) {
     console.error("Erreur lors du DELETE:", error)
     throw error

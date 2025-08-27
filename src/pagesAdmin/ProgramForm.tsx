@@ -16,6 +16,7 @@ import { useAuth } from "@/components/auth-context"
 import type { IProgramme } from "@/interfaces/Programme"
 interface ProgramFormProps {
   onClose: () => void
+  onRefresh: () => void
   program?: {
     id: string
     nom: string
@@ -30,7 +31,7 @@ interface ProgramFormProps {
 
 }
 
-export function ProgramForm({ onClose, program }: ProgramFormProps) {
+export function ProgramForm({ onClose, program, onRefresh }: ProgramFormProps) {
   // Initialise day from program.when CSV string or empty array
   const initialDays = program?.when ? program.when.split(",") : []
 
@@ -62,6 +63,7 @@ export function ProgramForm({ onClose, program }: ProgramFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    
 
     try {
       const payload = new FormData()
