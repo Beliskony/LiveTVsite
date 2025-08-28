@@ -13,7 +13,7 @@ import { ImageSelector } from "./ImageSelector"
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useAuth } from "@/components/auth-context"
-import type { IProgramme } from "@/interfaces/Programme"
+import getReadableDaysRange from "@/utilitaires/getReadableDaysRange"
 interface ProgramFormProps {
   onClose: () => void
   onRefresh: () => void
@@ -33,7 +33,8 @@ interface ProgramFormProps {
 
 export function ProgramForm({ onClose, program, onRefresh }: ProgramFormProps) {
   // Initialise day from program.when CSV string or empty array
-  const initialDays = program?.when ? program.when.split(",") : []
+const initialDays = Array.isArray(program?.when) ? program.when : (program?.when?.split(",") ?? [])
+
 
   const [formData, setFormData] = useState({
     title: program?.nom || "",
@@ -51,14 +52,32 @@ export function ProgramForm({ onClose, program, onRefresh }: ProgramFormProps) {
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
 
   const days = [
-    { value: "monday", label: "Lundi" },
-    { value: "tuesday", label: "Mardi" },
-    { value: "wednesday", label: "Mercredi" },
-    { value: "thursday", label: "Jeudi" },
-    { value: "friday", label: "Vendredi" },
-    { value: "saturday", label: "Samedi" },
-    { value: "sunday", label: "Dimanche" },
+    { value: "lundi", label: "lundi" },
+    { value: "mardi", label: "mardi" },
+    { value: "mercredi", label: "mercredi" },
+    { value: "jeudi", label: "jeudi" },
+    { value: "vendredi", label: "vendredi" },
+    { value: "samedi", label: "samedi" },
+    { value: "dimanche", label: "dimanche" },
   ]
+
+  useEffect(() => {
+  if (program) {
+    const parsedDays = Array.isArray(program.when)
+      ? program.when
+      : program.when?.split(",").map((d) => d.trim().toLowerCase()) || []
+
+    setFormData({
+      title: program.nom || "",
+      description: program.description || "",
+      day: parsedDays,
+      startTime: program.starting || "",
+      endTime: program.ending || "",
+      type: program.genre || "",
+    })
+  }
+}, [program])
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -80,7 +99,10 @@ export function ProgramForm({ onClose, program, onRefresh }: ProgramFormProps) {
       const url = program?.id
         ? `http://api.yeshouatv.com/api/update_programme/${program.id}`
         : "http://api.yeshouatv.com/api/add_programme"
-      const method = program?.id ? "PUT" : "POST"
+      const method = "POST"
+      if (program?.id) {
+      payload.append("_method", "PUT")
+    }
 
       const response = await fetch(url, {
         method,
@@ -98,8 +120,7 @@ export function ProgramForm({ onClose, program, onRefresh }: ProgramFormProps) {
       if (!response.ok) throw new Error("Erreur lors de l'envoi")
 
       setIsSuccess(true)
-      
-      setTimeout(onClose, 3000)
+      onRefresh()
     } catch (error) {
       console.error(error)
       alert("Une erreur est survenue lors de l'envoi du formulaire.")
@@ -110,7 +131,7 @@ export function ProgramForm({ onClose, program, onRefresh }: ProgramFormProps) {
 
   if (isSuccess) {
     return (
-      <Card className="mb-6">
+      <Card className="mb-6 p-4">
         <CardContent className="pt-6">
           <div className="text-center space-y-4">
             <CheckCircle className="h-16 w-16 text-green-500 mx-auto" />
@@ -177,38 +198,38 @@ export function ProgramForm({ onClose, program, onRefresh }: ProgramFormProps) {
             <div className="space-y-2">
               <Label htmlFor="days">Jours</Label>
               <Popover>
-                <PopoverTrigger asChild className="z-50">
-                  <Button variant="outline" className="w-full justify-start">
-                    {formData.day.length > 0
-                      ? days
-                          .filter((d) => formData.day.includes(d.value))
-                          .map((d) => d.label)
-                          .join(", ")
-                      : "Sélectionnez des jours"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-64 bg-white">
-                  <div className="space-y-2 bg-white shadow p-2">
-                    {days.map((day) => (
-                      <div key={day.value} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={day.value}
-                          checked={formData.day.includes(day.value)}
-                          onCheckedChange={(checked) => {
-                            setFormData((prev) => {
-                              const updatedDays = checked
-                                ? [...prev.day, day.value]
-                                : prev.day.filter((d) => d !== day.value)
-                              return { ...prev, day: updatedDays }
-                            })
-                          }}
-                        />
-                        <Label htmlFor={day.value}>{day.label}</Label>
-                      </div>
-                    ))}
-                  </div>
-                </PopoverContent>
-              </Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline" className="w-full justify-start text-left">
+      {formData.day.length > 0
+        ? formData.day
+            .map((d) => d.charAt(0).toUpperCase() + d.slice(1)) // capitalise
+            .join(", ")
+        : "Sélectionnez des jours"}
+    </Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-64 bg-white shadow z-50">
+    <div className="space-y-2 p-2">
+      {days.map((day) => (
+        <div key={day.value} className="flex items-center space-x-2">
+          <Checkbox
+            id={day.value}
+            checked={formData.day.includes(day.value)}
+            onCheckedChange={(checked) => {
+              setFormData((prev) => {
+                const updatedDays = checked
+                  ? [...prev.day, day.value]
+                  : prev.day.filter((d) => d !== day.value)
+                return { ...prev, day: updatedDays }
+              })
+            }}
+          />
+          <Label htmlFor={day.value}>{day.label.charAt(0).toUpperCase() + day.label.slice(1)}</Label>
+        </div>
+      ))}
+    </div>
+  </PopoverContent>
+</Popover>
+
             </div>
 
             <div className="space-y-2">

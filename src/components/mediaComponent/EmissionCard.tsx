@@ -3,6 +3,8 @@ import { CalendarCheck2 } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Link } from "react-router-dom";
+import getReadableDaysRange from "@/utilitaires/getReadableDaysRange";
+
 
 interface propsEmission {
   contenu: IProgramme
@@ -48,19 +50,11 @@ export const EmissionCard = (Emission:propsEmission) => {
 
               <Badge
                 variant="secondary"
-                className="bg-gray-900/90 backdrop-blur-sm text-white border-gray-400/30 hover:bg-gray-900/50 max-h-20 overflow-y-scroll">
-                <CalendarCheck2 className="w-4 h-4 mr-1" />
-                {Emission.contenu.when.length > 1 ? (
-                  <div className="flex flex-col space-y-0.5">
-                    {Emission.contenu.when.map((day, index) => (
-                      <span key={index} className="truncate">
-                        {day}
-                      </span>
-                    ))}
-                  </div>
-                ) : (
-                  <span className="truncate">{Emission.contenu.when[0]}</span>
-                )}
+                className=" bg-gray-900/90 backdrop-blur-sm text-white border-gray-400/30 hover:bg-gray-900/50 max-h-20">
+                <CalendarCheck2 className="w-7 h-7 mr-1" />
+                <span className="text-sm leading-snug break-words whitespace-normal">
+                  {getReadableDaysRange(Emission.contenu.when)}
+                </span>
               </Badge>
           </div>
       </CardContent>
@@ -72,7 +66,7 @@ export const EmissionCard = (Emission:propsEmission) => {
     </Card>
 
     <div className={`mt-1 text-wrap text-xl text-center font-bold ${Emission.textCouleur}`}>
-      <h2>{Emission.contenu.nom}</h2>
+      <h2 className="w-[250px] break-words">{Emission.contenu.nom}</h2>
     </div>
     </Link>
   </div>

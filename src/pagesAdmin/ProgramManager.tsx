@@ -8,7 +8,7 @@ import type { IProgramme } from '@/interfaces/Programme'
 const ProgramManager = () => {
   const [showProgramForm, setShowProgramForm] = useState(false)
   const [editingProgram, setEditingProgram] = useState<IProgramme | null>(null)
-  const [programmes, setProgrammes] = useState<IProgramme[]>([]) // Pour stocker les programmes
+  const [programmes, setProgrammes] = useState<IProgramme[]>([])
 
 const fetchProgrammes = async () => {
   try {
@@ -68,7 +68,7 @@ useEffect(() => {
         />
       )}
 
-      <ProgramTable programmes={programmes} onEdit={handleEdit} onRefresh={fetchProgrammes} />
+      <ProgramTable  onEdit={handleEdit} />
     </section>
   )
 }

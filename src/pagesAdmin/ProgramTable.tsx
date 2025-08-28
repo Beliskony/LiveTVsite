@@ -13,19 +13,16 @@ import type { IProgramme } from "@/interfaces/Programme"
 
 interface ProgramTableProps {
   onEdit: (program: IProgramme) => void
-  onRefresh: () => void
-  programmes: IProgramme[];
+
 }
 
 export function ProgramTable({ onEdit}: ProgramTableProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [programmes, setProgrammes] = useState<IProgramme[]>([])
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   
 
  const fetchProgrammes = async () => {
-    setLoading(true)
     try {
       const token = localStorage.getItem("token")
       const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
@@ -54,21 +51,26 @@ export function ProgramTable({ onEdit}: ProgramTableProps) {
     } catch (error) {
       setError("Erreur lors du chargement des programmes")
       console.error("Erreur Api: ", error)
-    } finally {
-      setLoading(false)
     }
   }
 
   // Appel initial
   useEffect(() => {
     fetchProgrammes()
+
+  const interval = setInterval(() => {
+    fetchProgrammes() // refetch every 5 sec
+    }, 5000)
+
+    return() => clearInterval(interval)
+
   }, [])
 
 const updateProgramme = async (id: string, updatedData: Partial<IProgramme>) => {
   try {
     const token = localStorage.getItem("token")
     const res = await fetch(`https://api.yeshouatv.com/api/programmes/${id}`, {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
@@ -175,12 +177,7 @@ const filteredPrograms = programmes.filter((program) =>
         </div>
       </CardHeader>
       <CardContent>
-       <div className="rounded-md border mb-2">
-        {loading ?(
-                 <div className="flex justify-center py-8">
-                  <div className="w-8 h-8 border-4 border-gray-300 border-t-gray-100 rounded-full animate-spin" />
-                </div>
-            ) : (
+
         <Table>
           <TableHeader>
             <TableRow>
@@ -233,8 +230,7 @@ const filteredPrograms = programmes.filter((program) =>
             ))}
           </TableBody>
         </Table> 
-      )}
-       </div>
+
       </CardContent>
     </Card>
   )

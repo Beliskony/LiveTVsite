@@ -8,58 +8,59 @@ const ITEMS_PER_PAGE = 9
 export function ProgrammesGrid() {
   const [currentPage, setCurrentPage] = useState(1)
   const [programmes, setProgrammes] = useState<IProgramme[]>([])
-  const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
   const totalPages = Math.ceil(programmes.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const paginatedProgramme = programmes.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
-  useEffect(() => {
+ // Fonction pour charger les programmes
   const fetchProgrammes = async () => {
-    setLoading(true)
     try {
-      const res = await fetch("http://api.yeshouatv.com/api/list_programmes_for_user",{
-        method: "GET",
-      })
+      const res = await fetch("http://api.yeshouatv.com/api/list_programmes_for_user")
+
       if (!res.ok) {
         const errorText = await res.text()
         console.error("Erreur API:", errorText)
-      throw new Error("Erreur lors du chargement des programmes")
-    }
+        throw new Error("Erreur lors du chargement des programmes")
+      }
+
       const result = await res.json()
 
       if (!Array.isArray(result.data)) {
         throw new Error("La réponse API ne contient pas un tableau de programmes.")
       }
-      // Transformer la string 'when' en tableau string[]
+
+      // Transformer 'when' (string) en tableau
       const programmesWithArrayWhen = result.data.map((prog: any) => ({
         ...prog,
-        when: typeof prog.when === "string" ? prog.when.split(",").map((d: string) => d.trim()) : prog.when,
-      }));
+        when: typeof prog.when === "string"
+          ? prog.when.split(",").map((d: string) => d.trim())
+          : prog.when,
+      }))
 
-      setProgrammes(programmesWithArrayWhen);
+      setProgrammes(programmesWithArrayWhen)
     } catch (error) {
       setError("Erreur lors du chargement des programmes")
       console.error("Erreur Api: ", error)
-    } finally {
-      setLoading(false)
     }
   }
-  fetchProgrammes()
-}, [])
 
-  if (loading) {
-    return (
-      <section className="w-full h-full flex justify-center items-center py-20">
-        <div className="w-10 h-10 border-4 border-gray-300 border-t-gray-100 rounded-full animate-spin"></div>
-      </section>
-    )
-  }
+  // useEffect pour le chargement initial + refresh auto
+  useEffect(() => {
+    fetchProgrammes()
+
+    const interval = setInterval(() => {
+      fetchProgrammes()
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [])
+
 
 
   return (
-    <section className="w-full h-full my-4 items-start flex flex-col p-2 lg:p-10 gap-y-3.5">
+    <section className="w-full my-4 items-start flex flex-col p-2 lg:p-10 gap-y-3.5">
       <h2 className="text-5xl text-white font-bold mb-4">Tous Nos Programmes</h2>
 
       {paginatedProgramme.length > 0 ? (

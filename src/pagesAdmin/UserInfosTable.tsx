@@ -14,12 +14,12 @@ export function UserInfoTable() {
   const [users, setUsers] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
+
     const fetchUsers = async () => {
       setLoading(true)
       try {
         const token = localStorage.getItem("token")
-        const res = await fetch("https://api.yeshouatv.com/api/users", {
+        const res = await fetch("https://api.yeshouatv.com/api/list_users", {
           credentials: "include",
           headers: {
             Accept: "application/json",
@@ -36,8 +36,18 @@ export function UserInfoTable() {
         setLoading(false)
       }
     }
+
+      // useEffect pour le chargement initial + refresh auto
+  useEffect(() => {
     fetchUsers()
+
+    const interval = setInterval(() => {
+      fetchUsers()
+    }, 5000)
+
+    return () => clearInterval(interval)
   }, [])
+
 
   const filteredUsers = users.filter((user) => {
     return (
@@ -78,7 +88,6 @@ export function UserInfoTable() {
               <TableRow>
                 <TableHead>Username</TableHead>
                 <TableHead>Mail</TableHead>
-                <TableHead>Password</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -86,7 +95,6 @@ export function UserInfoTable() {
                 <TableRow key={user.id}>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.password}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -96,11 +104,6 @@ export function UserInfoTable() {
         {filteredUsers.length === 0 && (
           <div className="text-center py-12">
             <p className="text-muted-foreground">Aucun utilisateur trouvé</p>
-          </div>
-        )}
-        {loading && (
-          <div className="text-center py-4">
-            <p className="text-muted-foreground">Chargement...</p>
           </div>
         )}
       </CardContent>
