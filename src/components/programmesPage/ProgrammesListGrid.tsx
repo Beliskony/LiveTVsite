@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { EmissionCard } from "../mediaComponent/EmissionCard"
 import { PaginationArticle } from "../articlesPage/PaginationArticle"
 import type { IProgramme } from "@/interfaces/Programme"
+import { LoaderCircle } from "lucide-react"
 
 const ITEMS_PER_PAGE = 9
 
@@ -70,8 +71,8 @@ export function ProgrammesGrid() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">Aucun programme pour le moment</p>
+        <div className="justify-center items-center">
+            <LoaderCircle className="animate-spin text-white" />
         </div>
       )}
 

@@ -5,8 +5,7 @@ import { Card } from "@/components/ui/card"
 import { articleData } from "@/data/articlesData"
 import type { IArticle } from "@/interfaces/Articles"
 import { formatRelativeDate } from "@/utilitaires/FormatDate"
-import Header from "@/components/NavBar"
-import Footer from "@/components/Footer"
+
 
 function getArticleById(id: string): IArticle | undefined {
   return articleData.find((article) => article.id === String(id))
@@ -34,10 +33,6 @@ export default function SingleArticlePage() {
   return (
     <div className="h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
 
-      {/* En-tête */}
-      <header className="z-10">
-          <Header />
-      </header>
 
       {/* Contenu principal */}
       <section className="w-full md:mt-20 xl:mt-20 max-sm:mt-20 xl:px-10 bg-white">
@@ -131,9 +126,9 @@ export default function SingleArticlePage() {
         </div>
 
         {/* Articles similaires */}
-        <Card className="max-sm:min-h-80 lg:h-screen w-full lg:w-[450px] place-items-center lg:mx-2 ">
+        <Card className="max-sm:min-h-80 p-2 lg:h-screen w-full lg:w-[600px] place-items-center lg:mx-2 ">
           <h3 className="text-xl font-semibold text-gray-900 mb-4 underline">Articles similaires</h3>
-          <div className="grid lg:grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="grid lg:grid-cols-1 gap-4 md:grid-cols-3 px-2">
             {articleData
               .filter((a) => a.id !== article.id && a.category === article.category)
               .slice(0, 2)
@@ -141,7 +136,7 @@ export default function SingleArticlePage() {
                 <Link
                   key={relatedArticle.id}
                   to={`/article/${relatedArticle.id}`}
-                  className="block p-4 w-full mx-2 rounded-lg border hover:bg-gray-50 transition-colors"
+                  className="block p-4 w-full rounded-lg border hover:bg-gray-50 transition-colors"
                 >
                   <img className="w-full h-20 rounded object-cover" src={relatedArticle.featured_image} />
                   <h4 className="font-medium text-gray-900 mb-2">{relatedArticle.title}</h4>
@@ -155,9 +150,7 @@ export default function SingleArticlePage() {
       </div>
       </section>
 
-      <section>
-        <Footer />
-      </section>
+
     </div>
   )
 }

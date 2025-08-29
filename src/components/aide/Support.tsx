@@ -27,7 +27,7 @@ export default function SupportModal({onClose}: SupportModalProps) {
         setFormData((prev) => ({ ...prev, [name]: value }));
       }
 
-     const envoie = (e: React.FormEvent) => {
+     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setStatus("envoi en cours")
 
@@ -67,7 +67,7 @@ export default function SupportModal({onClose}: SupportModalProps) {
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Formulaire de contact */}
-          <Card>
+          <Card className="p-4">
             <CardHeader>
               <CardTitle>Nous Contacter</CardTitle>
               <CardDescription>
@@ -116,7 +116,7 @@ export default function SupportModal({onClose}: SupportModalProps) {
 
           {/* Informations de contact */}
           <div className="space-y-6">
-            <Card>
+            <Card className="p-4">
               <CardHeader>
                 <CardTitle>Autres Moyens de Contact</CardTitle>
               </CardHeader>
@@ -136,7 +136,7 @@ export default function SupportModal({onClose}: SupportModalProps) {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="p-4">
               <CardHeader>
                 <CardTitle>Temps de Réponse</CardTitle>
               </CardHeader>

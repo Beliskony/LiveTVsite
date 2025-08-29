@@ -1,15 +1,9 @@
-import React from 'react'
-import Header from '@/components/NavBar'
-import Footer from '@/components/Footer'
 import { ArticlesGrid } from '@/components/articlesPage/ArticleGrid'
 
 function ArticlesListePage() {
   return (
     <div className="h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
 
-        <section className='z-10'>
-          <Header />
-        </section>
 
         <section className="flex flex-col flex-1 max-sm:my-0.5 backdrop-blur-sm bg-black/50">
 
@@ -20,10 +14,6 @@ function ArticlesListePage() {
         
         
 
-        </section>
-
-        <section> 
-            <Footer />
         </section>
 
     </div>

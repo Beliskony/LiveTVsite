@@ -7,14 +7,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Mail, MapPin, Phone, User, MessageSquare, CalendarCheck, CalendarCheck2 } from "lucide-react"
-import { format } from "date-fns"
-import { fr } from "date-fns/locale"
+import { Mail, MapPin, Phone, User, MessageSquare, LoaderCircle} from "lucide-react"
+
 
 export default function ContactPage() {
-  const [date, setDate] = useState<Date>()
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,9 +20,37 @@ export default function ContactPage() {
     message: "",
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted:", { ...formData, birthDate: date })
+     // Vérification des champs requis
+  if (
+    !formData.name.trim() ||
+    !formData.email.trim() ||
+    !formData.gender.trim() ||
+    !formData.subject.trim() ||
+    !formData.message.trim() 
+  ) {
+    alert("Veuillez remplir tous les champs requis avant de soumettre le formulaire.")
+    return
+  }
+
+  setLoading(true)
+
+  
+  setLoading(true) 
+  await new Promise((resolve) => setTimeout(resolve, 2000))
+  
+
+  setLoading(false)
+
+   setFormData({
+    name: "",
+    email: "",
+    gender: "",
+    subject: "",
+    message: "",
+  })
+
   }
 
   const handleInputChange = (field: string, value: string) => {
@@ -33,7 +58,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen text-white">
+    <div className="h-full text-white">
       <div className="container mx-auto px-4 py-8 md:py-16">
         {/* Header */}
         <div className="text-center mb-12">
@@ -48,7 +73,7 @@ export default function ContactPage() {
             </div>
             <div>
               <h3 className="font-semibold text-lg">ADRESSE BUREAU</h3>
-              <p className="text-gray-300">Abidjan</p>
+              <p className="text-gray-300">Abidjan, Marcory</p>
             </div>
           </div>
 
@@ -58,7 +83,7 @@ export default function ContactPage() {
             </div>
             <div>
               <h3 className="font-semibold text-lg">E-MAIL</h3>
-              <p className="text-gray-300">infos@yeshouatv.com</p>
+              <p className="text-gray-300">contacts@yeshouatv.com</p>
             </div>
           </div>
 
@@ -68,7 +93,7 @@ export default function ContactPage() {
             </div>
             <div>
               <h3 className="font-semibold text-lg">APPELEZ-NOUS</h3>
-              <p className="text-gray-300">+225 00 00 00 00 00</p>
+              <p className="text-gray-300">+225 2731957520</p>
             </div>
           </div>
         </div>
@@ -83,6 +108,8 @@ export default function ContactPage() {
                 <div className="flex items-center space-x-3 p-4 bg-white/5 border border-white/20 rounded-lg backdrop-blur-sm">
                   <User className="w-5 h-5 text-gray-400" />
                   <Input
+                    id="fullName"
+                    aria-label="Nom et Prénoms"
                     placeholder="Nom et Prénoms*"
                     value={formData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
@@ -97,6 +124,8 @@ export default function ContactPage() {
                 <div className="flex items-center space-x-3 p-4 bg-white/5 border border-white/20 rounded-lg backdrop-blur-sm">
                   <Mail className="w-5 h-5 text-gray-400" />
                   <Input
+                    id="email"
+                    aria-label="email"
                     type="email"
                     placeholder="Adresse électronique*"
                     value={formData.email}
@@ -112,7 +141,7 @@ export default function ContactPage() {
                 <div className="flex items-center space-x-3 p-4 bg-white/5 border border-white/20 rounded-lg backdrop-blur-sm">
                   <MessageSquare className="w-5 h-5 text-gray-400" />
                   <Select onValueChange={(value) => handleInputChange("gender", value)}>
-                    <SelectTrigger className="bg-transparent border-none text-white focus:ring-0 focus:outline-none">
+                    <SelectTrigger aria-label="gender" id="gender" className="bg-transparent border-none text-white focus:ring-0 focus:outline-none">
                       <SelectValue placeholder="Sexe*" />
                     </SelectTrigger>
                     <SelectContent>
@@ -123,35 +152,14 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Birth Date Field */}
-              <div className="relative">
-                <div className="flex items-center space-x-3 p-4 bg-white/5 border border-white/20 rounded-lg backdrop-blur-sm">
-                  <CalendarCheck2 className="w-5 h-5 text-gray-400 flex-shrink-0" />
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className="w-full justify-start text-left font-normal bg-transparent border-none text-white hover:bg-transparent focus:ring-0"
-                      >
-                        {date ? (
-                          format(date, "PPP", { locale: fr })
-                        ) : (
-                          <span className="text-gray-400">Sélectionnez une date</span>
-                        )}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              </div>
 
               {/* Subject Field */}
               <div className="relative">
                 <div className="flex items-center space-x-3 p-4 bg-white/5 border border-white/20 rounded-lg backdrop-blur-sm">
                   <MessageSquare className="w-5 h-5 text-gray-400" />
                   <Input
+                    id="sujet"
+                    aria-label="sujet"
                     placeholder="Sujet*"
                     value={formData.subject}
                     onChange={(e) => handleInputChange("subject", e.target.value)}
@@ -167,6 +175,8 @@ export default function ContactPage() {
               <div className="relative h-full">
                 <div className="p-4 bg-white/5 border border-white/20 rounded-lg backdrop-blur-sm h-full min-h-[300px] lg:min-h-[400px]">
                   <Textarea
+                    id="textarea"
+                    aria-label="textarea"
                     placeholder="Écrire votre message ici...*"
                     value={formData.message}
                     onChange={(e) => handleInputChange("message", e.target.value)}
@@ -179,18 +189,26 @@ export default function ContactPage() {
           </div>
 
           {/* Terms and Submit */}
-          <div className="mt-8 space-y-6">
+          <div className="flex mt-8 flex-col items-center space-y-6 md:flex-row md:justify-between md:items-center gap-4">
             <p className="text-sm text-gray-400 max-w-2xl">
               En soumettant ce formulaire, vous reconnaissez avoir pris connaissance des Conditions Générales
               d'Utilisation et vous les acceptez.
             </p>
 
-            <div className="flex justify-end">
+            <div className="flex">
               <Button
                 type="submit"
+                disabled={loading}
                 className="px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors"
               >
-                Envoyer
+                 {loading ? (
+                    <>
+                      <LoaderCircle className="animate-spin w-4 h-4" />
+                      <span>Envoi...</span>
+                    </>
+                      ) : (
+                        "Envoyer"
+                  )}
               </Button>
             </div>
           </div>

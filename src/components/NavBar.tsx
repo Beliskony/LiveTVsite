@@ -227,7 +227,6 @@ export default function Header() {
                     <nav className="mt-10 flex flex-col gap-y-4 text-white text-xl">
                       <Link to="/home" onClick={() => setIsRightDrawerOpen(false)} className="hover:text-blue-400">Notre chaîne</Link>
                       <Link to="/programmes" onClick={() => setIsRightDrawerOpen(false)} className="">Programmes</Link>
-                      <Link to="/replay" onClick={() => setIsRightDrawerOpen(false)} className="hover:text-blue-400">Replay</Link>
                       <Link to="/" onClick={() => setIsRightDrawerOpen(false)} className="hover:text-red-400">Live</Link>
                       <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="flex justify-between items-center w-full text-white transition-colors">
                             <span>Eglise Yeshoua</span>

@@ -1,5 +1,4 @@
-import Footer from "../components/Footer"
-import Header from "../components/NavBar"
+
 import { SlideSection } from "../components/homeScreen/SlideSection";
 import { EmissionSlideSection } from "../components/homeScreen/EmissionSlideSection";
 import TestimonialSection from "../components/homeScreen/TestimonialSection";
@@ -12,11 +11,10 @@ export const Acceuil = () => {
     <div className="h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
 
         <section className="z-10">
-          <Header />
           <EmissionCarouselForEmission/>
         </section>
 
-        <section className="flex flex-col flex-1 max-sm:my-0.5 backdrop-blur-sm bg-black/50">
+        <section className="flex flex-col flex-1 max-sm:mt-0.5 backdrop-blur-sm bg-black/50">
           
           <SlideSection textVues="hidden" />
 
@@ -31,9 +29,6 @@ export const Acceuil = () => {
 
         </section>
 
-        <section> 
-            <Footer />
-        </section>
 
     </div>
   )

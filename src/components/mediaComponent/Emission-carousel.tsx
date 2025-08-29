@@ -24,8 +24,42 @@ export default function EmissionCarousel({ emissions }: EmissionCarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [autoplay])
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [Scrollsnaps, setScrollSnaps] = useState<number[]>([])
+  const [programmes, setProgrammes] = useState<IProgramme[]>([])
   const [prevDisabled, setPrevDisabled] = useState(true)
   const [nextDisabled, setNextDisabled] = useState(true)
+  const [error, setError] = useState("")
+
+   // Fonction pour charger les programmes
+  const fetchProgrammes = async () => {
+    try {
+      const res = await fetch("http://api.yeshouatv.com/api/list_programmes_for_user")
+
+      if (!res.ok) {
+        const errorText = await res.text()
+        console.error("Erreur API:", errorText)
+        throw new Error("Erreur lors du chargement des programmes")
+      }
+
+      const result = await res.json()
+
+      if (!Array.isArray(result.data)) {
+        throw new Error("La réponse API ne contient pas un tableau de programmes.")
+      }
+
+      // Transformer 'when' (string) en tableau
+      const programmesWithArrayWhen = result.data.map((prog: any) => ({
+        ...prog,
+        when: typeof prog.when === "string"
+          ? prog.when.split(",").map((d: string) => d.trim())
+          : prog.when,
+      }))
+
+      setProgrammes(programmesWithArrayWhen)
+    } catch (error) {
+      setError("Erreur lors du chargement des programmes")
+      console.error("Erreur Api: ", error)
+    }
+  }
 
   const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
     setSelectedIndex(emblaApi.selectedScrollSnap())

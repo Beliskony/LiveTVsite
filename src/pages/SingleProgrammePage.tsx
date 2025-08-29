@@ -4,8 +4,6 @@ import { useState, useEffect } from "react"
 import { useParams, Navigate } from "react-router-dom"
 import { Calendar, Clapperboard, Clock} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import Header from "@/components/NavBar"
-import Footer from "@/components/Footer"
 import { programmeData } from "@/data/programmeData"
 import { videosData } from "@/data/videosData"
 import type {IProgramme} from "@/interfaces/Programme"
@@ -103,10 +101,6 @@ export default function SingleProgrammePage() {
       {/* Overlay noir + blur progressif */}
       <div className="absolute inset-0 z-[-1] bg-gradient-to-b from-transparent via-black/70 to-black backdrop-blur-md" />
 
-        
-        <section className="z-10">
-          <Header />
-        </section>
       
          <section className="xl:px-20 px-6 py-10 flex flex-col text-white">
         
@@ -146,10 +140,7 @@ export default function SingleProgrammePage() {
       </div>
       </section>
 
-      {/* Footer */}
-      <section>
-        <Footer />
-      </section>
+
 
     </div>
   )
