@@ -11,6 +11,7 @@ export function ProgrammesGrid() {
   const [programmes, setProgrammes] = useState<IProgramme[]>([])
   const [error, setError] = useState("")
 
+
   const totalPages = Math.ceil(programmes.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const paginatedProgramme = programmes.slice(startIndex, startIndex + ITEMS_PER_PAGE)
@@ -18,7 +19,7 @@ export function ProgrammesGrid() {
  // Fonction pour charger les programmes
   const fetchProgrammes = async () => {
     try {
-      const res = await fetch("http://api.yeshouatv.com/api/list_programmes_for_user")
+      const res = await fetch("https://api.yeshouatv.com/api/list_programmes_for_user")
 
       if (!res.ok) {
         const errorText = await res.text()
