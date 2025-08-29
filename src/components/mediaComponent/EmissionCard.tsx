@@ -20,7 +20,7 @@ export const EmissionCard = (Emission:propsEmission) => {
       {/* Image de couverture avec effet de zoom */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-        style={{ backgroundImage: `url(${Emission.contenu.couverture})` }}
+        style={{ backgroundImage: `url(${Emission.contenu.couverture.replace("http://", "https://")})` }}
         role="img"
         aria-label={`Couverture de l'émission: ${Emission.contenu.nom}`}
       />
@@ -34,7 +34,9 @@ export const EmissionCard = (Emission:propsEmission) => {
             <h3 className="text-xl text-white">{Emission.contenu.starting} à {Emission.contenu.ending}</h3>
           </div>
 
-          <p className="text-sm md:text-base text-gray-200 max-w-xs mx-auto leading-relaxed">{Emission.contenu.description}</p>
+          <p className="text-sm md:text-base break-all text-gray-200 max-w-xs mx-auto leading-relaxed line-clamp-3">
+            {Emission.contenu.description}
+            </p>
       </div>
       </div>
 
@@ -66,7 +68,7 @@ export const EmissionCard = (Emission:propsEmission) => {
     </Card>
 
     <div className={`mt-1 text-wrap text-xl text-center font-bold ${Emission.textCouleur}`}>
-      <h2 className="w-[250px] break-words">{Emission.contenu.nom}</h2>
+      <h2 className="w-[250px] truncate">{Emission.contenu.nom}</h2>
     </div>
     </Link>
   </div>
