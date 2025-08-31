@@ -9,6 +9,7 @@ const ITEMS_PER_PAGE = 9
 export function ProgrammesGrid() {
   const [currentPage, setCurrentPage] = useState(1)
   const [programmes, setProgrammes] = useState<IProgramme[]>([])
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
 
@@ -45,6 +46,8 @@ export function ProgrammesGrid() {
     } catch (error) {
       setError("Erreur lors du chargement des programmes")
       console.error("Erreur Api: ", error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -62,7 +65,7 @@ export function ProgrammesGrid() {
 
 
   return (
-    <section className="w-full my-4 items-start flex flex-col p-2 lg:p-10 gap-y-3.5">
+    <section className="w-full lg:h-screen my-4 items-start flex flex-col p-2 lg:p-10 gap-y-3.5">
       <h2 className="text-5xl text-white font-bold mb-4">Tous Nos Programmes</h2>
 
       {paginatedProgramme.length > 0 ? (

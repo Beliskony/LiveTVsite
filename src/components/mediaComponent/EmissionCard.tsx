@@ -16,7 +16,7 @@ export const EmissionCard = (Emission:propsEmission) => {
   <>
    <div className="flex flex-col items-center justify-center p-4">
     <Link to={`/programmes/${Emission.contenu.id}`} className="no-underline">
-    <Card className="group relative w-[250px] max-sm:w-[300px] h-[420px] lg:h-96 xl:h-[420px] overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
+    <Card className="group relative w-[250px] max-sm:w-[300px] h-[450px] lg:h-96 xl:h-[420px] overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
       {/* Image de couverture avec effet de zoom */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
@@ -68,7 +68,7 @@ export const EmissionCard = (Emission:propsEmission) => {
     </Card>
 
     <div className={`mt-1 text-wrap text-xl text-center font-bold ${Emission.textCouleur}`}>
-      <h2 className="w-[250px] truncate">{Emission.contenu.nom}</h2>
+      <h2 className=" truncate">{Emission.contenu.nom}</h2>
     </div>
     </Link>
   </div>

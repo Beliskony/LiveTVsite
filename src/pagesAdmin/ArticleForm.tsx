@@ -9,10 +9,11 @@ import { ImageSelector } from "./ImageSelector"
 
 interface ArticleFormProps {
   onClose: () => void
+  onRefresh:() => void
   article?: IArticle
 }
 
-export function ArticleForm({ onClose, article }: ArticleFormProps) {
+export function ArticleForm({ onClose, article, onRefresh }: ArticleFormProps) {
   const [formData, setFormData] = useState({
     title: article?.title || "",
     content: article?.contenu || "",
@@ -26,6 +27,7 @@ export function ArticleForm({ onClose, article }: ArticleFormProps) {
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -40,19 +42,30 @@ export function ArticleForm({ onClose, article }: ArticleFormProps) {
       if (selectedImageFile) payload.append("featured_image", selectedImageFile)
 
    try {
-    const response = await fetch( article ? `https://api.yeshouatv.com/api/articles/$article.id`: "https://api.yeshouatv.com/api/articles",{
-      method: article ? "PUT" : "POST",
-      body: payload
-    })
+    const url =  article ? `https://api.yeshouatv.com/api/update_article/${article.id}` : "https://api.yeshouatv.com/api/add_article"
 
-     if (!response.ok) throw new Error("Erreur lors de l'envoi")
-      setIsSubmitting(false)
+    if(article?.id){
+      payload.append("_methode", "PUT")
+    }
+
+     const response = await fetch(url, {
+      method: "POST",
+      headers: {Authorization: `Bearer ${token ?? ""}`,},
+      body: payload,
+     })
+      const text = await response.text()
+      console.log("Status:", response.status)
+      console.log("Response body:", text)
+
+      if (!response.ok) throw new Error("Erreur lors de l'envoi")
+
       setIsSuccess(true)
-
-      setTimeout(() => onClose(), 3000)
+      onRefresh()
    } catch (error) {
-      setIsSubmitting(false)
       console.error(error)
+      alert("Une erreur est survenue lors de l'envoi du formulaire.")
+   } finally {
+    setIsSubmitting(false)
    }
 
   }
@@ -72,11 +85,7 @@ export function ArticleForm({ onClose, article }: ArticleFormProps) {
 
 
   const categories = ["Actualités", "Sport", "Culture", "Technologie", "Divertissement"]
-  const status = [
-    { value: "brouillon", label: "Brouillon" },
-    { value: "publié", label: "Publié" },
-    { value: "supprimé", label: "Supprimé" },
-  ]
+ 
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 shadow-sm mb-2">
@@ -142,21 +151,6 @@ export function ArticleForm({ onClose, article }: ArticleFormProps) {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Statut</label>
-                <select
-                  value={formData.status}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  {status.map((statuses) => (
-                    <option key={statuses.value} value={statuses.value}>
-                      {statuses.label}
-                    </option> 
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">Image à la une</label>
                 <ImageSelector onImageSelect={setSelectedImageFile} selectedFile={selectedImageFile} />
               </div>
@@ -190,17 +184,7 @@ export function ArticleForm({ onClose, article }: ArticleFormProps) {
                 <span>•</span>
                 <span>{formData.category || "Catégorie"}</span>
                 <span>•</span>
-                <span
-                  className={`px-2 py-1 rounded-full text-xs ${
-                    formData.status === "published"
-                      ? "bg-green-100 text-green-800"
-                      : formData.status === "scheduled"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-gray-100 text-gray-800"
-                  }`}
-                >
-                  {status.find((s) => s.value === formData.status)?.label}
-                </span>
+                
               </div>
             </div>
           </div>

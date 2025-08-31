@@ -16,10 +16,29 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Header from './components/NavBar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import { useEffect, useState } from 'react';
+import { SplashScreenWrapper } from './pages/SplashScreen';
+
 
 function AnimatedRoutes() {
   const location = useLocation();
-  
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const handleLoad = () => {
+      // petit délai pour fluidité
+      setTimeout(() => setLoading(false), 500);
+    };
+
+    if (document.readyState === "complete") {
+      // la page est déjà complètement chargée
+      handleLoad();
+    } else {
+      // sinon on attend l'événement "load"
+      window.addEventListener("load", handleLoad);
+      return () => window.removeEventListener("load", handleLoad);
+    }
+  }, []);
 
   // Animation variants
   const variants = {
@@ -30,6 +49,7 @@ function AnimatedRoutes() {
 
   return (
   <>
+  <SplashScreenWrapper>
   <Header />
     <AnimatePresence mode='wait'>
       <Routes location={location} key={location.pathname}>
@@ -41,7 +61,7 @@ function AnimatedRoutes() {
               initial="initial"
               animate="animate"
               exit="exit"
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               <TVLive />
             </motion.div>
@@ -55,7 +75,7 @@ function AnimatedRoutes() {
               initial="initial"
               animate="animate"
               exit="exit"
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               <Acceuil />
             </motion.div>
@@ -69,7 +89,7 @@ function AnimatedRoutes() {
               initial="initial"
               animate="animate"
               exit="exit"
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               <Programmes />
             </motion.div>
@@ -83,7 +103,7 @@ function AnimatedRoutes() {
               initial="initial"
               animate="animate"
               exit="exit"
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               <SingleProgrammePage />
             </motion.div>
@@ -97,7 +117,7 @@ function AnimatedRoutes() {
               initial="initial"
               animate="animate"
               exit="exit"
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               <ContactTV />
             </motion.div>
@@ -111,7 +131,7 @@ function AnimatedRoutes() {
               initial="initial"
               animate="animate"
               exit="exit"
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               <ArticlesListePage />
             </motion.div>
@@ -125,7 +145,7 @@ function AnimatedRoutes() {
               initial="initial"
               animate="animate"
               exit="exit"
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               <SingleArticlePage />
             </motion.div>
@@ -139,7 +159,7 @@ function AnimatedRoutes() {
               initial="initial"
               animate="animate"
               exit="exit"
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               <PresentationEglise />
             </motion.div>
@@ -153,7 +173,7 @@ function AnimatedRoutes() {
               initial="initial"
               animate="animate"
               exit="exit"
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               <ProtectedRoute element={<Admin />} />
             </motion.div>
@@ -163,6 +183,7 @@ function AnimatedRoutes() {
     </AnimatePresence>
 
     <Footer/>
+  </SplashScreenWrapper>
   </>
   );
 }

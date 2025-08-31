@@ -48,7 +48,7 @@ useEffect(() => {
 
 
   return (
-    <section>
+    <section className='h-screen'>
       <div className='flex flex-row justify-between items-center w-full p-1 lg:p-5 xl:p-10'>
         <div className='flex flex-col space-y-2'>
           <h3 className='text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900'>Gestion du Programme</h3>

@@ -122,6 +122,7 @@ export default function Header() {
               <div className="relative w-full">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white h-4 w-4" />
                 <input
+                  id="recherche"
                   type="text"
                   placeholder="Rechercher émissions, événements..."
                   value={searchQuery}

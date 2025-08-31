@@ -13,7 +13,7 @@ import { ImageSelector } from "./ImageSelector"
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useAuth } from "@/components/auth-context"
-import getReadableDaysRange from "@/utilitaires/getReadableDaysRange"
+
 interface ProgramFormProps {
   onClose: () => void
   onRefresh: () => void

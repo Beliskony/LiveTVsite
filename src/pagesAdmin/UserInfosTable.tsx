@@ -10,7 +10,7 @@ import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 export function UserInfoTable() {
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
+  const itemsPerPage = 15
   const [users, setUsers] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
 

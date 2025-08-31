@@ -9,8 +9,9 @@ import { programmeData } from "@/data/programmeData"
 import type { IProgramme } from "@/interfaces/Programme"
 
 export function EmissionCarouselForEmission() {
-  const [emissions, setEmissions] = useState<IProgramme[]>([])
+  const [programmes, setProgrammes] = useState<IProgramme[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
 
   const autoplay = useRef(
     Autoplay({ delay: 4000, stopOnInteraction: true, playOnInit: true })
@@ -65,22 +66,50 @@ export function EmissionCarouselForEmission() {
 
 
   //--- Fetch backend ---
-{/*  useEffect(() =>{
-    const fetcEmissions = async () => {
-      try {
-        const response = await fetch("https://api.yeshouatv.com/api/programmes")
-        if (!response.ok) throw new Error ("Erreur lors de la récupération des programmes")
-        const data: IProgramme[] = await response.json()
-        setEmissions(data)
+   // Fonction pour charger les programmes
+  const fetchProgrammes = async () => {
+    try {
+      const res = await fetch("https://api.yeshouatv.com/api/list_programmes_for_user")
 
-      } catch (error) {
-        console.error(error)
-      } finally{
-        setLoading(false)
+      if (!res.ok) {
+        const errorText = await res.text()
+        console.error("Erreur API:", errorText)
+        throw new Error("Erreur lors du chargement des programmes")
       }
+
+      const result = await res.json()
+
+      if (!Array.isArray(result.data)) {
+        throw new Error("La réponse API ne contient pas un tableau de programmes.")
+      }
+
+      // Transformer 'when' (string) en tableau
+      const programmesWithArrayWhen = result.data.map((prog: any) => ({
+        ...prog,
+        when: typeof prog.when === "string"
+          ? prog.when.split(",").map((d: string) => d.trim())
+          : prog.when,
+      }))
+
+      setProgrammes(programmesWithArrayWhen)
+    } catch (error) {
+      setError("Erreur lors du chargement des programmes")
+      console.error("Erreur Api: ", error)
+    } finally {
+      setLoading(false)
     }
-    fetcEmissions()
-  }, []) */}
+  }
+
+  // useEffect pour le chargement initial + refresh auto
+  useEffect(() => {
+    fetchProgrammes()
+
+    const interval = setInterval(() => {
+      fetchProgrammes()
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <div className="relative w-full h-[600px] font-normal text-[22px] lg:h-screen md:h-[500px] overflow-hidden mt-0">
@@ -92,7 +121,7 @@ export function EmissionCarouselForEmission() {
         onMouseLeave={() => emblaApi?.plugins()?.autoplay?.play()}
       >
         <div className="embla__container flex h-full">
-          {programmeData.map((emission, index) => (
+          {programmes.map((emission, index) => (
             <div key={emission.id} className="embla__slide flex-none w-full h-full relative overflow-hidden">
               {/* Background with gradient overlay */}
               <div
@@ -110,7 +139,7 @@ export function EmissionCarouselForEmission() {
                     selectedIndex === index ? "opacity-100" : "opacity-0 pointer-events-none"
                   }`}>
                     {/* Logo */}
-                    <div className="mb-8 max-sm:mb-1 justify-self-center md:justify-self-start">
+                    <div className="mb-8 max-sm:hidden justify-self-center md:justify-self-start">
                       <img src={emission.couverture || "/placeholder.svg"} alt="Logo" className="h-24 w-auto" />
                     </div>
 
@@ -121,7 +150,7 @@ export function EmissionCarouselForEmission() {
                     {/* CTA Button */}
                     <Button
                       size="lg"
-                      className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-blue-600 transition-all duration-300 px-8 max-sm:px-3 py-3 max-sm:py-1 text-lg rounded-full"
+                      className="bg-transparent border-2 border-white text-white hover:bg-gray-900 hover:text-blue-600 transition-all duration-300 px-8 max-sm:px-3 py-3 max-sm:py-1 text-lg rounded-full"
                     >
                       {emission.genre}
                     </Button>

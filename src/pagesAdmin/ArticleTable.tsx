@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Edit, Trash2, Eye, Search, Filter, MoreHorizontal } from "lucide-react"
 import type { IArticle } from "@/interfaces/Articles"
 import { articleData } from "@/data/articlesData"
@@ -14,15 +14,77 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 
 interface ArticleTableProps {
-  onEdit?: (article: IArticle) => void
+  onEdit: (article: IArticle) => void
 }
 
 export function ArticleTable({ onEdit }: ArticleTableProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [categoryFilter, setCategoryFilter] = useState("all")
+  const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
+
+  const fecthArticles = async () => {
+    try {
+      const token = localStorage.getItem("token")
+      const res = await fetch("https://api.yeshouatv.com/api/list_article", {
+        method: "GET",
+        headers: {Authorization: `Bearer ${token}` }
+      })
+
+      if (!res.ok) {
+        const errorText = await res.text()
+        console.error("Erreur API:", errorText)
+        throw new Error("Erreur lors du chargement des programmes")
+      }
+
+      const result = await res.json()
+
+      if (!Array.isArray(result.data)) {
+        throw new Error("La réponse API ne contient pas un tableau de programmes.")
+      }
+      
+    } catch (error) {
+       setError("Erreur lors du chargement des programmes")
+      console.error("Erreur Api: ", error)
+    }
+  }
+
+    // Appel initial
+  useEffect(() => {
+    fecthArticles()
+
+  const interval = setInterval(() => {
+    fecthArticles() // refetch every 5 sec
+    }, 30000)
+
+    return() => clearInterval(interval)
+
+  }, [])
+
+  const deleteArticle = async (id: string) =>{
+    try {
+      const token = localStorage.getItem("token")
+      const res = await fetch(`https://api.yeshouatv.com/api/delete_article/${id}`, {
+        method: "DELETE",
+        headers: {Authorization: `Bearer ${token}`}
+      })
+
+      if (!res.ok) {
+      const errorText = await res.text()
+      console.error("Erreur API DELETE:", errorText)
+      throw new Error("Erreur lors de la suppression du programme")
+      }
+
+      console.log("Programme supprimé avec succès")
+      await fecthArticles()
+
+    } catch (error) {
+      console.error("Erreur lors du DELETE:", error)
+      throw error
+    }
+  }
 
   const categories = ["Actualités", "Sport", "Culture", "Technologie", "Divertissement"]
   const statuses = [
@@ -163,13 +225,13 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="items-end">
-                      <DropdownMenuItem onClick={() => onEdit?.(article)}>
+                      <DropdownMenuItem onClick={() => onEdit(article)}>
                         <Edit className="h-4 w-4 mr-2" />
                         Modifier
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-red-600"
-                        onClick={() => onDelete?.(article.id)}
+                        onClick={() => deleteArticle(article.id).catch(()=> alert("Erreur lors de la suppression"))}
                       >
                         <Trash2 className="h-4 w-4 mr-2" />
                         Supprimer
