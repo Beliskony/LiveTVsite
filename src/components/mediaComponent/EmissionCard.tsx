@@ -67,7 +67,7 @@ export const EmissionCard = (Emission:propsEmission) => {
       </div>
     </Card>
 
-    <div className={`mt-1 text-wrap text-xl text-center font-bold ${Emission.textCouleur}`}>
+    <div className={`mt-1 text-wrap text-sm text-center font-bold ${Emission.textCouleur}`}>
       <h2 className=" truncate">{Emission.contenu.nom}</h2>
     </div>
     </Link>

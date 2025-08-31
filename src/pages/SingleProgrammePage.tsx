@@ -1,43 +1,58 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useParams, Navigate } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { Calendar, Clapperboard, Clock} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { programmeData } from "@/data/programmeData"
 import { videosData } from "@/data/videosData"
 import type {IProgramme} from "@/interfaces/Programme"
 import type { IVideo } from "@/interfaces/Videos"
 import { VideoCard } from "@/components/mediaComponent/VideoCard"
 import { VideosFilters } from "@/components/mediaComponent/VideoFilter"
+import getReadableDaysRange from "@/utilitaires/getReadableDaysRange"
 
 
-// Récupérer l'émission par id
-function getProgrammeById(id: string): IProgramme | undefined {
-  return programmeData.find((programme) => programme.id === id)
-}
+
 
 export default function SingleProgrammePage() {
   const { id } = useParams<{ id: string }>()
-  const programme = id ? getProgrammeById(id) : undefined
+  const [programme, setProgramme] = useState<IProgramme | null>(null)
   const [allVideos, setAllVideos] = useState<IVideo[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const [filters, setFilters] = useState({ search: "", sort: "recent", })
+
+    // Récupération de l'émission
+  useEffect(() => {
+    if (!id) return
+
+    setLoading(true)
+
+    Promise.all([
+      fetch("https://api.yeshouatv.com/api/list_programmes_for_user").then(res => res.json()),
+      //fetch("https://api.yeshouatv.com/api/videos").then(res => res.json())
+      Promise.resolve({data: videosData}) //utiliser mock temporairement
+    ])
+      .then(([programmesRes, videosRes]) => {
+        const foundProgramme = programmesRes.data.find((p: IProgramme) => p.id === id)
+        if (!foundProgramme) {
+          setError("Émission introuvable")
+          return
+        }
+
+        const relatedVideos = videosRes.data.filter((video: IVideo) => video.programmeId === foundProgramme.id)
+
+        setProgramme(foundProgramme)
+        setAllVideos(relatedVideos)
+      })
+      .catch(() => setError("Erreur lors du chargement des données"))
+      .finally(() => setLoading(false))
+  }, [id]) 
+    if (loading) return <div>Chargement…</div>
+  if (error) return <div className="text-red-500">{error}</div>
+  if (!programme) return <div>Aucune émission trouvée.</div>
 
 
-  if (!programme) {
-    return null //<Navigate to="/404" replace />
-  }
-
-    // Lier automatiquement les vidéos à l'émission
-  const linkedVideos: IVideo[] = videosData.filter(
-    (video) => video.programmeId === programme.id // Assurez-vous que vos vidéos ont la propriété `programmeId`
-  )
-
-  const [filters, setFilters] = useState({
-    search: "",
-    sort: "recent",
-  })
 
   const handleSearchChange = (search: string) => {
     setFilters((prev) => ({ ...prev, search }))
@@ -47,7 +62,11 @@ export default function SingleProgrammePage() {
     setFilters((prev) => ({ ...prev, sort }))
   }
 
-  const filteredVideos = linkedVideos
+
+      // Lier automatiquement les vidéos à l'émission
+  const linkedVideos: IVideo[]= programme ? videosData.filter((video) => video.programmeId === programme.id) : []
+
+    const filteredVideos = linkedVideos
   .filter((video) =>
     video.title?.toLowerCase().includes(filters.search.toLowerCase())
   )
@@ -67,34 +86,12 @@ export default function SingleProgrammePage() {
     return 0
   })
 
-
- {/*  useEffect(() => {
-   fetch("https://api.yeshouatv.com/api/videos")
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error("Erreur réseau")
-      }
-      return res.json()
-    })
-    .then((data: IVideo[]) => {
-      const formatted = data.map(video => ({
-        ...video,
-        createdAt: new Date(video.createdAt),
-      }))
-      setAllVideos(formatted)
-    })
-    .catch(() => setError("Erreur lors du chargement des vidéos"))
-    .finally(() => setLoading(false))
-  }, []) 
-  */}
-
-
   return (
-    <div className="min-h-screen flex flex-col relative overflow-x-hidden">
+    <div className="min-h-screen justify-between flex flex-col relative">
 
          {/* Image de couverture en fond */}
       <div
-        className="absolute inset-0 bg-cover bg-center z-[-2]"
+        className="absolute h-screen inset-0 bg-cover bg-center z-[-2]"
         style={{ backgroundImage: `url(${programme.couverture})` }}
       />
 
@@ -109,8 +106,8 @@ export default function SingleProgrammePage() {
           <h1 className="text-4xl md:text-6xl font-bold mb-4">{programme.nom}</h1>
           <p className="mb-6 text-lg md:text-xl leading-relaxed">{programme.description}</p>
           <div className="flex flex-wrap items-center gap-4 text-sm">
-            <Badge className="bg-indigo-100 text-indigo-800">{programme.genre}</Badge>
-            <div className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {programme.when}</div>
+            <Badge className="bg-indigo-100 text-indigo-800 break-all">{programme.genre}</Badge>
+            <div className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {getReadableDaysRange(programme.when)}</div>
             <div className="flex items-center gap-1"><Clock className="w-4 h-4" /> {programme.starting} - {programme.ending}</div>
           </div>
 

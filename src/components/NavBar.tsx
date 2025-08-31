@@ -3,8 +3,6 @@ import { Search, Menu, X, User, Bell, ChevronDown, LogOut, PlayCircle, GalleryHo
 import { Link } from "react-router-dom"
 import { useAuth } from "./auth-context" // branchement sur ton AuthProvider
 import { LogSignIn } from "./LogSignIn"
-import { programmeData } from "@/data/programmeData"
-import { articleData } from "@/data/articlesData"
 import { useLocation } from "react-router-dom"
 
 
@@ -15,7 +13,7 @@ export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false)
-  const [results, setResults] = useState<any[]>()
+  const [results, setResults] = useState<any[]>([])
   const location = useLocation()
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
@@ -38,30 +36,57 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const handleSearch = (query: string) => {
-  setSearchQuery(query)
-
+const handleSearch = async (query: string) => {
   if (!query.trim()) {
     setResults([])
     return
   }
 
-  const lowerQuery = query.toLowerCase()
+    try {
+    const [programmesRes, articlesRes] = await Promise.allSettled([
+      fetch("https://api.yeshouatv.com/api/list_programmes_for_user", {method: "GET"}),
+      fetch("https://api.yeshouatv.com/api/list_article_for_user", {method: "GET"}),
+    ])
 
+       let programmes: any[] = []
+       let articles: any[] = []
+    // ✅ Gestion programmes
+    if (programmesRes.status === "fulfilled" && programmesRes.value.ok) {
+      const programmesJson = await programmesRes.value.json()
+      programmes = programmesJson.data || []
+    }
 
-  const emissionResults = programmeData.filter((emission) =>
-    emission.nom.toLowerCase().includes(lowerQuery) 
-  )
+    // ✅ Gestion articles même si la route 404
+    if (articlesRes.status === "fulfilled" && articlesRes.value.ok) {
+      const articlesJson = await articlesRes.value.json()
+      articles = articlesJson.data || []
+    }
+    
+    const lowerQuery = query.toLowerCase()
 
-  const articleResults = articleData.filter((article) =>
-    article.title.toLowerCase().includes(lowerQuery)
-  )
+    const filteredProgrammes = programmes.filter((programme: any) =>
+      programme.nom.toLowerCase().includes(lowerQuery)
+    ).map((item: any) => ({type: "emission", ...item}))
 
-  setResults([
-    ...emissionResults.map((e) => ({ type: "emission", ...e })),
-    ...articleResults.map((a) => ({ type: "article", ...a })),
-  ])
+        // Filtrage des articles (données locales)
+    const filteredArticles = articles.filter((article: any) =>
+      article.title.toLowerCase().includes(lowerQuery)
+    ).map((item: any) => ({ type: "article", ...item }))
+
+    setResults([...filteredProgrammes, ...filteredArticles])
+  } catch (error) {
+    console.error("Erreur dans handleSearch :", error)
+    setResults([])
+  }
 }
+
+useEffect(() => {
+  const delayDebounce = setTimeout(() => {
+    handleSearch(searchQuery)
+  }, 300)
+
+  return () => clearTimeout(delayDebounce)
+}, [searchQuery])
 
 
   return (
@@ -124,32 +149,46 @@ export default function Header() {
                 <input
                   id="recherche"
                   type="text"
-                  placeholder="Rechercher émissions, événements..."
                   value={searchQuery}
-                  onChange={(e) => handleSearch(e.target.value)}
+                  placeholder="Rechercher programmes, articles..."
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2  border border-white rounded-md text-white placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors"
                 />
-                {results && results.length > 0 && (
-                <div className="absolute top-full left-0 mt-2 w-full bg-gray-900 border border-gray-800 rounded-md shadow-lg z-50">
-                  <ul className="max-h-60 overflow-y-auto">
-                    {results.map((result, _index) => (
-                      <li key={`${result.type}-${result.id}`} className="px-4 py-2 hover:bg-gray-800 transition-colors">
-                        <Link
-                          to={
-                            result.type === "article" ? `/egliseYeshoua/articles/${result.id}` :
-                            result.type === "emission" ? `/programmes/${result.id}` : "#"
+            {searchQuery.trim() && (
+              <div className="absolute top-full left-0 mt-2 w-full bg-gray-900 border border-gray-800 rounded-md shadow-lg z-50">
+              {results.length > 0 ? (
+                <ul className="max-h-60 overflow-y-auto">
+                  {results.map((result, _index) => (
+                    <li key={`${result.type}-${result.id}`} className="px-4 py-2 hover:bg-gray-800 transition-colors">
+                      <Link to={
+                        result.type === "article"
+                          ? `/egliseYeshoua/articles/${result.id}`
+                          : result.type === "emission"
+                          ? `/programmes/${result.id}`
+                          : "#"
                           }
-                          className="text-white justify-between border-b border-gray-700 hover:border-blue-500 flex items-center pb-1.5"
-                        >
+                          onClick={() => {
+                            setSearchQuery("")
+                            setResults([])
+                          }}
+                          className="text-white justify-between border-b border-gray-700 hover:border-blue-500 flex items-center pb-1.5">
                           {result.title || result.nom || result.name}
-                          <img src={result.couverture || result.featured_image} alt={result.title || result.nom || result.name} className="h-10 w-10 ml-2 inline-block rounded-lg" />
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              </div>
+                        <img src={result.couverture || result.featured_image}
+                          alt={result.title || result.nom || result.name}
+                          className="h-10 w-10 ml-2 inline-block rounded-lg" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+            <div className="px-4 py-3 text-sm text-gray-400 text-center">
+              Aucun résultat trouvé pour « {searchQuery} ».
+            </div>
+          )}
+        </div>
+        )}
+
+          </div>
               
             </div>
 
