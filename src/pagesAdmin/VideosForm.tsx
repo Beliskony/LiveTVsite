@@ -87,8 +87,7 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
     setIsSubmitting(true) 
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
+      const token = localStorage.getItem("token")
       const form = new FormData()
         form.append("title", formData.title || "");
         form.append("description", formData.description || "");
@@ -97,21 +96,43 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
           if (selectedImageFile) form.append("couverture", selectedImageFile);
           if (selectedVideoFile) form.append("videoFile", selectedVideoFile);
 
-      const response = await fetch("https://api.yeshouatv.com/api/videos", {
-        method: video ? "PUT" : "POST",
-        body: form,
-      });
 
-      if (!response.ok) throw new Error("Erreur lors de l'envoi");
-
-      setIsSubmitting(false)
-      setIsSuccess(true)
-
-      setTimeout(() => {onClose()}, 3000)
-    } catch (error) {
-      setIsSubmitting(false)
-      console.error("Erreur lors de l'envoi:", error)
+      const url = video?.id
+        ? `https://api.yeshouatv.com/api/update_video/${video.id}`
+        : "https://api.yeshouatv.com/api/add_video"
+      const method = "POST"
+       if (video?.id) {
+      form.append("_method", "PUT")
     }
+      const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token ?? ""}`,
+      },
+      body: form,
+    })
+
+     const resText = await response.text()
+    console.log("Réponse brute :", resText)
+
+if (!response.ok) {
+  const error = {
+    status: response.status,
+    message: resText,
+  }
+
+  console.error("Erreur API:", error)
+
+  throw new Error(`Erreur API ${error.status}: ${error.message}`)
+}
+
+
+    setIsSuccess(true)
+    setTimeout(() => onClose(), 3000)
+  } catch (error) {
+    console.error("Erreur lors de l'envoi:", error)
+    setIsSubmitting(false)
+  }
   }
 
     if (isSuccess) {

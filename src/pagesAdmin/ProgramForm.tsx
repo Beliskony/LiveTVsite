@@ -97,8 +97,8 @@ const initialDays = Array.isArray(program?.when) ? program.when : (program?.when
 
       // Choix de l'URL et méthode selon création ou modification
       const url = program?.id
-        ? `http://api.yeshouatv.com/api/update_programme/${program.id}`
-        : "http://api.yeshouatv.com/api/add_programme"
+        ? `https://api.yeshouatv.com/api/update_programme/${program.id}`
+        : "https://api.yeshouatv.com/api/add_programme"
       const method = "POST"
       if (program?.id) {
       payload.append("_method", "PUT")
