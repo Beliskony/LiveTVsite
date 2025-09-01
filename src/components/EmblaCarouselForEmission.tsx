@@ -5,13 +5,57 @@ import Autoplay from "embla-carousel-autoplay"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCallback, useEffect, useState, useRef } from "react"
-import { programmeData } from "@/data/programmeData"
 import type { IProgramme } from "@/interfaces/Programme"
 
 export function EmissionCarouselForEmission() {
   const [programmes, setProgrammes] = useState<IProgramme[]>([])
-  const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+
+
+ const fetchProgrammes = async () => {
+    try {
+      const token = localStorage.getItem("token")
+      const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` }
+      })
+
+      if (!res.ok) {
+        const errorText = await res.text()
+        console.error("Erreur API:", errorText)
+        throw new Error("Erreur lors du chargement des programmes")
+      }
+
+      const result = await res.json()
+
+      if (!Array.isArray(result.data)) {
+        throw new Error("La réponse API ne contient pas un tableau de programmes.")
+      }
+
+      const programmesWithArrayWhen = result.data.map((prog: any) => ({
+        ...prog,
+        when: typeof prog.when === "string" ? prog.when.split(",").map((d: string) => d.trim()) : prog.when,
+      }))
+
+      setProgrammes(programmesWithArrayWhen)
+    } catch (error) {
+      setError("Erreur lors du chargement des programmes")
+      console.error("Erreur Api: ", error)
+    }
+  }
+
+  // Appel initial
+  useEffect(() => {
+    fetchProgrammes()
+
+  const interval = setInterval(() => {
+    fetchProgrammes() // refetch every 5 sec
+    }, 5000)
+
+    return() => clearInterval(interval)
+
+  }, [])
+
 
   const autoplay = useRef(
     Autoplay({ delay: 4000, stopOnInteraction: true, playOnInit: true })
@@ -63,53 +107,6 @@ export function EmissionCarouselForEmission() {
     emblaApi.on("reInit", onInit)
     emblaApi.on("select", onSelect)
   }, [emblaApi, onInit, onSelect])
-
-
-  //--- Fetch backend ---
-   // Fonction pour charger les programmes
-  const fetchProgrammes = async () => {
-    try {
-      const res = await fetch("https://api.yeshouatv.com/api/list_programmes_for_user")
-
-      if (!res.ok) {
-        const errorText = await res.text()
-        console.error("Erreur API:", errorText)
-        throw new Error("Erreur lors du chargement des programmes")
-      }
-
-      const result = await res.json()
-
-      if (!Array.isArray(result.data)) {
-        throw new Error("La réponse API ne contient pas un tableau de programmes.")
-      }
-
-      // Transformer 'when' (string) en tableau
-      const programmesWithArrayWhen = result.data.map((prog: any) => ({
-        ...prog,
-        when: typeof prog.when === "string"
-          ? prog.when.split(",").map((d: string) => d.trim())
-          : prog.when,
-      }))
-
-      setProgrammes(programmesWithArrayWhen)
-    } catch (error) {
-      setError("Erreur lors du chargement des programmes")
-      console.error("Erreur Api: ", error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  // useEffect pour le chargement initial + refresh auto
-  useEffect(() => {
-    fetchProgrammes()
-
-    const interval = setInterval(() => {
-      fetchProgrammes()
-    }, 5000)
-
-    return () => clearInterval(interval)
-  }, [])
 
   return (
     <div className="relative w-full h-[600px] font-normal text-[22px] lg:h-screen md:h-[500px] overflow-hidden mt-0">

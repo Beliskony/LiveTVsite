@@ -1,12 +1,15 @@
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import ArticleCard from "./ArticleCard"
 import { PaginationArticle } from "./PaginationArticle"
 import { ArticleFilters } from "./ArticleFilters"
-import { articleData } from "@/data/articlesData"
+import type { IArticle } from "@/interfaces/Articles"
 
 const ITEMS_PER_PAGE = 9
 
 export function ArticlesGrid() {
+  const [articles, setArticles] = useState<IArticle[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [filters, setFilters] = useState({
     search: "",
     category: "",
@@ -15,13 +18,57 @@ export function ArticlesGrid() {
   })
   const [currentPage, setCurrentPage] = useState(1)
 
-  const categories = useMemo(() => {
-    const uniqueCategories = [...new Set(articleData.map((article) => article.category))]
-    return uniqueCategories.sort()
+  const fetchArticles = async () => {
+    setLoading(true)
+    try {
+      const res = await fetch("http://api.yeshouatv.com/api/list_article_for_user", {
+        method: "GET"
+      })
+
+      if (!res.ok) {
+        const errorText = await res.text()
+        throw new Error(`Erreur API: ${errorText}`)
+      }
+
+      const result = await res.json()
+      if (!Array.isArray(result.data)) throw new Error("Données inattendues")
+
+      // ✅ Stocker dans le cache
+      sessionStorage.setItem("articles", JSON.stringify(result.data))
+      setArticles(result.data)
+      setError(null)
+    } catch (err) {
+      console.error("Erreur de chargement des articles:", err)
+      setError("Impossible de charger les articles.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // ✅ Initialisation : on lit le cache, puis on fetch
+  useEffect(() => {
+    const cachedArticles = sessionStorage.getItem("articles")
+    if (cachedArticles) {
+      try {
+        setArticles(JSON.parse(cachedArticles))
+        setLoading(false)
+      } catch (e) {
+        console.warn("Erreur parsing cache articles")
+      }
+    }
+
+    fetchArticles()
+    const interval = setInterval(fetchArticles, 10000)
+    return () => clearInterval(interval)
   }, [])
 
+  const categories = useMemo(() => {
+    const uniqueCategories = [...new Set(articles.map((article) => article.category))]
+    return uniqueCategories.sort()
+  }, [articles])
+
   const filteredAndSortedArticles = useMemo(() => {
-    const filtered = articleData.filter((article) => {
+    const filtered = articles.filter((article) => {
       if (filters.search) {
         const searchLower = filters.search.toLowerCase()
         const matchesSearch =
@@ -57,7 +104,7 @@ export function ArticlesGrid() {
     })
 
     return filtered
-  }, [filters])
+  }, [articles, filters])
 
   const totalPages = Math.ceil(filteredAndSortedArticles.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
@@ -84,7 +131,6 @@ export function ArticlesGrid() {
       <div className="mb-6">
         <p className="text-sm text-muted-foreground">
           {filteredAndSortedArticles.length} article{filteredAndSortedArticles.length !== 1 ? "s" : ""} trouvé
-          {filteredAndSortedArticles.length !== 1 ? "s" : ""}
         </p>
       </div>
 

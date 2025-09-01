@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,7 +12,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { X, CheckCircle } from "lucide-react"
 import type { IVideo } from "@/interfaces/Videos"
 import { SelecteurVideo } from "./VideoSelector"
-import { programmeData } from "@/data/programmeData"
 import type { IProgramme } from "@/interfaces/Programme"
 import { ImageSelector } from "./ImageSelector"
 
@@ -35,6 +34,53 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
    const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
    const [isSubmitting, setIsSubmitting] = useState(false)
    const [isSuccess, setIsSuccess] = useState(false)
+   const [programmes, setProgrammes] = useState<IProgramme[]>([])
+   const [error, setError] = useState<string | null>(null)
+       
+     
+      const fetchProgrammes = async () => {
+         try {
+           const token = localStorage.getItem("token")
+           const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
+             method: "GET",
+             headers: { Authorization: `Bearer ${token}` }
+           })
+     
+           if (!res.ok) {
+             const errorText = await res.text()
+             console.error("Erreur API:", errorText)
+             throw new Error("Erreur lors du chargement des programmes")
+           }
+     
+           const result = await res.json()
+     
+           if (!Array.isArray(result.data)) {
+             throw new Error("La réponse API ne contient pas un tableau de programmes.")
+           }
+     
+           const programmesWithArrayWhen = result.data.map((prog: any) => ({
+             ...prog,
+             when: typeof prog.when === "string" ? prog.when.split(",").map((d: string) => d.trim()) : prog.when,
+           }))
+     
+           setProgrammes(programmesWithArrayWhen)
+         } catch (error) {
+           setError("Erreur lors du chargement des programmes")
+           console.error("Erreur Api: ", error)
+         }
+       }
+     
+       // Appel initial
+       useEffect(() => {
+         fetchProgrammes()
+     
+       const interval = setInterval(() => {
+         fetchProgrammes() // refetch every 5 sec
+         }, 5000)
+     
+         return() => clearInterval(interval)
+     
+       }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -117,7 +163,7 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
                   <SelectValue placeholder="Sélectionnez une emistion" />
                 </SelectTrigger>
                 <SelectContent>
-                  {programmeData.map((emission) => {
+                  {programmes.map((emission) => {
                     const emissionNorm: IProgramme ={...emission,
                       when: Array.isArray(emission.when) ? emission.when : [emission.when],
                     }

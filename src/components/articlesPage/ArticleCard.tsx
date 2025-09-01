@@ -20,8 +20,8 @@ const ArticleCard = (articleProps: IArticle) => {
                 {articleProps.category}
               </Badge>
               <CardTitle className="font-sans text-lg">{articleProps.title}</CardTitle>
-              <CardDescription className="font-serif">
-                {articleProps.contenu.length > 220 ? `${articleProps.contenu.slice(0, 220)}...` : articleProps.contenu}
+              <CardDescription className="font-serif break-all">
+                {articleProps.contenu.length > 70 ? `${articleProps.contenu.slice(0, 220)}...` : articleProps.contenu}
               </CardDescription>
             </CardHeader>
             <CardContent className="mt-5">

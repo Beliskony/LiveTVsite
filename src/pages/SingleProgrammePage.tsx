@@ -10,9 +10,9 @@ import type { IVideo } from "@/interfaces/Videos"
 import { VideoCard } from "@/components/mediaComponent/VideoCard"
 import { VideosFilters } from "@/components/mediaComponent/VideoFilter"
 import getReadableDaysRange from "@/utilitaires/getReadableDaysRange"
+import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 
-
-
+const ITEMS_PER_PAGE = 9
 
 export default function SingleProgrammePage() {
   const { id } = useParams<{ id: string }>()
@@ -21,6 +21,7 @@ export default function SingleProgrammePage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [filters, setFilters] = useState({ search: "", sort: "recent", })
+  const [currentPage, setCurrentPage] = useState(1)
 
     // Récupération de l'émission
   useEffect(() => {
@@ -48,7 +49,7 @@ export default function SingleProgrammePage() {
       .catch(() => setError("Erreur lors du chargement des données"))
       .finally(() => setLoading(false))
   }, [id]) 
-    if (loading) return <div>Chargement…</div>
+  if (loading) return <div>Chargement…</div>
   if (error) return <div className="text-red-500">{error}</div>
   if (!programme) return <div>Aucune émission trouvée.</div>
 
@@ -86,8 +87,12 @@ export default function SingleProgrammePage() {
     return 0
   })
 
+    const totalPages = Math.ceil(filteredVideos.length / ITEMS_PER_PAGE)
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
+  const paginatedVideos = filteredVideos.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+
   return (
-    <div className="min-h-screen justify-between flex flex-col relative">
+    <div className="justify-between flex flex-col relative">
 
          {/* Image de couverture en fond */}
       <div
@@ -99,7 +104,7 @@ export default function SingleProgrammePage() {
       <div className="absolute inset-0 z-[-1] bg-gradient-to-b from-transparent via-black/70 to-black backdrop-blur-md" />
 
       
-         <section className="xl:px-20 px-6 py-10 flex flex-col text-white">
+         <section className="xl:px-20 px-6 py-10 flex flex-col text-white min-h-screen">
         
         {/* Infos de l’émission */}
         <div className="max-w-5xl my-10 max-sm:h-[200px] md:h-[400px]  md:pt-16 lg:pt-16 xl:pt-16">
@@ -129,15 +134,21 @@ export default function SingleProgrammePage() {
           <p className="text-gray-500 text-center">Aucune vidéo disponible pour cette émission.</p>
         ) : (
           <div className="w-full my-4 grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 justify-items-center">
-            {filteredVideos.map((video) => (
+            {paginatedVideos.map((video) => (
               <VideoCard key={video.id} {...video} />
             ))}
           </div>
         )}
       </div>
+
+       <PaginationArticle
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                totalItems={filteredVideos.length}
+                itemsPerPage={ITEMS_PER_PAGE}
+              />
       </section>
-
-
 
     </div>
   )

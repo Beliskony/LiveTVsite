@@ -3,7 +3,7 @@ import { ProgrammesGrid } from '@/components/programmesPage/ProgrammesListGrid'
 
 export const Programmes = () => {
   return (
-    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
+    <div className="min-h-screen h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
         
         <section className="flex flex-col flex-1 max-sm:mt-0.5 backdrop-blur-2xl bg-gray-100/10">
           {/* Programmes list */}

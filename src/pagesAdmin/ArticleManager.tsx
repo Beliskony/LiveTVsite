@@ -64,6 +64,7 @@ useEffect(() => {
 
         {showArticleForm && (
           <ArticleForm 
+          article={editingArticle ?? undefined}
           onClose={closeForm}
           onRefresh={fetchArticles}/>)}
 

@@ -1,10 +1,13 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Search } from "lucide-react"
+import { Search, Trash2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
+import { MoreHorizontal } from "lucide-react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { DropdownMenu,DropdownMenuContent,DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 
 export function UserInfoTable() {
@@ -20,15 +23,14 @@ export function UserInfoTable() {
       try {
         const token = localStorage.getItem("token")
         const res = await fetch("https://api.yeshouatv.com/api/list_users", {
-          credentials: "include",
+          method: "GET",
           headers: {
-            Accept: "application/json",
-            ...(token && { Authorization: `Bearer ${token}` }),
+            Authorization: `Bearer ${token}`,
           },
         })
         if (!res.ok) throw new Error("Erreur lors du chargement des utilisateurs")
-        const data = await res.json()
-        setUsers(data)
+        const users = await res.json()
+        setUsers(users.data)
       } catch (error) {
         console.error(error)
         setUsers([])
@@ -48,13 +50,49 @@ export function UserInfoTable() {
     return () => clearInterval(interval)
   }, [])
 
+  useEffect(() => {
+  setCurrentPage(1)
+  }, [searchTerm])
 
-  const filteredUsers = users.filter((user) => {
+
+  const deleteUser = async (id: string) =>{
+    try {
+      const token = localStorage.getItem("token")
+      const res = await fetch(`https://api.yeshouatv.com/api/delete_user/${id}`, {
+        method: "DELETE",
+        headers: {Authorization: `Bearer ${token}`}
+      })
+
+      if (!res.ok) {
+      const errorText = await res.text()
+      console.error("Erreur API DELETE:", errorText)
+      throw new Error("Erreur lors de la suppression du programme")
+      }
+
+      console.log("Programme supprimé avec succès")
+      await fetchUsers()
+
+    } catch (error) {
+      console.error("Erreur lors du DELETE:", error)
+      throw error
+    }
+  }
+
+
+const filteredUsers = [...users]
+  .sort((a, b) => {
+    // Les admins d'abord
+    if (a.role === "admin" && b.role !== "admin") return -1
+    if (a.role !== "admin" && b.role === "admin") return 1
+    return 0 // sinon, garder l'ordre
+  })
+  .filter((user) => {
     return (
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.name.toLowerCase().includes(searchTerm.toLowerCase())
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.name?.toLowerCase().includes(searchTerm.toLowerCase())
     )
   })
+
 
   //pagination
   const totalItems = filteredUsers.length
@@ -88,6 +126,8 @@ export function UserInfoTable() {
               <TableRow>
                 <TableHead>Username</TableHead>
                 <TableHead>Mail</TableHead>
+                <TableHead>Role</TableHead>
+                <TableHead className="text-right">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -95,6 +135,32 @@ export function UserInfoTable() {
                 <TableRow key={user.id}>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    {user.role === "admin" ? (
+                      <span className="text-red-600 text-sm font-semibold">Admin</span>
+                      ) : (
+                      <span>{user.role}</span>
+                    )}
+                  </TableCell>
+
+                   <TableCell className="text-right">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="sm">
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="items-end">
+                      <DropdownMenuItem
+                        className="text-red-600"
+                        onClick={() => deleteUser(user.id).catch(()=> alert("Erreur lors de la suppression"))}
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Supprimer
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -5,7 +5,7 @@ import useEmblaCarousel from "embla-carousel-react"
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel"
 import Autoplay from "embla-carousel-autoplay"
 import ArticleCard from "../articlesPage/ArticleCard"
-import { articleData } from "@/data/articlesData"
+import type { IArticle } from "@/interfaces/Articles"
 import { Link } from "react-router-dom"
 import { Button } from "../ui/button"
 
@@ -26,6 +26,55 @@ export default function ArticleCarousel() {
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([])
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(true)
   const [nextBtnDisabled, setNextBtnDisabled] = useState(true)
+  const [articles, setArticles] = useState<IArticle[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+
+    const fetchArticles = async () => {
+    setLoading(true)
+    try {
+      const res = await fetch("http://api.yeshouatv.com/api/list_article_for_user", {
+        method: "GET"
+      })
+
+      if (!res.ok) {
+        const errorText = await res.text()
+        throw new Error(`Erreur API: ${errorText}`)
+      }
+
+      const result = await res.json()
+      if (!Array.isArray(result.data)) throw new Error("Données inattendues")
+
+      // ✅ Stocker dans le cache
+      sessionStorage.setItem("articles", JSON.stringify(result.data))
+      setArticles(result.data)
+      setError(null)
+    } catch (err) {
+      console.error("Erreur de chargement des articles:", err)
+      setError("Impossible de charger les articles.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // ✅ Initialisation : on lit le cache, puis on fetch
+  useEffect(() => {
+    const cachedArticles = sessionStorage.getItem("articles")
+    if (cachedArticles) {
+      try {
+        setArticles(JSON.parse(cachedArticles))
+        setLoading(false)
+      } catch (e) {
+        console.warn("Erreur parsing cache articles")
+      }
+    }
+
+    fetchArticles()
+    const interval = setInterval(fetchArticles, 10000)
+    return () => clearInterval(interval)
+  }, [])
+
 
   // Met à jour l'index sélectionné et l'état des boutons
   const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
@@ -61,7 +110,7 @@ export default function ArticleCarousel() {
     <div className="relative w-full max-w-6xl mx-auto px-4 my-4">
       <div className="embla__viewport overflow-hidden" ref={emblaRef}>
        <div className="embla__container flex space-x-4 touch-action-pan-y" >
-          {articleData.slice(0, 5).map((article) => (
+          {articles.slice(0, 5).map((article) => (
             <div
                 key={article.id}>
                 <ArticleCard {...article} />

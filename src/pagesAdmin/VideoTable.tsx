@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,7 +10,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Search, MoreHorizontal, Edit, Trash2, Eye } from "lucide-react"
 import { videosData } from "@/data/videosData"
 import type { IVideo } from "@/interfaces/Videos"
-import { programmeData } from "@/data/programmeData"
 import type { IProgramme} from "@/interfaces/Programme"
 import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 
@@ -24,6 +23,53 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
+  const [programmes, setProgrammes] = useState<IProgramme[]>([])
+  const [error, setError] = useState<string | null>(null)
+    
+  
+   const fetchProgrammes = async () => {
+      try {
+        const token = localStorage.getItem("token")
+        const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` }
+        })
+  
+        if (!res.ok) {
+          const errorText = await res.text()
+          console.error("Erreur API:", errorText)
+          throw new Error("Erreur lors du chargement des programmes")
+        }
+  
+        const result = await res.json()
+  
+        if (!Array.isArray(result.data)) {
+          throw new Error("La réponse API ne contient pas un tableau de programmes.")
+        }
+  
+        const programmesWithArrayWhen = result.data.map((prog: any) => ({
+          ...prog,
+          when: typeof prog.when === "string" ? prog.when.split(",").map((d: string) => d.trim()) : prog.when,
+        }))
+  
+        setProgrammes(programmesWithArrayWhen)
+      } catch (error) {
+        setError("Erreur lors du chargement des programmes")
+        console.error("Erreur Api: ", error)
+      }
+    }
+  
+    // Appel initial
+    useEffect(() => {
+      fetchProgrammes()
+  
+    const interval = setInterval(() => {
+      fetchProgrammes() // refetch every 5 sec
+      }, 5000)
+  
+      return() => clearInterval(interval)
+  
+    }, [])
 
   const filteredVideos = videos.filter((video) =>
     video.title?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -54,7 +100,7 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
   }
 
   const getprogrammeName = (programmeId?: string) => {
-    const programme = programmeData.find((e: IProgramme) => e.id === programmeId)
+    const programme = programmes.find((e: IProgramme) => e.id === programmeId)
     return programme ? programme.nom: "_"
   }
 

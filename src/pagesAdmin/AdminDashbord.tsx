@@ -1,14 +1,81 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { StatsCard } from "./StatsCard"
 import { LivePreview } from "./LivePreview"
-import {  BarChart3, Video, Calendar, Radio } from "lucide-react"
-import { dashboardStats } from "@/data/dashboardStats"
+import {  BarChart3, Video, Calendar, Radio, Users, Tv, Newspaper } from "lucide-react"
+
 
 
 export function AdminDashboard() {
+  const [stats, setStats] = useState<{ users: number; programmes: number; articles: number }>({
+    users: 0,
+    programmes: 0,
+    articles: 0,
+  })
+
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const token = localStorage.getItem("token")
+        const res = await fetch("http://api.yeshouatv.com/api/stat", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+          method: "GET"
+        })
+
+        if (!res.ok) throw new Error("Erreur lors de la récupération des statistiques")
+
+        const data = await res.json()
+        setStats(data.data)
+      } catch (err) {
+        console.error(err)
+        setError("Impossible de charger les statistiques.")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchStats()
+  }, [])
+
+  if (loading) {
+    return <p className="p-6 text-gray-500">Chargement des statistiques...</p>
+  }
+
+  if (error) {
+    return <p className="p-6 text-red-500">{error}</p>
+  }
+
+   // Crée un tableau à partir de l'objet stats pour map
+  const statsArray = [
+    {
+      title: "Utilisateurs",
+      value: stats.users.toString(),
+      description: "Nombre total d'utilisateurs",
+      icon: Users,
+      trend: "stable" as const,
+    },
+    {
+      title: "Programmes",
+      value: stats.programmes.toString(),
+      description: "Nombre de programmes",
+      icon: Tv,
+      trend: "stable" as const,
+    },
+    {
+      title: "Articles",
+      value: stats.articles.toString(),
+      description: "Nombre d'articles publiés",
+      icon: Newspaper,
+      trend: "stable" as const,
+    },
+  ]
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -22,7 +89,7 @@ export function AdminDashboard() {
       <div className="container mx-auto px-6 py-8">
      
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {dashboardStats.map((stat, index) => (
+          {statsArray.map((stat, index) => (
             <StatsCard
               key={index}
               title={stat.title}

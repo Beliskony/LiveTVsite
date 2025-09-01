@@ -39,7 +39,7 @@ export function PaginationArticle({ currentPage, totalPages, onPageChange, total
   }
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+    <div className="flex flex-col text-gray-900 sm:flex-row items-center justify-between gap-4 mt-8">
 
       {/* Pagination Controls */}
       <div className="flex items-center gap-2">

@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { X, Save, Eye, CheckCircle } from "lucide-react"
 import type { IArticle } from "@/interfaces/Articles"
 import { ImageSelector } from "./ImageSelector"
@@ -22,6 +22,31 @@ export function ArticleForm({ onClose, article, onRefresh }: ArticleFormProps) {
     status: article?.status || "suprimé",
     featured_image: article?.featured_image || "",
   })
+
+  // Synchroniser formData avec article en édition
+useEffect(() => {
+  if (article) {
+    setFormData({
+      title: article.title || "",
+      content: article.contenu || "",
+      author: article.author || "",
+      category: article.category || "",
+      status: article.status || "supprimé",
+      featured_image: article.featured_image || "",
+    })
+  } else {
+    // Si aucun article, on reset le formulaire (utile après fermeture ou ajout)
+    setFormData({
+      title: "",
+      content: "",
+      author: "",
+      category: "",
+      status: "supprimé",
+      featured_image: "",
+    })
+  }
+}, [article])
+
 
   const [isPreview, setIsPreview] = useState(false)
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
@@ -160,8 +185,8 @@ export function ArticleForm({ onClose, article, onRefresh }: ArticleFormProps) {
               <label className="text-sm font-medium text-gray-700">Contenu</label>
               <textarea
                 value={formData.content}
+                rows={50}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                rows={12}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Contenu de l'article..."
                 required
@@ -200,6 +225,7 @@ export function ArticleForm({ onClose, article, onRefresh }: ArticleFormProps) {
           </button>
           <button
             type="submit"
+            disabled={isSubmitting}
             className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-md transition-colors"
           >
             <Save className="h-4 w-4" />

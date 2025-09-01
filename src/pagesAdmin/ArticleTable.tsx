@@ -1,9 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Edit, Trash2, Eye, Search, Filter, MoreHorizontal } from "lucide-react"
+import { Edit, Trash2, Search, Filter, MoreHorizontal } from "lucide-react"
 import type { IArticle } from "@/interfaces/Articles"
-import { articleData } from "@/data/articlesData"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -21,6 +20,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [categoryFilter, setCategoryFilter] = useState("all")
+  const [articles, setArticles] = useState<IArticle[]>([])
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
@@ -44,6 +44,8 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
       if (!Array.isArray(result.data)) {
         throw new Error("La réponse API ne contient pas un tableau de programmes.")
       }
+
+      setArticles(result.data)
       
     } catch (error) {
        setError("Erreur lors du chargement des programmes")
@@ -56,8 +58,8 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
     fecthArticles()
 
   const interval = setInterval(() => {
-    fecthArticles() // refetch every 5 sec
-    }, 30000)
+    fecthArticles()
+    }, 5000)
 
     return() => clearInterval(interval)
 
@@ -94,7 +96,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
     { value: "supprimé", label: "Supprimé" },
   ]
 
-  const filteredArticles = articleData.filter((article) => {
+  const filteredArticles = articles.filter((article) => {
     const matchesSearch =
       article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       article.author?.toLowerCase().includes(searchTerm.toLowerCase())
