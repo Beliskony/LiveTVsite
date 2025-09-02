@@ -116,7 +116,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     let response = await fetch(url, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token ?? ""}`,
+        Authorization: `Bearer ${token}`,
       },
       body: form,
     })

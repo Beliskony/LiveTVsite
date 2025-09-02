@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,6 +13,7 @@ import type { IProgramme} from "@/interfaces/Programme"
 import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 import { videoFormatRelativeDate } from "@/utilitaires/FormatDate"
 import { formatViews } from "@/utilitaires/FormatViews"
+import { VideoThumbnail } from "@/components/mediaComponent/VideoThumbnail"
 
 const itemsPerPage = 10
 interface VideoTableProps {
@@ -76,6 +77,7 @@ const fetchVideos = async () => {
         throw new Error("La réponse API ne contient pas un tableau de programmes.")
       }
     setvideos(result.data || [])
+
   } catch (e) {
     setError("Erreur lors du chargement des vidéos")
   }
@@ -86,9 +88,9 @@ useEffect(() => {
   fetchProgrammes()
 
     const interval = setInterval(() => {
-    fetchVideos() // refetch every 5 sec
+    fetchVideos() // refetch every 60 sec
     fetchProgrammes()
-    }, 5000)
+    }, 60000)
 
     return() => clearInterval(interval)
 }, [])
@@ -125,10 +127,18 @@ const handleDelete = async (id: string) => {
     return status === "published" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
   }
 
-  const getprogrammeName = (programmeId?: string) => {
-    const programme = programmes.find((p) => p.id === programmeId)
-    return programme ? programme.nom: "_"
-  }
+const programmeMap = useMemo(() => {
+  const map = new Map<string, string>()
+  programmes.forEach((p) => map.set(p.id, p.nom))
+  return map
+}, [programmes])
+
+const getProgrammeName = (id?: string) => {
+  return programmeMap.get(id ?? "") ?? "_"
+}
+
+
+
 
   return (
     <Card className="px-0 py-4 md:p-4 lg:p-4 xl:p-4">
@@ -154,6 +164,7 @@ const handleDelete = async (id: string) => {
           <TableHeader>
             <TableRow>
               <TableHead>Titre</TableHead>
+              <TableHead>Visuel</TableHead>
               <TableHead>programme</TableHead>
               <TableHead>Durée</TableHead>
               <TableHead>Vues</TableHead>
@@ -167,7 +178,19 @@ const handleDelete = async (id: string) => {
               <TableRow key={video.id}>
                 <TableCell className="font-medium">{video.title}</TableCell>
                 <TableCell>
-                  <Badge>{getprogrammeName(video.programme_id)}</Badge>
+                  {video.couverture ? (
+                    <img src={video.couverture} className="h-8 w-12 object-cover rounded" />
+                    ) : video.video_url ? (
+                      <VideoThumbnail videoUrl={video.video_url} />
+                    ) : (
+                  <div className="h-8 w-12 bg-gray-200 text-center flex items-center justify-center rounded text-xs text-gray-500">
+                    Pas d'image
+                  </div>
+                  )}
+                    
+                </TableCell>
+                <TableCell>
+                  <Badge>{getProgrammeName(video.programme_id)}</Badge>
                 </TableCell>
                 <TableCell>{video.duration}</TableCell>
                 <TableCell>{formatViews(video.views ?? 0)}</TableCell>

@@ -27,7 +27,7 @@ export function LiveForm({ onSave, onClose }: LiveSettingsProps) {
   }
 
   return (
-    <Card className="w-full mb-6">
+    <Card className="w-full mb-6 p-4">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Configuration du Live</CardTitle>
         <Button variant="ghost" size="sm" onClick={onClose}>

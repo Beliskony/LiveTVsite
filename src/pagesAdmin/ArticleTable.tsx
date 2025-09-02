@@ -114,24 +114,6 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
     currentPage * itemsPerPage
   )
 
-  const getStatusBadge = (status: string) => {
-    const variants = {
-      published: "default",
-      draft: "secondary",
-      scheduled: "destructive",
-    } as const
-
-    const labels = {
-      published: "Publié",
-      draft: "Brouillon",
-      scheduled: "Supprimé",
-    }
-
-    const variant = variants[status as keyof typeof variants] || "secondary"
-
-    return <Badge variant={variant}>{labels[status as keyof typeof labels]}</Badge>
-  }
-
   const onDelete = (id: string) => {
     if (confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
       console.log("Delete article:", id)
@@ -193,6 +175,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
             <TableHeader>
               <TableRow>
                 <TableHead>Article</TableHead>
+                <TableCell>visuel</TableCell>
                 <TableHead>Auteur</TableHead>
                 <TableHead>Catégorie</TableHead>
                 <TableHead>Date</TableHead>
@@ -203,18 +186,16 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
               {paginatedArticles.map((article) => (
                 <TableRow key={article.id}>
                   <TableCell>
-                    <div className="flex items-center gap-3">
-                      {article.featured_image && (
-                        <img
-                          src={article.featured_image || "/placeholder.svg"}
-                          alt={article.title}
-                          className="h-12 w-16 object-cover rounded"
+                        <span className="font-medium line-clamp-2">{article.title}</span>
+                  </TableCell>
+                  <TableCell>
+                    {article.featured_image && (
+                      <img
+                        src={article.featured_image || "/placeholder.svg"}
+                        alt={article.title}
+                        className="h-12 w-16 object-cover rounded"
                         />
                       )}
-                      <div>
-                        <div className="font-medium line-clamp-2">{article.title}</div>
-                      </div>
-                    </div>
                   </TableCell>
                   <TableCell>{article.author}</TableCell>
                   <TableCell>{article.category}</TableCell>
