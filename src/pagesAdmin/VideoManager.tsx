@@ -1,12 +1,49 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { VideoForm } from './VideosForm'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { VideoTable } from './VideoTable'
-import { videosData } from '@/data/videosData'
+import type { IVideo } from '@/interfaces/Videos'
 
 const VideoManager = () => {
     const [showVideoForm, setShowVideoForm] = useState(false)
+   const [editingVideo, setEditingVideo] = useState<IVideo | null>(null)
+   const [videos, setvideos] = useState<IVideo[]>([])
+
+    // Ouvrir formulaire édition
+  const handleEdit = (video: IVideo) => {
+    setEditingVideo(video)
+    setShowVideoForm(true)
+  }
+
+  // Fermer formulaire
+  const closeForm = () => {
+    setShowVideoForm(false)
+    setEditingVideo(null)
+  }
+
+  const fetchVideos = async () => {
+  try {
+    const token = localStorage.getItem("token")
+    const res = await fetch("https://api.yeshouatv.com/api/list_videos", {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    if (!res.ok) throw new Error("Erreur lors du chargement des vidéos")
+    const result = await res.json()
+
+    if (!Array.isArray(result.data)) {
+        throw new Error("La réponse API ne contient pas un tableau de programmes.")
+      }
+    setvideos(result.data || [])
+  } catch (error) {
+    console.error("Erreur lors du chargement des vidéos")
+  }
+}
+
+useEffect(() => {
+  fetchVideos()
+}, [])
 
   return (
     <section className='flex flex-col w-full '>
@@ -22,9 +59,15 @@ const VideoManager = () => {
 
         </div>
 
-            {showVideoForm && <VideoForm onClose={() => setShowVideoForm(false)} />}
+      {showVideoForm && (
+        <VideoForm
+          video={editingVideo ?? undefined}  // passe undefined si création
+          onClose={closeForm}
+          onRefresh={fetchVideos}
+        />
+      )}
             
-            <VideoTable videos={videosData} />
+            <VideoTable onEdit={handleEdit} />
 
     </section>
   )

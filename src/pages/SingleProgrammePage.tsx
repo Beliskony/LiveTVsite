@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { Calendar, Clapperboard, Clock} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { videosData } from "@/data/videosData"
 import type {IProgramme} from "@/interfaces/Programme"
 import type { IVideo } from "@/interfaces/Videos"
 import { VideoCard } from "@/components/mediaComponent/VideoCard"
@@ -31,8 +30,7 @@ export default function SingleProgrammePage() {
 
     Promise.all([
       fetch("https://api.yeshouatv.com/api/list_programmes_for_user").then(res => res.json()),
-      //fetch("https://api.yeshouatv.com/api/videos").then(res => res.json())
-      Promise.resolve({data: videosData}) //utiliser mock temporairement
+      fetch("https://api.yeshouatv.com/api/list_videos_for_user").then(res => res.json())
     ])
       .then(([programmesRes, videosRes]) => {
         const foundProgramme = programmesRes.data.find((p: IProgramme) => p.id === id)
@@ -41,7 +39,7 @@ export default function SingleProgrammePage() {
           return
         }
 
-        const relatedVideos = videosRes.data.filter((video: IVideo) => video.programmeId === foundProgramme.id)
+        const relatedVideos = videosRes.data.filter((video: IVideo) => video.programme_id === foundProgramme.id)
 
         setProgramme(foundProgramme)
         setAllVideos(relatedVideos)
@@ -65,7 +63,7 @@ export default function SingleProgrammePage() {
 
 
       // Lier automatiquement les vidéos à l'émission
-  const linkedVideos: IVideo[]= programme ? videosData.filter((video) => video.programmeId === programme.id) : []
+  const linkedVideos: IVideo[]= programme ? allVideos.filter((video) => video.programme_id === programme.id) : []
 
     const filteredVideos = linkedVideos
   .filter((video) =>
@@ -73,10 +71,10 @@ export default function SingleProgrammePage() {
   )
   .sort((a, b) => {
     if (filters.sort === "recent") {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     }
     if (filters.sort === "oldest") {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      return new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
     }
     if (filters.sort === "title") {
       return (a.title ?? "").localeCompare(b.title ?? "")

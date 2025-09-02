@@ -18,6 +18,7 @@ import { ImageSelector } from "./ImageSelector"
 
 interface VideoFormProps {
   onClose: () => void
+  onRefresh: () => void
   video?: IVideo | null
 }
 
@@ -27,7 +28,7 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
     description: video?.description || "",
     duration: video?.duration || "",
     thumbnail: video?.couverture || "",
-    programmeId: video?.programmeId || ""
+    programme_id: video?.programme_id || ""
   })
 
    const [selectedVideoFile, setSelectedVideoFile] = useState<File | null>(null)
@@ -82,29 +83,37 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
      
        }, [])
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true) 
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault()
+  setIsSubmitting(true)
+  setError(null)
 
-    try {
-      const token = localStorage.getItem("token")
-      const form = new FormData()
-        form.append("title", formData.title || "");
-        form.append("description", formData.description || "");
-        form.append("duration", formData.duration || "");
-        form.append("emissionId", formData.programmeId);
-          if (selectedImageFile) form.append("couverture", selectedImageFile);
-          if (selectedVideoFile) form.append("videoFile", selectedVideoFile);
+  const token = localStorage.getItem("token")
 
+  // Prépare FormData de base (sans status ici)
+  const buildFormData = (status: "published" | "draft") => {
+    const form = new FormData()
+    form.append("title", formData.title || "")
+    form.append("description", formData.description || "")
+    form.append("duration", formData.duration || "")
+    form.append("programme_id", formData.programme_id)
+    form.append("status", status)
 
-      const url = video?.id
-        ? `https://api.yeshouatv.com/api/update_video/${video.id}`
-        : "https://api.yeshouatv.com/api/add_video"
-      const method = "POST"
-       if (video?.id) {
-      form.append("_method", "PUT")
-    }
-      const response = await fetch(url, {
+    if (selectedImageFile) form.append("couverture", selectedImageFile)
+    if (selectedVideoFile) form.append("video_url", selectedVideoFile)
+    if (video?.id) form.append("_method", "PUT")
+
+    return form
+  }
+
+  const url = video?.id
+    ? `https://api.yeshouatv.com/api/update_video/${video.id}`
+    : "https://api.yeshouatv.com/api/add_video"
+
+  try {
+    // 🟢 Tentative de publication avec "published"
+    let form = buildFormData("published")
+    let response = await fetch(url, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token ?? ""}`,
@@ -112,28 +121,41 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
       body: form,
     })
 
-     const resText = await response.text()
+    const resText = await response.text()
     console.log("Réponse brute :", resText)
 
-if (!response.ok) {
-  const error = {
-    status: response.status,
-    message: resText,
-  }
+    if (!response.ok) {
+      console.warn("Erreur lors de la publication. Tentative de sauvegarde en brouillon...")
 
-  console.error("Erreur API:", error)
+      // 🔁 Rebuild form avec "draft"
+      form = buildFormData("draft")
 
-  throw new Error(`Erreur API ${error.status}: ${error.message}`)
-}
+      response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token ?? ""}`,
+        },
+        body: form,
+      })
 
+      const retryText = await response.text()
+      console.log("Réponse tentative brouillon :", retryText)
+
+      if (!response.ok) {
+        throw new Error(`Erreur API après tentative en draft: ${retryText}`)
+      }
+    }
 
     setIsSuccess(true)
     setTimeout(() => onClose(), 3000)
-  } catch (error) {
-    console.error("Erreur lors de l'envoi:", error)
+
+  } catch (err) {
+    console.error("Erreur lors de l'envoi:", err)
+    setError("Impossible de publier la vidéo. Merci de réessayer.")
     setIsSubmitting(false)
   }
-  }
+}
+
 
     if (isSuccess) {
     return (
@@ -177,8 +199,8 @@ if (!response.ok) {
             <div className="space-y-2">
               <Label htmlFor="category">Programme</Label>
               <Select
-                value={formData.programmeId}
-                onValueChange={(value) => setFormData({ ...formData, programmeId: value })}
+                value={formData.programme_id}
+                onValueChange={(value) => setFormData({ ...formData, programme_id: value })}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Sélectionnez une emistion" />

@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react"
-import { formatRelativeDate } from "@/utilitaires/FormatDate"
+import { formatRelativeDate, videoFormatRelativeDate } from "@/utilitaires/FormatDate"
 import type { IVideo } from "@/interfaces/Videos"
 import { Clock } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 export const VideoCard = (video: IVideo) => {
-  const { title, duration, createdAt, videoUrl, couverture } = video
+  const { title, duration, created_at, video_url, couverture } = video
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [frame0Poster, setFrame0Poster] = useState<string | null>(null)
@@ -59,7 +59,7 @@ export const VideoCard = (video: IVideo) => {
       <div className="relative aspect-video overflow-hidden">
         <video
           ref={videoRef}
-          src={videoUrl}
+          src={video_url}
           poster={isIOS ? couverture : frame0Poster || "/placeholder.svg"}
           controls
           preload="metadata"
@@ -77,7 +77,8 @@ export const VideoCard = (video: IVideo) => {
 
       <CardContent className="w-full py-2 space-y-1 h-20 text-gray-800">
         <div className="flex flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <span>{formatRelativeDate(createdAt.toLocaleDateString())}</span>
+          <span>{videoFormatRelativeDate(new Date(created_at).toLocaleDateString())}</span>
+
           {duration && (
             <Badge variant="secondary" className="bg-black/80 text-white hover:bg-black/80">
               <Clock className="mr-1 h-3 w-3" />

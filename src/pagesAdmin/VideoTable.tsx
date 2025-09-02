@@ -8,22 +8,23 @@ import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Search, MoreHorizontal, Edit, Trash2, Eye } from "lucide-react"
-import { videosData } from "@/data/videosData"
 import type { IVideo } from "@/interfaces/Videos"
 import type { IProgramme} from "@/interfaces/Programme"
 import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
+import { videoFormatRelativeDate } from "@/utilitaires/FormatDate"
+import { formatViews } from "@/utilitaires/FormatViews"
 
+const itemsPerPage = 10
 interface VideoTableProps {
   videos?: IVideo[]
   onEdit?: (video: IVideo) => void
-  onDelete?: (videoId: string) => void
 }
 
-export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTableProps) {
+export function VideoTable({ onEdit }: VideoTableProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
   const [programmes, setProgrammes] = useState<IProgramme[]>([])
+  const [videos, setvideos] = useState<IVideo[]>([])
   const [error, setError] = useState<string | null>(null)
     
   
@@ -58,18 +59,55 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
         console.error("Erreur Api: ", error)
       }
     }
-  
-    // Appel initial
-    useEffect(() => {
-      fetchProgrammes()
-  
+
+    // Dans VideoTable, ajoute :
+
+const fetchVideos = async () => {
+  try {
+    const token = localStorage.getItem("token")
+    const res = await fetch("https://api.yeshouatv.com/api/list_videos", {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    if (!res.ok) throw new Error("Erreur lors du chargement des vidéos")
+    const result = await res.json()
+
+    if (!Array.isArray(result.data)) {
+        throw new Error("La réponse API ne contient pas un tableau de programmes.")
+      }
+    setvideos(result.data || [])
+  } catch (e) {
+    setError("Erreur lors du chargement des vidéos")
+  }
+}
+
+useEffect(() => {
+  fetchVideos()
+  fetchProgrammes()
+
     const interval = setInterval(() => {
-      fetchProgrammes() // refetch every 5 sec
-      }, 5000)
-  
-      return() => clearInterval(interval)
-  
-    }, [])
+    fetchVideos() // refetch every 5 sec
+    fetchProgrammes()
+    }, 5000)
+
+    return() => clearInterval(interval)
+}, [])
+
+const handleDelete = async (id: string) => {
+  if (!confirm("Voulez-vous vraiment supprimer cette vidéo ?")) return
+  try {
+    const token = localStorage.getItem("token")
+    const res = await fetch(`https://api.yeshouatv.com/api/delete_video/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    if (!res.ok) throw new Error("Erreur lors de la suppression")
+    fetchVideos()
+  } catch (e) {
+    alert("Erreur lors de la suppression")
+  }
+}
+
 
   const filteredVideos = videos.filter((video) =>
     video.title?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -83,24 +121,12 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
   )
 
 
-  const getCategoryColor = (category?: string) => {
-    const colors: Record<string, string> = {
-      news: "bg-blue-100 text-blue-800",
-      sports: "bg-green-100 text-green-800",
-      entertainment: "bg-purple-100 text-purple-800",
-      documentary: "bg-orange-100 text-orange-800",
-      music: "bg-pink-100 text-pink-800",
-      programmation: "bg-indigo-100 text-indigo-800",
-    }
-    return category ? colors[category] || "bg-gray-100 text-gray-800" : "bg-gray-100 text-gray-800"
-  }
-
   const getStatusColor = (status?: "published" | "draft") => {
     return status === "published" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
   }
 
   const getprogrammeName = (programmeId?: string) => {
-    const programme = programmes.find((e: IProgramme) => e.id === programmeId)
+    const programme = programmes.find((p) => p.id === programmeId)
     return programme ? programme.nom: "_"
   }
 
@@ -141,21 +167,17 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
               <TableRow key={video.id}>
                 <TableCell className="font-medium">{video.title}</TableCell>
                 <TableCell>
-                  <Badge className={getCategoryColor(video.programmeId)}>{getprogrammeName(video.programmeId)}</Badge>
+                  <Badge>{getprogrammeName(video.programme_id)}</Badge>
                 </TableCell>
                 <TableCell>{video.duration}</TableCell>
-                <TableCell>{video.views?.toLocaleString()}</TableCell>
+                <TableCell>{formatViews(video.views ?? 0)}</TableCell>
                 <TableCell>
                   <Badge className={getStatusColor(video.status)}>
                     {video.status === "published" ? "Publié" : "Brouillon"}
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  {new Date(video.createdAt).toLocaleDateString("fr-FR", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {videoFormatRelativeDate(video.created_at) }
                 </TableCell>
                 <TableCell>
                   <DropdownMenu>
@@ -171,7 +193,7 @@ export function VideoTable({ videos = videosData, onEdit, onDelete }: VideoTable
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-red-600"
-                        onClick={() => onDelete?.(video.id)}
+                        onClick={() => handleDelete(video.id)}
                       >
                         <Trash2 className="h-4 w-4 mr-2" />
                         Supprimer

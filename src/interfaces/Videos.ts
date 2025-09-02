@@ -3,10 +3,10 @@ export interface IVideo {
   title?: string;
   description?: string;
   couverture?: string;
-  programmeId: string;
+  programme_id: string;
   status?: "published" | "draft";
-  createdAt: Date;
+  created_at: Date;
   duration: string;
   views?: number;
-  videoUrl: string;
+  video_url: string;
 }

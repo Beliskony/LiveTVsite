@@ -46,6 +46,8 @@ export default function VideoCarousel({ videos }: VideoCarouselProps) {
     }
   }, [emblaApi, onInit, onSelect])
 
+  
+
   return (
     <div className="relative w-full max-w-6xl mx-auto">
       <div className="embla__viewport overflow-hidden" ref={emblaRef}>
