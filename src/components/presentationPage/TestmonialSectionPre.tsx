@@ -1,6 +1,73 @@
+import { useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
+import { Skeleton } from "../ui/skeleton"
 
 export function TestimonialsSectionPre() {
+  const [loading, setLoading] = useState(true)
+    
+  useEffect(() => {
+    const timer = setTimeout(()=> setLoading(false), 2000)
+      return () => clearTimeout(timer)
+  })
+
+ if (loading) return(
+  <section className="py-20 bg-background">
+      <div className="max-w-6xl mx-auto px-4">
+        {/* Titre & sous-titre */}
+        <div className="text-center mb-12 space-y-4 bg-gray-500/35">
+          <Skeleton className="h-10 w-2/3 mx-auto bg-gray-500/35" />
+          <Skeleton className="h-6 w-1/2 mx-auto bg-gray-500/35" />
+        </div>
+
+        {/* Grille des témoignages */}
+        <div className="grid md:grid-cols-2 gap-8">
+          {[1, 2].map((i) => (
+            <Card key={i}>
+              <CardContent className="p-6 space-y-6">
+                {/* Texte témoignage */}
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-full bg-gray-500/35" />
+                  <Skeleton className="h-4 w-[90%] bg-gray-500/35" />
+                  <Skeleton className="h-4 w-[80%] bg-gray-500/35" />
+                </div>
+
+                {/* Avatar + nom + rôle */}
+                <div className="flex items-center gap-3">
+                  <Skeleton className="h-12 w-12 rounded-full bg-gray-500/35" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-32 bg-gray-500/35" />
+                    <Skeleton className="h-3 w-24 bg-gray-500/35" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+
+          {/* Carte large */}
+          <Card className="md:col-span-2">
+            <CardContent className="p-6 space-y-6">
+              {/* Témoignage centré */}
+              <div className="space-y-2 text-center">
+                <Skeleton className="h-4 w-[80%] mx-auto bg-gray-500/35" />
+                <Skeleton className="h-4 w-[70%] mx-auto bg-gray-500/35" />
+                <Skeleton className="h-4 w-[60%] mx-auto bg-gray-500/35" />
+              </div>
+
+              <div className="flex items-center gap-3 justify-center">
+                <Skeleton className="h-12 w-12 rounded-full bg-gray-500/35" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-32 bg-gray-500/35" />
+                  <Skeleton className="h-3 w-24 bg-gray-500/35" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
+ )
+
+
   return (
     <section className="py-20 bg-background">
       <div className="max-w-6xl mx-auto px-4">

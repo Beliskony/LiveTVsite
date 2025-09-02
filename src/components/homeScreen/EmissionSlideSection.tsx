@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import EmissionCarousel from "../mediaComponent/Emission-carousel";
 import type { IProgramme } from "@/interfaces/Programme";
+import { SkeletonEmissionCard } from "../Skeletons/SkeletonEmissionCard";
 
 export const EmissionSlideSection = () => {
   const [programmes, setProgrammes] = useState<IProgramme[]>([])
@@ -61,7 +62,11 @@ export const EmissionSlideSection = () => {
             <h1 className="font-normal text-white text-[16px] md:text-[24px]">A suivre sur votre chaine</h1>
             <h3 className="font-light text-white text-xs max-sm:text-xs">Progamme de la semaine</h3>
           </div>
+          {loading ? (
+            <SkeletonEmissionCard/>
+          ) : (
              <EmissionCarousel emissions={programmes} />
+          )}
           </div>
 
       </>

@@ -15,14 +15,12 @@ export function EmissionCarouselForEmission() {
  const fetchProgrammes = async () => {
     try {
       const token = localStorage.getItem("token")
-      const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
+      const res = await fetch("https://api.yeshouatv.com/api/list_programmes_for_user", {
         method: "GET",
-        headers: { Authorization: `Bearer ${token}` }
       })
 
       if (!res.ok) {
         const errorText = await res.text()
-        console.error("Erreur API:", errorText)
         throw new Error("Erreur lors du chargement des programmes")
       }
 

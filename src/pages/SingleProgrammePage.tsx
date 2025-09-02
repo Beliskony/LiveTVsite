@@ -10,6 +10,7 @@ import { VideoCard } from "@/components/mediaComponent/VideoCard"
 import { VideosFilters } from "@/components/mediaComponent/VideoFilter"
 import getReadableDaysRange from "@/utilitaires/getReadableDaysRange"
 import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
+import { SkeletonVideoCard } from "@/components/Skeletons/SkeletonVideoCard"
 
 const ITEMS_PER_PAGE = 9
 
@@ -90,11 +91,11 @@ export default function SingleProgrammePage() {
   const paginatedVideos = filteredVideos.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
   return (
-    <div className="justify-between flex flex-col relative">
+    <div className="min-h-screen flex flex-col relative">
 
          {/* Image de couverture en fond */}
       <div
-        className="absolute h-screen inset-0 bg-cover bg-center z-[-2]"
+        className="absolute inset-0 bg-cover bg-center z-[-2]"
         style={{ backgroundImage: `url(${programme.couverture})` }}
       />
 
@@ -102,7 +103,7 @@ export default function SingleProgrammePage() {
       <div className="absolute inset-0 z-[-1] bg-gradient-to-b from-transparent via-black/70 to-black backdrop-blur-md" />
 
       
-         <section className="xl:px-20 px-6 py-10 flex flex-col text-white min-h-screen">
+      <section className="flex-1 xl:px-20 px-6 py-10 flex flex-col text-white">
         
         {/* Infos de l’émission */}
         <div className="max-w-5xl my-10 max-sm:h-[200px] md:h-[400px]  md:pt-16 lg:pt-16 xl:pt-16">
@@ -127,9 +128,17 @@ export default function SingleProgrammePage() {
                        onSortChange={handleSortChange} />
         </div>
 
-      <div>
-        {linkedVideos.length === 0 ? (
-          <p className="text-gray-500 text-center">Aucune vidéo disponible pour cette émission.</p>
+      <div className="flex-1">
+      {loading ? (
+        <div className="w-full min-h-[50vh] my-4 grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 justify-items-center">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <SkeletonVideoCard key={i} />
+            ))}
+        </div>
+      ): 
+
+        linkedVideos.length === 0 ? (
+          <p className="text-gray-500 text-center min-h-[50vh] flex items-center justify-center">Aucune vidéo disponible pour cette émission.</p>
         ) : (
           <div className="w-full my-4 grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 justify-items-center">
             {paginatedVideos.map((video) => (
@@ -137,6 +146,7 @@ export default function SingleProgrammePage() {
             ))}
           </div>
         )}
+        
       </div>
 
        <PaginationArticle

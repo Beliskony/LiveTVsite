@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import VideoCarousel from "../mediaComponent/Videos-carousel";
 import type { IVideo } from "@/interfaces/Videos";
+import { SkeletonVideoCard } from "../Skeletons/SkeletonVideoCard";
 
 
 interface optionShow {
@@ -20,8 +21,6 @@ export const SlideSection = ({textVues}: optionShow) => {
     })
     if (!res.ok) throw new Error("Erreur lors du chargement des vidéos")
     const result = await res.json()
-  console.log("Résultat de l'API vidéos :", result)
-
 
     if (!Array.isArray(result.data)) {
         throw new Error("La réponse API ne contient pas un tableau de programmes.")
@@ -46,7 +45,7 @@ useEffect(() => {
             </div>
             
                {video.length === 0 ? (
-                <p className="text-white text-sm italic">Aucune vidéo trouvée ou chargement en cours...</p>
+                <SkeletonVideoCard />
                 ) : (
                   <VideoCarousel videos={video} />
                 )}

@@ -49,7 +49,6 @@ function AnimatedRoutes() {
 
   return (
   <>
-  <SplashScreenWrapper>
   <Header />
     <AnimatePresence mode='wait'>
       <Routes location={location} key={location.pathname}>
@@ -104,6 +103,7 @@ function AnimatedRoutes() {
               animate="animate"
               exit="exit"
               transition={{ duration: 0.5, ease: "easeInOut" }}
+              className='min-h-screen'
             >
               <SingleProgrammePage />
             </motion.div>
@@ -183,7 +183,7 @@ function AnimatedRoutes() {
     </AnimatePresence>
 
     <Footer/>
-  </SplashScreenWrapper>
+
   </>
   );
 }

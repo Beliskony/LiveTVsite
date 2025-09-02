@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { EmissionCard } from "../mediaComponent/EmissionCard"
 import { PaginationArticle } from "../articlesPage/PaginationArticle"
 import type { IProgramme } from "@/interfaces/Programme"
-import { LoaderCircle } from "lucide-react"
+import { SkeletonEmissionCard } from "../Skeletons/SkeletonEmissionCard"
 
 const ITEMS_PER_PAGE = 9
 
@@ -76,7 +76,7 @@ export function ProgrammesGrid() {
         </div>
       ) : (
         <div className="justify-center items-center">
-            <LoaderCircle className="animate-spin text-white" />
+            <SkeletonEmissionCard />
         </div>
       )}
 
