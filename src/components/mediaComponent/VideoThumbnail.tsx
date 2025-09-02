@@ -32,7 +32,7 @@ export function VideoThumbnail({ videoUrl }: VideoThumbnailProps) {
       autoPlay
       loop={false}  // On loop pas car on gère via timeupdate
       playsInline
-      className="h-8 w-12 object-cover rounded"
+      className="h-12 w-20 object-cover rounded"
       preload="metadata"
       controls={false}
     />

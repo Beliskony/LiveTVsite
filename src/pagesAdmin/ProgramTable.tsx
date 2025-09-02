@@ -60,7 +60,7 @@ export function ProgramTable({ onEdit}: ProgramTableProps) {
 
   const interval = setInterval(() => {
     fetchProgrammes() // refetch every 5 sec
-    }, 5000)
+    }, 60000)
 
     return() => clearInterval(interval)
 

@@ -45,7 +45,7 @@ export function UserInfoTable() {
 
     const interval = setInterval(() => {
       fetchUsers()
-    }, 5000)
+    }, 60000)
 
     return () => clearInterval(interval)
   }, [])

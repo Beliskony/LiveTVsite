@@ -179,11 +179,11 @@ const getProgrammeName = (id?: string) => {
                 <TableCell className="font-medium">{video.title}</TableCell>
                 <TableCell>
                   {video.couverture ? (
-                    <img src={video.couverture} className="h-8 w-12 object-cover rounded" />
+                    <img src={video.couverture} className="h-12 w-20 object-cover rounded" />
                     ) : video.video_url ? (
                       <VideoThumbnail videoUrl={video.video_url} />
                     ) : (
-                  <div className="h-8 w-12 bg-gray-200 text-center flex items-center justify-center rounded text-xs text-gray-500">
+                  <div className="h-12 w-20 bg-gray-200 text-center flex items-center justify-center rounded text-xs text-gray-500">
                     Pas d'image
                   </div>
                   )}

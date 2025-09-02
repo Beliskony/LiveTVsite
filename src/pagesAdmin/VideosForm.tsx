@@ -101,7 +101,6 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     if (selectedImageFile) form.append("couverture", selectedImageFile)
     if (selectedVideoFile) form.append("video_url", selectedVideoFile)
-    if (video?.id) form.append("_method", "PUT")
 
     return form
   }

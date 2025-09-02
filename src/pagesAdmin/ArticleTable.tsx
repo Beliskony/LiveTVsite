@@ -59,7 +59,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
 
   const interval = setInterval(() => {
     fecthArticles()
-    }, 5000)
+    }, 60000)
 
     return() => clearInterval(interval)
 
