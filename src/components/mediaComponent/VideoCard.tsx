@@ -9,7 +9,9 @@ export const VideoCard = (video: IVideo) => {
   const { title, duration, created_at, video_url, couverture } = video
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
+  const [frame0Poster, setFrame0Poster] = useState<string | null>(null)
   const [isIOS, setIsIOS] = useState(false)
+   const hasCapturedRef = useRef(false)
 
 
   // Détecte si l'utilisateur est sur iOS
@@ -20,6 +22,39 @@ export const VideoCard = (video: IVideo) => {
     }
   }, [])
 
+  // Capture frame 0 uniquement si non-iOS
+  useEffect(() => {
+    if (isIOS || hasCapturedRef.current) return
+
+    const videoEl = videoRef.current
+    if (!videoEl) return
+
+    const captureFrame0 = () => {
+      try {
+        const canvas = document.createElement("canvas")
+        canvas.width = videoEl.videoWidth
+        canvas.height = videoEl.videoHeight
+        const ctx = canvas.getContext("2d")
+        if (ctx) {
+          ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height)
+          const dataUrl = canvas.toDataURL("image/png")
+          setFrame0Poster(dataUrl)
+          hasCapturedRef.current = true
+          videoEl.pause()
+          videoEl.currentTime = 0
+        }
+      } catch (err) {
+        console.warn("Erreur lors de la capture de la frame 0", err)
+      }
+    }
+
+    videoEl.addEventListener("loadeddata", captureFrame0, { once: true })
+
+    return () => {
+      videoEl.removeEventListener("loadeddata", captureFrame0)
+    }
+  }, [isIOS])
+
 
   return (
     <Card className="group w-[350px] font-normal overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
@@ -27,7 +62,7 @@ export const VideoCard = (video: IVideo) => {
         <video
           ref={videoRef}
           src={video_url}
-          poster={couverture || "/placeholder.svg"}
+          poster={ frame0Poster || couverture || "/placeholder.svg"}
           controls
           preload="metadata"
           muted={true}

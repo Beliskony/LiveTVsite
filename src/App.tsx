@@ -61,6 +61,7 @@ function AnimatedRoutes() {
               animate="animate"
               exit="exit"
               transition={{ duration: 0.5, ease: "easeInOut" }}
+              className='min-h-screen'
             >
               <TVLive />
             </motion.div>
@@ -75,6 +76,7 @@ function AnimatedRoutes() {
               animate="animate"
               exit="exit"
               transition={{ duration: 0.5, ease: "easeInOut" }}
+              className='min-h-screen'
             >
               <Acceuil />
             </motion.div>
@@ -89,6 +91,7 @@ function AnimatedRoutes() {
               animate="animate"
               exit="exit"
               transition={{ duration: 0.5, ease: "easeInOut" }}
+              className='min-h-screen'
             >
               <Programmes />
             </motion.div>
@@ -118,6 +121,7 @@ function AnimatedRoutes() {
               animate="animate"
               exit="exit"
               transition={{ duration: 0.5, ease: "easeInOut" }}
+              className='min-h-screen'
             >
               <ContactTV />
             </motion.div>
@@ -132,6 +136,7 @@ function AnimatedRoutes() {
               animate="animate"
               exit="exit"
               transition={{ duration: 0.5, ease: "easeInOut" }}
+              className='min-h-screen'
             >
               <ArticlesListePage />
             </motion.div>
@@ -146,6 +151,7 @@ function AnimatedRoutes() {
               animate="animate"
               exit="exit"
               transition={{ duration: 0.5, ease: "easeInOut" }}
+              className='min-h-screen'
             >
               <SingleArticlePage />
             </motion.div>
@@ -160,6 +166,7 @@ function AnimatedRoutes() {
               animate="animate"
               exit="exit"
               transition={{ duration: 0.5, ease: "easeInOut" }}
+              className='min-h-screen'
             >
               <PresentationEglise />
             </motion.div>
@@ -174,6 +181,7 @@ function AnimatedRoutes() {
               animate="animate"
               exit="exit"
               transition={{ duration: 0.5, ease: "easeInOut" }}
+              className='min-h-screen'
             >
               <ProtectedRoute element={<Admin />} />
             </motion.div>
