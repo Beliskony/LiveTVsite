@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react"
 import { formatRelativeDate, videoFormatRelativeDate } from "@/utilitaires/FormatDate"
 import type { IVideo } from "@/interfaces/Videos"
-import { Clock } from "lucide-react"
+import { Clock, Eye } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 export const VideoCard = (video: IVideo) => {
-  const { title, duration, created_at, video_url, couverture } = video
+  const { title, duration, created_at, video_url, couverture, views } = video
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [frame0Poster, setFrame0Poster] = useState<string | null>(null)
@@ -88,9 +88,17 @@ export const VideoCard = (video: IVideo) => {
             </Badge>
           )}
         </div>
-        <h3 className="text-wrap truncate text-sm leading-tight line-clamp-2 font-extrabold transition-colors">
+
+        <div className="flex flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+          <h3 className="text-wrap truncate text-sm leading-tight line-clamp-2 font-extrabold transition-colors">
           {title}
         </h3>
+
+          <Badge variant="secondary" className="bg-gray-900/50 text-white">
+              <Eye className="mr-1 h-3 w-3"/>
+              {views}
+          </Badge>
+        </div>
       </CardContent>
     </Card>
   )

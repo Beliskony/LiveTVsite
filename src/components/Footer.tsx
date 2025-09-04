@@ -1,12 +1,14 @@
-import { Facebook, Twitter, Instagram, Youtube, Smartphone, Monitor, Tv } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Youtube, Smartphone, Monitor, Tv, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import FAQModal from './aide/FAQ';
 import SupportModal from './aide/Support';
 import { useState } from 'react';
+import PrivacyPolicyModal from './aide/Confidentialite';
 
 export default function Footer() {
   const [showFAQ, setShowFAQ] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
+  const [showPolitique, setShowPolitique] = useState(false)
 
   return (
     <footer className="bg-gray-900 text-white">
@@ -31,8 +33,8 @@ export default function Footer() {
             <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">Aide</h3>
             <ul className="space-y-2 flex max-sm:px-7 max-sm:items-center lg:text-left flex-row lg:flex-col gap-x-4">
               <li><button onClick={() => setShowFAQ(true)} className="text-gray-300 hover:text-white cursor-pointer">FAQ</button></li>
-              <li><button onClick={() => setShowSupport(true)} className="text-gray-300 hover:text-white cursor-pointer">Support</button></li>
-              <li><Link to="#" className="text-gray-300 hover:text-white">Politique de confidentialité</Link></li>
+              {/*<li><button onClick={() => setShowSupport(true)} className="text-gray-300 hover:text-white cursor-pointer">Support</button></li>*/}
+              <li><button onClick={() => setShowPolitique(true)} className="text-gray-300 hover:text-white cursor-pointer">Politique de confidentialité</button></li>
             </ul>
           </div>
 
@@ -69,19 +71,15 @@ export default function Footer() {
             <div className="max-sm:flex max-sm:flex-col max-sm:items-center max-sm:justify-center max-sm:gap-y-2">
               <h4 className="text-lg font-bold mb-3 max-sm:text-xl max-sm:items-center">Suivez-nous</h4>
               <div className="flex space-x-4 max-sm:gap-x-10">
-                <a href="https://facebook.com" target="_blank" className="text-gray-300 hover:text-white">
+                <a href="https://www.facebook.com/profile.php?id=61579857472689&mibextid=wwXIfr&rdid=fjV2WY1X4Kvxyu7b&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F17MhswwegK%2F%3Fmibextid%3DwwXIfr#" target="_blank" className="text-gray-300 hover:text-white">
                   <Facebook className="h-6 w-6 max-sm:h-8 max-sm:w-8" />
                   <span className="sr-only">Facebook</span>
                 </a>
-                <a href="https://twitter.com" target="_blank" className="text-gray-300 hover:text-white">
-                  <Twitter className="h-6 w-6 max-sm:h-8 max-sm:w-8" />
-                  <span className="sr-only">Twitter</span>
+                <a href="https://www.tiktok.com/@eglisedeyeshoua" target="_blank" className="text-gray-300 hover:text-white">
+                  <img src='/tiktok.svg' className="h-6 w-6 max-sm:h-8 max-sm:w-8" />
+                  <span className="sr-only">Tiktok</span>
                 </a>
-                <a href="https://instagram.com" target="_blank" className="text-gray-300 hover:text-white">
-                  <Instagram className="h-6 w-6 max-sm:h-8 max-sm:w-8" />
-                  <span className="sr-only">Instagram</span>
-                </a>
-                <a href="https://youtube.com" target="_blank" className="text-gray-300 hover:text-white">
+                <a href="https://www.youtube.com/@EGLISEDEYESHOUA" target="_blank" className="text-gray-300 hover:text-white">
                   <Youtube className="h-6 w-6 max-sm:h-8 max-sm:w-8" />
                   <span className="sr-only">YouTube</span>
                 </a>
@@ -96,6 +94,9 @@ export default function Footer() {
         
          {/* Modal Support */}
           {showSupport && <SupportModal onClose={() => setShowSupport(false)} />}
+
+        {/*Modal politique */}
+          {showPolitique && <PrivacyPolicyModal onClose={() => setShowPolitique(false)} />}
 
         {/* Newsletter / Copyright */}
         <div className="mt-12 max-sm:mt-6 border-t border-gray-700 pt-6 text-center text-sm text-gray-400">

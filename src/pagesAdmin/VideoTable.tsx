@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Search, MoreHorizontal, Edit, Trash2, Eye } from "lucide-react"
+import { Search, MoreHorizontal, Edit, Trash2, Eye, LoaderCircle } from "lucide-react"
 import type { IVideo } from "@/interfaces/Videos"
 import type { IProgramme} from "@/interfaces/Programme"
 import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
@@ -231,9 +231,9 @@ const getProgrammeName = (id?: string) => {
        </div>
 
        {paginatedVideos.length === 0 && (
-         <div className="text-center py-12">
-           <p className="text-muted-foreground">Aucune vidéo trouvée</p>
-         </div>
+          <div className="flex justify-center items-center w-full py-12">
+            <LoaderCircle className="h-10 w-10 animate-spin " />
+          </div>
        )}
 
       </CardContent>

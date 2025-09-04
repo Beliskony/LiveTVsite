@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Search, Trash2 } from "lucide-react"
+import { LoaderCircle, Search, Trash2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { MoreHorizontal } from "lucide-react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
@@ -168,8 +168,8 @@ const filteredUsers = [...users]
         </div>
 
         {filteredUsers.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">Aucun utilisateur trouvé</p>
+          <div className="flex justify-center items-center w-full py-12">
+              <LoaderCircle className="h-10 w-10 animate-spin" />
           </div>
         )}
       </CardContent>

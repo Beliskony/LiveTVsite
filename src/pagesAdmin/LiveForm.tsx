@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Save, Eye, EyeOff, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -8,22 +8,79 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { ILive } from "@/interfaces/Live"
-import { liveData } from "@/data/liveData"
 
 interface LiveSettingsProps {
-  onSave?: (data: ILive) => void
   onClose: () => void
+  Live?: ILive
 }
 
-export function LiveForm({ onSave, onClose }: LiveSettingsProps) {
-  const [config, setConfig] = useState<ILive>(liveData)
+export function LiveForm({ Live, onClose }: LiveSettingsProps) {
   const [showStreamUrl, setShowStreamUrl] = useState(false)
+  const [config, setConfig] = useState({
+    lien: Live?.lien || "",
+    title: Live?.title || "",
+    startTime: Live?.startTime || "",
+    endingTime: Live?.endingTime || "",
+    description: Live?.description ||""
+   })
 
-  const handleSave = () => {
-    if (onSave) {
-      onSave(config)
+   useEffect(() => {
+    if (Live) {
+      setConfig({
+        lien: Live?.lien || "",
+        title: Live?.title || "",
+        startTime: Live?.startTime || "",
+        endingTime: Live?.endingTime || "",
+        description: Live?.description ||""
+      })
     }
-    alert("Configuration du live sauvegardée ✅")
+   }, [Live])
+
+  const handleSave = async(e: React.FormEvent) => {
+      e.preventDefault()
+      setConfig
+
+      try {
+        const payload = new FormData
+        payload.append("lien", config.lien)
+        payload.append("title", config.title)
+        payload.append("startTime", config.startTime)
+        payload.append("endingTime", config.endingTime)
+        payload.append("description", config.description)
+
+        const token = localStorage.getItem("token")
+
+        // Mise à jour ou ajout ?
+        const isUpdate = !!Live?.id
+        const url = isUpdate
+          ? `https://api.yeshouatv.com/api/update/lives/${Live.id}`
+          : "https://api.yeshouatv.com/api/lives_add"
+
+          const method = "POST"
+          if (isUpdate) {
+          payload.append("_method", "PUT")
+          }
+
+        const response = await fetch(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${token ?? ""}`},
+            body: payload
+        })
+
+         if (response.ok) {
+          alert("Le live a été sauvegardé avec succès ✅")
+          onClose()
+        } else {
+          const errorText = await response.text()
+          console.error("Erreur lors de la sauvegarde ❌: " + errorText)
+        }
+
+
+      } catch (error) {
+        console.error("Erreur lors de la sauvegarde du live :", error)
+        alert("Une erreur est survenue lors de la sauvegarde ❌")
+      }
   }
 
   return (

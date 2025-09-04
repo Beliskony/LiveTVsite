@@ -87,12 +87,12 @@ export function TestimonialsSectionPre() {
               </p>
               <div className="flex items-center gap-3">
                 <img
-                  src="https://i.pinimg.com/1200x/fe/2d/ff/fe2dff0828d03677b6d1d0eb092c67b5.jpg"
-                  alt="Marie Leroy"
-                  className="rounded-full w-12 h-12 object-cover"
+                  src="/images/profil.jpg"
+                  alt="Logbo Guy Stephane"
+                  className="rounded-full w-12 h-12 object-cover border"
                 />
                 <div>
-                  <p className="font-sans font-semibold text-foreground">Marie Leroy</p>
+                  <p className="font-sans font-semibold text-foreground">Logbo Guy Stephane</p>
                   <p className="font-serif text-sm text-muted-foreground">Membre depuis 2019</p>
                 </div>
               </div>
@@ -107,12 +107,12 @@ export function TestimonialsSectionPre() {
               </p>
               <div className="flex items-center gap-3">
                 <img
-                  src="https://i.pinimg.com/1200x/fe/2d/ff/fe2dff0828d03677b6d1d0eb092c67b5.jpg"
-                  alt="Thomas Martin"
-                  className="rounded-full w-12 h-12 object-cover"
+                  src="/images/profile1.jpg"
+                  alt="Jean-Marie Honoré"
+                  className="rounded-full w-12 h-12 object-cover border"
                 />
                 <div>
-                  <p className="font-sans font-semibold text-foreground">Thomas Martin</p>
+                  <p className="font-sans font-semibold text-foreground">Jean-Marie Honoré</p>
                   <p className="font-serif text-sm text-muted-foreground">Groupe de jeunes</p>
                 </div>
               </div>
@@ -128,12 +128,12 @@ export function TestimonialsSectionPre() {
               </p>
               <div className="flex items-center gap-3 justify-center">
                 <img
-                  src="https://i.pinimg.com/1200x/fe/2d/ff/fe2dff0828d03677b6d1d0eb092c67b5.jpg"
-                  alt="Sophie Dubois"
-                  className="rounded-full w-12 h-12 object-cover"
+                  src="/images/person.png"
+                  alt="Konan Sophie"
+                  className="rounded-full w-12 h-12 object-cover border"
                 />
                 <div>
-                  <p className="font-sans font-semibold text-foreground">Sophie Dubois</p>
+                  <p className="font-sans font-semibold text-foreground">Konan Sophie</p>
                   <p className="font-serif text-sm text-muted-foreground">Nouvelle convertie - 2024</p>
                 </div>
               </div>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Edit, Trash2, Search, Filter, MoreHorizontal } from "lucide-react"
+import { Edit, Trash2, Search, Filter, MoreHorizontal, LoaderCircle } from "lucide-react"
 import type { IArticle } from "@/interfaces/Articles"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -229,8 +229,8 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
         </div>
 
         {filteredArticles.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">Aucun article trouvé</p>
+          <div className="flex justify-center items-center w-full py-12">
+            <LoaderCircle className="h-10 w-10 animate-spin " />
           </div>
         )}
 

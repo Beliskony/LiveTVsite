@@ -7,10 +7,10 @@ import { Link } from "react-router-dom"
 const ArticleCard = (articleProps: IArticle) => {
   return (
     <Link to={`/egliseYeshoua/articles/${articleProps.id}`} className="no-underline">
-    <Card className="w-[300px] h-[450px] p-0 flex-shrink-0 mx-1.5 cursor-pointer">
-            <div className="relative h-40 overflow-hidden rounded-t-lg">
+    <Card className="w-[350px] h-[450px] p-0 flex-shrink-0 mx-1.5 cursor-pointer">
+            <div className="relative aspect-[16/9] overflow-hidden rounded-t-lg">
               <img
-                src={articleProps.featured_image}
+                src={articleProps.featured_image || "/logotvRM.png"}
                 alt={articleProps.title}
                 className="w-full h-full object-cover"
               />

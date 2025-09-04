@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Heart, Users, BookOpen } from "lucide-react"
+import { Heart, Users, BookOpen, HandHeart } from "lucide-react"
 import { Skeleton } from "../ui/skeleton"
 
 export function AboutSection() {
@@ -47,9 +47,9 @@ export function AboutSection() {
           <div>
             <h2 className="font-sans text-4xl font-bold text-foreground mb-6">Notre Mission</h2>
             <p className="font-serif text-lg text-muted-foreground mb-6 leading-relaxed">
-              Depuis plus de 50 ans, l'Église de la Grâce est un phare d'espoir dans notre communauté. Nous croyons en
-              l'amour inconditionnel de Dieu et nous nous efforçons de créer un espace où chaque personne peut grandir
-              spirituellement et trouver sa place.
+              L’église Adonaï Yeshoua Ha Hamashyah est une assemblée de l’Eglise universelle de Yeshoua
+              Ha Mahsyhah dans le monde entier. Elle a son temple –siège dans la commune de Marcory à Abidjan en Côte d’Ivoire.
+              Gode Ncikye Zorobabel est le pasteur principal de cette assemblée.
             </p>
             <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-8">
               <div className="text-center border rounded bg-white p-4 max-sm:p-2 shadow">
@@ -64,11 +64,15 @@ export function AboutSection() {
                 <BookOpen className="h-8 w-8 text-primary mx-auto mb-2" />
                 <p className="font-serif text-sm text-muted-foreground">Enseignement</p>
               </div>
+              <div className="text-center border rounded bg-white p-4 max-sm:p-2 shadow">
+                <HandHeart className="h-8 w-8 text-primary mx-auto mb-2" />
+                <p className="font-serif text-sm text-muted-foreground">Charité</p>
+              </div>
             </div>
           </div>
           <div className="relative">
             <img
-              src="https://i.pinimg.com/1200x/40/f9/84/40f984447a4a82cea5925778e530ea9e.jpg"
+              src="/images/egliseCover.webp"
               alt="Notre communauté en prière"
               className="rounded-lg shadow-lg w-full h-[500px] object-cover"
             />

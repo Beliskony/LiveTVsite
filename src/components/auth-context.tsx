@@ -134,6 +134,91 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  //mot de passe oublie a tester et integre
+  const sendPasswordReset = async (email: string): Promise<boolean> => {
+  setLoading(true)
+  try {
+    const res = await fetch(`https://api.yeshouatv.com/api/forgot-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ email }),
+    })
+
+    if (!res.ok) {
+      const errorText = await res.text()
+      console.error("Erreur envoi e-mail reset :", errorText)
+      throw new Error("Échec de l'envoi du mail de réinitialisation.")
+    }
+
+    return true
+  } catch (error) {
+    console.error("Erreur reset password :", error)
+    return false
+  } finally {
+    setLoading(false)
+  }
+}
+
+const verifyResetCode = async (email: string, code: string): Promise<boolean> => {
+  setLoading(true)
+  try {
+    const res = await fetch(`https://api.yeshouatv.com/api/verify-reset-code`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ email, code }),
+    })
+
+    if (!res.ok) {
+      const errorText = await res.text()
+      console.error("Code invalide :", errorText)
+      throw new Error("Code invalide ou expiré")
+    }
+
+    return true
+  } catch (error) {
+    console.error("Erreur vérification code :", error)
+    return false
+  } finally {
+    setLoading(false)
+  }
+}
+
+const resetPassword = async (email: string, newPassword: string): Promise<boolean> => {
+  setLoading(true)
+  try {
+    const res = await fetch(`https://api.yeshouatv.com/api/reset-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ email, password: newPassword }),
+    })
+
+    if (!res.ok) {
+      const errorText = await res.text()
+      console.error("Échec changement mot de passe :", errorText)
+      throw new Error("Impossible de changer le mot de passe")
+    }
+
+    return true
+  } catch (error) {
+    console.error("Erreur changement mot de passe :", error)
+    return false
+  } finally {
+    setLoading(false)
+  }
+}
+//mot de passe oublie a tester et integre
+
+
+
   const logout = async () => {
     try {
       await fetch(`https://api.yeshouatv.com/api/logout`, {

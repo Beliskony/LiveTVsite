@@ -11,14 +11,6 @@
 }
 
 
-.sora {
-  font-family: "Sora", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-style: normal;
-}
-
-
 /* Scrollbar personnalisée */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px; /* largeur de la barre */
@@ -166,9 +158,15 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
+  html, body {
     @apply bg-background text-foreground;
-    font-family: "Sora", sans-serif;
+    font-family: var(--default-font-family), ui-sans-serif, system-ui, sans-serif, 
+                 "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-weight: 600;
   }
+}
+
+:root {
+  --font-sans: "Sora";
+  --default-font-family: "Sora";
 }

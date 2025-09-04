@@ -49,7 +49,7 @@ const initialDays = Array.isArray(program?.when) ? program.when : (program?.when
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const { user } = useAuth()
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
+  const token = localStorage.getItem("token")
 
   const days = [
     { value: "lundi", label: "lundi" },
