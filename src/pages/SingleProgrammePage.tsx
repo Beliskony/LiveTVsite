@@ -52,6 +52,7 @@ export default function SingleProgrammePage() {
   if (error) return <div className="text-red-500">{error}</div>
   if (!programme) return <div>Aucune émission trouvée.</div>
 
+console.log("Image de couverture :", programme.couverture)
 
 
   const handleSearchChange = (search: string) => {
@@ -91,19 +92,19 @@ export default function SingleProgrammePage() {
   const paginatedVideos = filteredVideos.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
   return (
-    <div className="min-h-screen flex flex-col relative">
+    <div className="relative min-h-screen flex flex-col">
 
          {/* Image de couverture en fond */}
       <div
-        className="absolute inset-0 bg-cover bg-center z-[-2]"
-        style={{ backgroundImage: `url(${programme.couverture})` }}
+        className="absolute inset-0 bg-cover bg-center z-0"
+        style={{ backgroundImage: `url("${programme.couverture || '/images/bgForBlur.jpg'}")`, }}
       />
 
       {/* Overlay noir + blur progressif */}
-      <div className="absolute inset-0 z-[-1] bg-gradient-to-b from-transparent via-black/70 to-black backdrop-blur-md" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/70 to-black backdrop-blur-md" />
 
       
-      <section className="flex-1 xl:px-20 px-6 py-10 flex flex-col text-white">
+      <section className="z-20 relative xl:px-20 px-6 py-10 flex flex-col text-white">
         
         {/* Infos de l’émission */}
         <div className="max-w-5xl my-10 max-sm:h-[200px] md:h-[400px]  md:pt-16 lg:pt-16 xl:pt-16">
