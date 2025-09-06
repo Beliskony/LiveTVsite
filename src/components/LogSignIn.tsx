@@ -16,21 +16,17 @@ interface AuthModalProps {
 }
 
 export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
-  {/* sendPasswordReset, verifyResetCode, resetPassword */}
-  const { login, register, loading } = useAuth()
+  const { login, register, sendPasswordResetAndVerifyCode, resetPassword, loading } = useAuth()
 
-  const [view, setView] = useState<"login" | "register" | "resetEmail" | "verifyOtp" | "newPassword">("login")
+  const [view, setView] = useState<"login" | "register" | "resetEmail" | "resetPassword">("login")
   const [showPassword, setShowPassword] = useState(false)
 
-  // erreurs
-  const [errors, setErrors] = useState<{ email?: string; password?: string; otp?: string; global?: string }>({})
-
-  // state global
+  const [errors, setErrors] = useState<{ email?: string; password?: string; OTP?: string; global?: string }>({})
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    otp: "",
+    OTP: "",
     newPassword: "",
   })
 
@@ -38,17 +34,20 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
 
   const validateForm = () => {
     let newErrors: typeof errors = {}
-    if ((view === "login" || view === "register" || view === "resetEmail") && !/\S+@\S+\.\S+/.test(formData.email)) {
+    if ((view === "login" || view === "register" || view === "resetEmail" || view === "resetPassword") 
+        && !/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Adresse email invalide."
     }
     if ((view === "login" || view === "register") && formData.password.length < 6) {
       newErrors.password = "Le mot de passe doit contenir au moins 6 caractères."
     }
-    if (view === "newPassword" && formData.newPassword.length < 6) {
-      newErrors.password = "Le nouveau mot de passe doit contenir au moins 6 caractères."
-    }
-    if (view === "verifyOtp" && formData.otp.trim().length !== 6) {
-      newErrors.otp = "Le code OTP doit contenir 6 chiffres."
+    if (view === "resetPassword") {
+      if (formData.OTP.trim().length !== 4) {
+        newErrors.OTP = "Le code OTP doit contenir 4 chiffres."
+      }
+      if (formData.newPassword.length < 6) {
+        newErrors.password = "Le nouveau mot de passe doit contenir au moins 6 caractères."
+      }
     }
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -68,19 +67,15 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
         const user = await register(formData.name, formData.email, formData.password)
         if (!user) throw new Error("Erreur lors de la création du compte.")
         onClose()
-      } {/*  else if (view === "resetEmail") {
-        const success = await sendPasswordReset(formData.email)
+      } else if (view === "resetEmail") {
+        const success = await sendPasswordResetAndVerifyCode(formData.email)
         if (!success) throw new Error("Impossible d'envoyer le mail de réinitialisation.")
-        setView("verifyOtp")
-      } else if (view === "verifyOtp") {
-        const success = await verifyResetCode(formData.email, formData.otp)
-        if (!success) throw new Error("Code OTP invalide.")
-        setView("newPassword")
-      } else if (view === "newPassword") {
-        const success = await resetPassword(formData.email, formData.newPassword)
+        setView("resetPassword")
+      } else if (view === "resetPassword") {
+        const success = await resetPassword(formData.email, formData.OTP, formData.newPassword)
         if (!success) throw new Error("Impossible de réinitialiser le mot de passe.")
         setView("login")
-      } */}
+      }
     } catch (err: any) {
       setErrors({ global: err?.message || "Une erreur inattendue est survenue." })
     }
@@ -92,15 +87,12 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200"
         onClick={onClose}
       />
 
-      {/* Modal */}
       <Card className="relative p-4 w-full max-w-md bg-white shadow-2xl animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
-        {/* Close button */}
         <button
           onClick={onClose}
           className="absolute right-4 top-4 p-2 rounded-full hover:bg-slate-100 transition-colors duration-200 z-10"
@@ -116,9 +108,7 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
               ? "Créez Votre Compte"
               : view === "resetEmail"
               ? "Mot de Passe Oublié"
-              : view === "verifyOtp"
-              ? "Vérification du Code"
-              : "Nouveau Mot de Passe"}
+              : "Réinitialisation du Mot de Passe"}
           </CardTitle>
           <CardDescription className="text-center text-slate-600">
             {view === "login"
@@ -127,19 +117,13 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
               ? "Rejoignez-nous et découvrez toutes nos fonctionnalités"
               : view === "resetEmail"
               ? "Entrez votre adresse e-mail pour recevoir un code OTP"
-              : view === "verifyOtp"
-              ? "Saisissez le code OTP reçu par e-mail"
-              : "Définissez votre nouveau mot de passe"}
+              : "Entrez le code OTP reçu, votre email et votre nouveau mot de passe"}
           </CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-6">
           {errors.global && (
-            <motion.p
-              initial={{ opacity: 0, y: -5 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-red-500 text-sm text-center"
-            >
+            <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-red-500 text-sm text-center">
               {errors.global}
             </motion.p>
           )}
@@ -154,12 +138,12 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
                   placeholder="Votre nom complet"
                   value={formData.name}
                   onChange={(e) => handleInputChange("name", e.target.value)}
-                  required={view === "register"}
+                  required
                 />
               </div>
             )}
 
-            {(view === "login" || view === "register" || view === "resetEmail") && (
+            {(view === "login" || view === "register" || view === "resetEmail" || view === "resetPassword") && (
               <div className="space-y-2">
                 <Label htmlFor="email">Adresse e-mail</Label>
                 <Input
@@ -198,44 +182,40 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
               </div>
             )}
 
-            {view === "verifyOtp" && (
-              <div className="space-y-2">
-                <Label htmlFor="otp">Code OTP</Label>
-                <Input
-                  id="otp"
-                  type="text"
-                  placeholder="6 chiffres"
-                  maxLength={6}
-                  value={formData.otp}
-                  onChange={(e) => handleInputChange("otp", e.target.value)}
-                  required
-                />
-                {errors.otp && <p className="text-red-500 text-xs">{errors.otp}</p>}
-              </div>
-            )}
+            {view === "resetPassword" && (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="OTP">Code OTP</Label>
+                  <Input
+                    id="OTP"
+                    type="text"
+                    placeholder="4 chiffres"
+                    maxLength={4}
+                    value={formData.OTP}
+                    onChange={(e) => handleInputChange("OTP", e.target.value)}
+                    required
+                  />
+                  {errors.OTP && <p className="text-red-500 text-xs">{errors.OTP}</p>}
+                </div>
 
-            {view === "newPassword" && (
-              <div className="space-y-2">
-                <Label htmlFor="newPassword">Nouveau mot de passe</Label>
-                <Input
-                  id="newPassword"
-                  type="password"
-                  placeholder="••••••••"
-                  value={formData.newPassword}
-                  onChange={(e) => handleInputChange("newPassword", e.target.value)}
-                  required
-                />
-                {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
-              </div>
+                <div className="space-y-2">
+                  <Label htmlFor="newPassword">Nouveau mot de passe</Label>
+                  <Input
+                    id="newPassword"
+                    type="password"
+                    placeholder="••••••••"
+                    value={formData.newPassword}
+                    onChange={(e) => handleInputChange("newPassword", e.target.value)}
+                    required
+                  />
+                  {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
+                </div>
+              </>
             )}
 
             {view === "login" && (
               <div className="text-right">
-                <button
-                  type="button"
-                  onClick={() => setView("resetEmail")}
-                  className="text-sm text-blue-600 hover:text-gray-900"
-                >
+                <button type="button" onClick={() => setView("resetEmail")} className="text-sm text-blue-600 hover:text-gray-900">
                   Mot de passe oublié ?
                 </button>
               </div>
@@ -255,8 +235,6 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
                     ? "Création..."
                     : view === "resetEmail"
                     ? "Envoi..."
-                    : view === "verifyOtp"
-                    ? "Vérification..."
                     : "Réinitialisation..."}
                 </>
               ) : view === "login" ? (
@@ -265,43 +243,25 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
                 "S'inscrire"
               ) : view === "resetEmail" ? (
                 "Envoyer le code"
-              ) : view === "verifyOtp" ? (
-                "Vérifier le code"
               ) : (
                 "Réinitialiser"
               )}
             </Button>
           </form>
 
-          {view === "register" && (
-            <p className="text-xs text-slate-500 text-center leading-relaxed">
-              En créant un compte, vous acceptez nos conditions d'utilisation et notre politique de
-              confidentialité.
-            </p>
-          )}
-
           <div className="text-center">
             {view === "login" && (
-              <button
-                onClick={() => setView("register")}
-                className="text-sm text-slate-600 hover:text-slate-800"
-              >
+              <button onClick={() => setView("register")} className="text-sm text-slate-600 hover:text-slate-800">
                 Pas encore de compte ? S'inscrire
               </button>
             )}
             {view === "register" && (
-              <button
-                onClick={() => setView("login")}
-                className="text-sm text-slate-600 hover:text-slate-800"
-              >
+              <button onClick={() => setView("login")} className="text-sm text-slate-600 hover:text-slate-800">
                 Déjà un compte ? Se connecter
               </button>
             )}
-            {(view === "resetEmail" || view === "verifyOtp" || view === "newPassword") && (
-              <button
-                onClick={() => setView("login")}
-                className="text-sm text-slate-600 hover:text-slate-800"
-              >
+            {(view === "resetEmail" || view === "resetPassword") && (
+              <button onClick={() => setView("login")} className="text-sm text-slate-600 hover:text-slate-800">
                 Retour à la connexion
               </button>
             )}

@@ -52,7 +52,6 @@ export default function SingleProgrammePage() {
   if (error) return <div className="text-red-500">{error}</div>
   if (!programme) return <div>Aucune émission trouvée.</div>
 
-console.log("Image de couverture :", programme.couverture)
 
 
   const handleSearchChange = (search: string) => {

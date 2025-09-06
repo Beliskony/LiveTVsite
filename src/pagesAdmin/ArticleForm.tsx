@@ -20,7 +20,7 @@ export function ArticleForm({ onClose, article, onRefresh }: ArticleFormProps) {
     author: article?.author || "",
     category: article?.category || "",
     status: article?.status || "suprimé",
-    featured_image: article?.featured_image || "",
+    featured_image: article?.feature_image || "",
   })
 
   // Synchroniser formData avec article en édition
@@ -32,7 +32,7 @@ useEffect(() => {
       author: article.author || "",
       category: article.category || "",
       status: article.status || "supprimé",
-      featured_image: article.featured_image || "",
+      featured_image: article.feature_image || "",
     })
   } else {
     // Si aucun article, on reset le formulaire (utile après fermeture ou ajout)
@@ -57,6 +57,7 @@ useEffect(() => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsSubmitting(true)
     // Ici vous intégrerez avec votre API Laravel
   const payload = new FormData()
       payload.append("title", formData.title)
@@ -64,7 +65,7 @@ useEffect(() => {
       payload.append("author", formData.author)
       payload.append("category", formData.category)
       payload.append("status", formData.status)
-      if (selectedImageFile) payload.append("featured_image", selectedImageFile)
+      if (selectedImageFile) payload.append("feature_image", selectedImageFile)
 
    try {
     const url =  article ? `https://api.yeshouatv.com/api/update_article/${article.id}` : "https://api.yeshouatv.com/api/add_article"

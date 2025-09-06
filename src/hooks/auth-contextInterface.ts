@@ -8,4 +8,6 @@ export interface AuthContextType {
   register: (email: string, password: string, name: string) => Promise<IUser | null>
   logout: () => void
   loading: boolean
+  sendPasswordResetAndVerifyCode: (email: string) => Promise<boolean>   // ✅ ajouté
+  resetPassword: (email: string, OTP: string, newPassword: string) => Promise<boolean>
 }

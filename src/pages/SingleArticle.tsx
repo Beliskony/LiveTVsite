@@ -64,11 +64,11 @@ export default function SingleArticlePage() {
     <div className="min-h-screen h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
       <section className="w-full md:mt-20 xl:mt-20 max-sm:mt-20 xl:px-10 bg-white">
         <div className="w-full px-1 md:px-4 lg:px-10 justify-center py-8 gap-4 flex flex-col lg:flex-row">
-          <div className="bg-white rounded-lg border p-1 md:p-4 lg:p-5 shadow-sm overflow-hidden">
-            {article.featured_image && (
+          <div className="bg-white rounded-lg border p-1 md:p-4 lg:p-5 shadow-sm overflow-hidden w-4/6">
+            {article.feature_image && (
               <div className="aspect-video w-full overflow-hidden">
                 <img
-                  src={article.featured_image}
+                  src={article.feature_image}
                   alt={article.title}
                   className="w-full h-full object-cover"
                 />
@@ -96,7 +96,7 @@ export default function SingleArticlePage() {
 
               <h1 className="text-4xl font-bold text-gray-900 mb-8 leading-tight">{article.title}</h1>
 
-              <div className="prose prose-lg max-w-none overflow-y-scroll min-h-[400px]">
+              <div className="prose prose-lg max-w-none overflow-y-scroll min-h-[400px] max-h-[600px]">
                 {article.contenu.split("\n\n").map((paragraph, index) => {
                   if (paragraph.startsWith("## ")) {
                     return (
@@ -147,7 +147,7 @@ export default function SingleArticlePage() {
           </div>
 
           {/* Articles similaires */}
-          <Card className="max-sm:min-h-80 p-2 lg:h-screen w-full lg:w-[600px] place-items-center lg:mx-2 ">
+          <Card className="max-sm:min-h-80 p-2 lg:h-screen w-full lg:w-2/6 place-items-center lg:mx-2 ">
             <h3 className="text-xl font-semibold text-gray-900 mb-4 underline">Articles similaires</h3>
             <div className="grid lg:grid-cols-1 gap-4 md:grid-cols-3 px-2">
               {articles
@@ -159,7 +159,7 @@ export default function SingleArticlePage() {
                     to={`/article/${relatedArticle.id}`}
                     className="block p-4 w-full rounded-lg border hover:bg-gray-50 transition-colors"
                   >
-                    <img className="w-full h-20 rounded object-cover" src={relatedArticle.featured_image} />
+                    <img className="w-full h-20 rounded object-cover" src={relatedArticle.feature_image} />
                     <h4 className="font-medium text-gray-900 mb-2">{relatedArticle.title}</h4>
                     <p className="text-sm text-gray-600">
                       Par {relatedArticle.author} • {formatRelativeDate(relatedArticle.created_at)}

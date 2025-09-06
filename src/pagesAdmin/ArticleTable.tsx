@@ -189,9 +189,9 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
                         <span className="font-medium line-clamp-2">{article.title}</span>
                   </TableCell>
                   <TableCell>
-                    {article.featured_image && (
+                    {article.feature_image && (
                       <img
-                        src={article.featured_image || "/placeholder.svg"}
+                        src={article.feature_image || "/placeholder.svg"}
                         alt={article.title}
                         className="h-12 w-16 object-cover rounded"
                         />

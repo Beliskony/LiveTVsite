@@ -3,18 +3,19 @@
 import { useState, useEffect } from "react"
 import { StatsCard } from "./StatsCard"
 import { LivePreview } from "./LivePreview"
-import {  BarChart3, Users, Tv, Newspaper } from "lucide-react"
+import {  BarChart3, Users, Tv, Newspaper, Video } from "lucide-react"
 
 
 
 export function AdminDashboard() {
-  const [stats, setStats] = useState<{ users: number; programmes: number; articles: number }>({
+  const [stats, setStats] = useState<{ users: number; programmes: number; articles: number; vidéos: number }>({
     users: 0,
     programmes: 0,
     articles: 0,
+    vidéos: 0,
   })
 
-  const [prevStats, setPrevStats] = useState<{ users: number; programmes: number; articles: number } | null>(null)
+  const [prevStats, setPrevStats] = useState<{ users: number; programmes: number; articles: number; vidéos: number } | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
@@ -52,6 +53,12 @@ export function AdminDashboard() {
     return "stable"
   }
 
+  const usersTrend = getTrend(stats.users, prevStats?.users)
+  const programmesTrend = getTrend(stats.programmes, prevStats?.programmes)
+  const articlesTrend = getTrend(stats.articles, prevStats?.articles)
+  const videosTrend = getTrend(stats.vidéos, prevStats?.vidéos)
+
+
   if (loading) {
     return <p className="p-6 text-gray-500">Chargement des statistiques...</p>
   }
@@ -65,24 +72,31 @@ export function AdminDashboard() {
     {
       title: "Utilisateurs",
       value: stats.users.toString(),
-      description: "Nombre total d'utilisateurs",
       icon: Users,
-      trend: getTrend(stats.users, prevStats?.users),
+      trend: usersTrend,
+      trendLabel: "Nombre d'utilisateurs",
     },
     {
       title: "Programmes",
       value: stats.programmes.toString(),
-      description: "Nombre de programmes",
       icon: Tv,
-      trend: getTrend(stats.users, prevStats?.users),
+      trend: programmesTrend,
+      trendLabel: "Nombre de programmes",
     },
     {
       title: "Articles",
       value: stats.articles.toString(),
-      description: "Nombre d'articles publiés",
       icon: Newspaper,
-      trend: getTrend(stats.users, prevStats?.users),
+      trend: articlesTrend,
+      trendLabel:"Nombre d'articles",
     },
+    {
+      title: "Videos",
+      value: stats.vidéos.toString(),
+      icon: Video,
+      trend: videosTrend,
+      trendLabel: "Nombre de videos"
+    }
   ]
 
   return (
@@ -102,18 +116,12 @@ export function AdminDashboard() {
               key={index}
               title={stat.title}
               value={stat.value}
-              description={stat.description}
               icon={stat.icon}
               trend={stat.trend}
+              trendLabel={stat.trendLabel}
             />
           ))}
-              <StatsCard
-                title="Durée Totale"
-                value="48h"
-                description="Contenu disponible"
-                icon={BarChart3}
-                trend="up"
-              />
+             
             </div>
 
             <div className="grid grid-cols-1 gap-6 mt-3.5">

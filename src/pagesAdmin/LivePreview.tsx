@@ -24,7 +24,7 @@ export function LivePreview({ showControls = false }: LivePreviewProps) {
     const fetchLiveData = async () => {
       try {
         const token = localStorage.getItem("token")
-        const res = await fetch("https://api.yeshouatv.com/api/lives_get", {
+        const res = await fetch("https://api.yeshouatv.com/api/lives", {
           method: "GET",
           headers: {Authorization: `Bearer ${token}`}
         })

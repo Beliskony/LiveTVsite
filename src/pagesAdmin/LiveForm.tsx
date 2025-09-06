@@ -26,62 +26,91 @@ export function LiveForm({ Live, onClose }: LiveSettingsProps) {
 
    useEffect(() => {
     if (Live) {
+      const formatForInput = (datetime: string) => {
+      if (!datetime) return "";
+      return datetime.replace(" ", "T").slice(0, 16);
+    };
+
+
       setConfig({
         lien: Live?.lien || "",
         title: Live?.title || "",
-        startTime: Live?.startTime || "",
-        endingTime: Live?.endingTime || "",
+        startTime: formatForInput(Live.startTime || ""),
+        endingTime: formatForInput(Live.endingTime || ""),
         description: Live?.description ||""
       })
     }
    }, [Live])
 
-  const handleSave = async(e: React.FormEvent) => {
-      e.preventDefault()
-      setConfig
+  const handleSave = async (e: React.FormEvent) => {
+  e.preventDefault()
 
-      try {
-        const payload = new FormData
-        payload.append("lien", config.lien)
-        payload.append("title", config.title)
-        payload.append("startTime", config.startTime)
-        payload.append("endingTime", config.endingTime)
-        payload.append("description", config.description)
-
-        const token = localStorage.getItem("token")
-
-        // Mise à jour ou ajout ?
-        const isUpdate = !!Live?.id
-        const url = isUpdate
-          ? `https://api.yeshouatv.com/api/update/lives/${Live.id}`
-          : "https://api.yeshouatv.com/api/lives_add"
-
-          const method = "POST"
-          if (isUpdate) {
-          payload.append("_method", "PUT")
-          }
-
-        const response = await fetch(url, {
-          method,
-          headers: {
-            Authorization: `Bearer ${token ?? ""}`},
-            body: payload
-        })
-
-         if (response.ok) {
-          alert("Le live a été sauvegardé avec succès ✅")
-          onClose()
-        } else {
-          const errorText = await response.text()
-          console.error("Erreur lors de la sauvegarde ❌: " + errorText)
-        }
-
-
-      } catch (error) {
-        console.error("Erreur lors de la sauvegarde du live :", error)
-        alert("Une erreur est survenue lors de la sauvegarde ❌")
-      }
+  if (!config.lien || !config.title) {
+    alert("Le lien du stream et le titre sont obligatoires.")
+    return
   }
+
+  const token = localStorage.getItem("token")
+  if (!token) {
+    alert("Token non trouvé. Veuillez vous reconnecter.")
+    return
+  }
+
+  const formatTimeForAPI = (time: string) => {
+    if (!time) return ""
+    const today = new Date()
+    const yyyy = today.getFullYear()
+    const mm = String(today.getMonth() + 1).padStart(2, "0")
+    const dd = String(today.getDate()).padStart(2, "0")
+    return `${yyyy}-${mm}-${dd} ${time}:00`
+  }
+
+  try {
+    const formData = new FormData()
+    formData.append("lien", config.lien)
+    formData.append("title", config.title)
+    formData.append("startTime", formatTimeForAPI(config.startTime))
+    formData.append("endingTime", formatTimeForAPI(config.endingTime))
+    formData.append("description", config.description)
+
+    const isUpdate = !!Live?.id
+    const url = isUpdate
+      ? `https://api.yeshouatv.com/api/update/lives/${Live.id}`
+      : "https://api.yeshouatv.com/api/lives_add"
+
+    if (isUpdate) {
+      formData.append("_method", "PUT")
+    }
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      body: formData
+    })
+
+    if (response.ok) {
+      const updatedLive = await response.json()  // récupérer la réponse avec le live à jour
+      setConfig({
+        lien: updatedLive.lien,
+        title: updatedLive.title,
+        startTime: updatedLive.startTime.replace(" ", "T").slice(0, 16),
+        endingTime: updatedLive.endingTime.replace(" ", "T").slice(0, 16),
+        description: updatedLive.description
+      })
+      alert("Le live a été sauvegardé avec succès ✅")
+      onClose()
+    } else {
+      const errorText = await response.text()
+      console.error("Erreur lors de la sauvegarde ❌: " + errorText)
+    }
+  } catch (error) {
+    console.error("Erreur lors de la sauvegarde du live :", error)
+    alert("Une erreur est survenue lors de la sauvegarde ❌")
+  }
+}
+
 
   return (
     <Card className="w-full mb-6 p-4">
@@ -101,7 +130,7 @@ export function LiveForm({ Live, onClose }: LiveSettingsProps) {
               type={showStreamUrl ? "text" : "password"}
               value={config.lien ?? ""}
               onChange={(e) => setConfig({ ...config, lien: e.target.value })}
-              placeholder="rtmp://live.example.com/stream/key"
+              placeholder="https://live.example.com/stream/key"
               className="pr-10"
             />
             <Button

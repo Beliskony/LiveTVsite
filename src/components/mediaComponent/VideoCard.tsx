@@ -6,12 +6,17 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 export const VideoCard = (video: IVideo) => {
-  const { title, duration, created_at, video_url, couverture, views } = video
+  const { title, duration, created_at, video_url, couverture } = video
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [frame0Poster, setFrame0Poster] = useState<string | null>(null)
   const [isIOS, setIsIOS] = useState(false)
-   const hasCapturedRef = useRef(false)
+  const hasCapturedRef = useRef(false)
+  const hasIncrementedView = useRef(false)
+  // Nouvelle state locale pour les vues
+  const [views, setViews] = useState<number>(video.views ?? 0)
+  const incrementTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
 
 
   // Détecte si l'utilisateur est sur iOS
@@ -56,6 +61,35 @@ export const VideoCard = (video: IVideo) => {
   }, [isIOS])
 
 
+  const handleViewIncrement = () => {
+    if (hasIncrementedView.current) return
+    hasIncrementedView.current = true
+
+    incrementTimeoutRef.current = setTimeout(async () => {
+      try {
+      const response = await fetch(`http://api.yeshouatv.com/api/increment_views/${video.id}`, {
+          method: "POST",
+        })
+        
+         if (!response.ok) {
+        throw new Error(`Erreur API: ${response.status}`)
+      }
+        setViews(prev => prev + 1)
+      } catch (err) {
+        console.error("Erreur lors de l'incrémentation de la vue :", err)
+        hasIncrementedView.current = false
+      }
+    }, 2000)
+  }
+
+  // Nettoyage du timeout si le composant est démonté avant les 2s
+  useEffect(() => {
+    return () => {
+      if (incrementTimeoutRef.current) clearTimeout(incrementTimeoutRef.current)
+    }
+  }, [])
+
+
   return (
     <Card className="group w-[350px] font-normal overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
       <div className="relative aspect-video overflow-hidden">
@@ -67,6 +101,7 @@ export const VideoCard = (video: IVideo) => {
           preload="metadata"
           muted={true}
           loop
+          onPlay={handleViewIncrement}
           playsInline
           onMouseEnter={(e) => e.currentTarget.play()}
           onMouseLeave={(e) => {
@@ -79,14 +114,14 @@ export const VideoCard = (video: IVideo) => {
 
       <CardContent className="w-full py-2 space-y-1 h-20 text-gray-800">
         <div className="flex flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <span>{videoFormatRelativeDate(new Date(created_at).toLocaleDateString())}</span>
+        {/*  <span>{videoFormatRelativeDate(new Date(created_at).toLocaleDateString())}</span>*/}
 
-          {duration && (
+         {duration && (
             <Badge variant="secondary" className="bg-black/80 text-white hover:bg-black/80">
               <Clock className="mr-1 h-3 w-3" />
               {duration}
             </Badge>
-          )}
+          )} 
         </div>
 
         <div className="flex flex-row justify-between items-center gap-4 text-sm text-muted-foreground">

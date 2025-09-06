@@ -135,10 +135,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   //mot de passe oublie a tester et integre
-  const sendPasswordReset = async (email: string): Promise<boolean> => {
+  const sendPasswordResetAndVerifyCode = async (email: string): Promise<boolean> => {
   setLoading(true)
   try {
-    const res = await fetch(`https://api.yeshouatv.com/api/forgot-password`, {
+    const res = await fetch(`https://api.yeshouatv.com/api/send_code`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -162,52 +162,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 }
 
-const verifyResetCode = async (email: string, code: string): Promise<boolean> => {
+const resetPassword = async (email: string, OTP:string, newPassword: string): Promise<boolean> => {
   setLoading(true)
   try {
-    const res = await fetch(`https://api.yeshouatv.com/api/verify-reset-code`, {
+    const res = await fetch(`https://api.yeshouatv.com/api/reset_password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ email, code }),
+      body: JSON.stringify({ email, code: OTP, password: newPassword }),
     })
-
-    if (!res.ok) {
-      const errorText = await res.text()
-      console.error("Code invalide :", errorText)
-      throw new Error("Code invalide ou expiré")
-    }
-
-    return true
-  } catch (error) {
-    console.error("Erreur vérification code :", error)
-    return false
-  } finally {
-    setLoading(false)
-  }
-}
-
-const resetPassword = async (email: string, newPassword: string): Promise<boolean> => {
-  setLoading(true)
-  try {
-    const res = await fetch(`https://api.yeshouatv.com/api/reset-password`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ email, password: newPassword }),
-    })
-
+      
     if (!res.ok) {
       const errorText = await res.text()
       console.error("Échec changement mot de passe :", errorText)
+      console.log('reset_password payload', { code: OTP, password: newPassword });
+
       throw new Error("Impossible de changer le mot de passe")
     }
 
     return true
+    
   } catch (error) {
     console.error("Erreur changement mot de passe :", error)
     return false
@@ -247,6 +223,9 @@ const resetPassword = async (email: string, newPassword: string): Promise<boolea
     register,
     logout,
     loading,
+    sendPasswordResetAndVerifyCode,
+    resetPassword
+    
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

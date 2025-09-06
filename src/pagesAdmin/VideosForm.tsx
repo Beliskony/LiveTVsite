@@ -147,7 +147,8 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     setIsSuccess(true)
     setTimeout(() => onClose(), 3000)
-
+    console.log(response);
+    
   } catch (err) {
     console.error("Erreur lors de l'envoi:", err)
     setError("Impossible de publier la vidéo. Merci de réessayer.")

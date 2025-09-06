@@ -6,5 +6,5 @@ export interface IArticle {
   status: "brouillon" | "publié" | "supprimé" 
   contenu: string
   created_at: string
-  featured_image?: string
+  feature_image?: string
 }
