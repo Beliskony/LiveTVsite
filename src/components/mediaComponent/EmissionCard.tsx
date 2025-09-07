@@ -42,7 +42,7 @@ export const EmissionCard = (Emission:propsEmission) => {
 
 
       <CardContent className="relative z-10 flex flex-col justify-end h-full text-foreground p-0">
-          <div className="absolute w-full top-4 left-4 flex flex-wrap gap-2">
+          <div className="absolute w-full top-4 left-4 flex max-sm:flex-col flex-wrap gap-2">
               <Badge
                 variant="secondary"
                 className="bg-gray-900/90 backdrop-blur-sm text-white border-gray-400/30 hover:bg-gray-900/50 h-5"
