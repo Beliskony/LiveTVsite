@@ -55,7 +55,7 @@ export function UserInfoTable() {
   }, [searchTerm])
 
 
-  const deleteUser = async (id: string) =>{
+{/*  const deleteUser = async (id: string) =>{
     try {
       const token = localStorage.getItem("token")
       const res = await fetch(`https://api.yeshouatv.com/api/delete_user/${id}`, {
@@ -76,7 +76,7 @@ export function UserInfoTable() {
       console.error("Erreur lors du DELETE:", error)
       throw error
     }
-  }
+  }*/}
 
 
 const filteredUsers = [...users]
@@ -127,7 +127,7 @@ const filteredUsers = [...users]
                 <TableHead>Username</TableHead>
                 <TableHead>Mail</TableHead>
                 <TableHead>Role</TableHead>
-                <TableHead className="text-right">Action</TableHead>
+               {/* <TableHead className="text-right">Action</TableHead>*/}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -143,8 +143,8 @@ const filteredUsers = [...users]
                     )}
                   </TableCell>
 
-                   <TableCell className="text-right">
-                  <DropdownMenu>
+                {/*    <TableCell className="text-right">
+                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="sm">
                         <MoreHorizontal className="h-4 w-4" />
@@ -160,7 +160,7 @@ const filteredUsers = [...users]
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                </TableCell>
+                </TableCell>*/}
                 </TableRow>
               ))}
             </TableBody>
