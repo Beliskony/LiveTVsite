@@ -5,7 +5,11 @@ import { Clock, Eye } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
-export const VideoCard = (video: IVideo) => {
+interface VideoCardProps {
+  video: IVideo
+}
+
+export const VideoCard = ({ video }: VideoCardProps) => {
   const { title, duration, created_at, video_url, couverture } = video
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
@@ -67,13 +71,19 @@ export const VideoCard = (video: IVideo) => {
 
     incrementTimeoutRef.current = setTimeout(async () => {
       try {
-      const response = await fetch(`http://api.yeshouatv.com/api/increment_views/${video.id}`, {
+      const response = await fetch(`https://api.yeshouatv.com/api/increment_views/${video.id}`, {
           method: "POST",
+          headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
         })
         
          if (!response.ok) {
         throw new Error(`Erreur API: ${response.status}`)
       }
+      const json = await response.json()
+      console.log("Vue ajoutée:", json)
         setViews(prev => prev + 1)
       } catch (err) {
         console.error("Erreur lors de l'incrémentation de la vue :", err)

@@ -4,6 +4,7 @@ import { Skeleton } from "../ui/skeleton"
 import { extractHourFromDateTime } from "@/utilitaires/FormatHeure"
 import { isHlsLink } from "@/utilitaires/mediaUtils"
 
+
 const LiveVideo = () => {
   const [lives, setLives] = useState<ILive | null>(null)
   const [loading, setLoading] = useState(true)
@@ -42,21 +43,35 @@ const LiveVideo = () => {
   incrementTimeoutRef.current = setTimeout(async () => {
     try {
       const response = await fetch(`https://api.yeshouatv.com/api/lives/${lives.id}/view`, {
-        method: "POST"
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
       })
 
       if (!response.ok) {
         throw new Error(`Erreur API: ${response.status}`)
       }
 
+      const json = await response.json()
+
       // Optionnel : si tu veux afficher localement les vues mises à jour
-       setLives(prev => prev ? { ...prev, viewers: (prev.viewers ?? 0) + 1 } : prev)
+       setLives(prev => prev ? { ...prev, viewers: json.viewers } : prev)
     } catch (err) {
       console.error("Erreur lors de l'incrémentation de la vue :", err)
       hasIncrementedView.current = false
     }
   }, 2000)
 }
+
+useEffect(() => {
+  return () => {
+    if (incrementTimeoutRef.current) {
+      clearTimeout(incrementTimeoutRef.current)
+    }
+  }
+}, [])
 
 useEffect(() => {
   if (lives?.lien && !isHlsLink(lives.lien)) {
@@ -84,6 +99,14 @@ useEffect(() => {
     )
   }
 
+  if (!lives) {
+  return (
+    <div className="text-center text-white w-full py-20">
+      <p>Aucun live n’est disponible actuellement.</p>
+    </div>
+  )
+}
+
 
   return (
     <div className="w-full h-full flex flex-col xl:flex-row lg:p-16 xl:p-16 gap-4 justify-center items-center">
@@ -95,6 +118,7 @@ useEffect(() => {
             title={lives.title}
             className="w-full h-full rounded-md"
             allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
           />
         ) : (
           <p className="text-white">Aucun live n’est disponible actuellement.</p>

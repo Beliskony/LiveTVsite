@@ -58,7 +58,7 @@ export function EmissionCarouselForEmission() {
   const autoplay = useRef(
     Autoplay({ delay: 4000, stopOnInteraction: true, playOnInit: true })
   )
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 4000, stopOnInteraction: true })])
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [autoplay.current])
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([])
 
@@ -139,8 +139,8 @@ export function EmissionCarouselForEmission() {
                     </div>
 
                     {/* Title and subtitle */}
-                    <h1 className="text-white text-5xl max-sm:text-2xl font-bold mb-4 max-sm:mb-2">{emission.nom}</h1>
-                    <p className="text-white/90 text-xl max-sm:text-lg mb-8 max-sm:mb-2">{emission.description}</p>
+                    <h1 className="text-white text-5xl max-sm:text-2xl font-bold mb-4 max-sm:mb-2 break-words line-clamp-2 overflow-hidden">{emission.nom}</h1>
+                    <p className="text-white/90 text-xl max-sm:text-lg mb-8 max-sm:mb-2 break-words line-clamp-3 overflow-hidden">{emission.description}</p>
 
                     {/* CTA Button */}
                     <Button

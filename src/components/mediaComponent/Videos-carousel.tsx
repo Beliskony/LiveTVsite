@@ -56,7 +56,7 @@ export default function VideoCarousel({ videos }: VideoCarouselProps) {
            {videos.slice(0, 5).map((video, index) => (
               <div
                 key={video.id ?? `video-${index}`}>
-          <VideoCard {...video} />
+          <VideoCard video={video} />
         </div>
         ))}
       </div>

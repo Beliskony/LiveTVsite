@@ -64,7 +64,7 @@ export default function SingleArticlePage() {
     <div className="min-h-screen h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
       <section className="w-full md:mt-20 xl:mt-20 max-sm:mt-20 xl:px-10 bg-white">
         <div className="w-full px-1 md:px-4 lg:px-10 justify-center py-8 gap-4 flex flex-col lg:flex-row">
-          <div className="bg-white rounded-lg border p-1 md:p-4 lg:p-5 shadow-sm overflow-hidden w-4/6">
+          <div className="bg-white rounded-lg border p-1 md:p-4 lg:p-5 shadow-sm overflow-hidden w-4/6 max-sm:w-full">
             {article.feature_image && (
               <div className="aspect-video w-full overflow-hidden">
                 <img

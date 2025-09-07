@@ -107,8 +107,8 @@ export default function SingleProgrammePage() {
         
         {/* Infos de l’émission */}
         <div className="max-w-5xl my-10 max-sm:h-[200px] md:h-[400px]  md:pt-16 lg:pt-16 xl:pt-16">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">{programme.nom}</h1>
-          <p className="mb-6 text-lg md:text-xl leading-relaxed">{programme.description}</p>
+          <h1 className="text-2xl md:text-6xl font-bold mb-4 break-all line-clamp-2">{programme.nom}</h1>
+          <p className="mb-6 text-sm md:text-xl leading-relaxed break-all line-clamp-3">{programme.description}</p>
           <div className="flex flex-wrap items-center gap-4 text-sm">
             <Badge className="bg-indigo-100 text-indigo-800 break-all">{programme.genre}</Badge>
             <div className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {getReadableDaysRange(programme.when)}</div>
@@ -142,7 +142,7 @@ export default function SingleProgrammePage() {
         ) : (
           <div className="w-full my-4 grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 justify-items-center">
             {paginatedVideos.map((video) => (
-              <VideoCard key={video.id} {...video} />
+              <VideoCard key={video.id} video={video} />
             ))}
           </div>
         )}
