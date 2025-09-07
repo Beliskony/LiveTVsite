@@ -133,8 +133,8 @@ const filteredUsers = [...users]
             <TableBody>
               {paginatedUsers.map((user) => (
                 <TableRow key={user.id}>
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
+                  <TableCell className="font-medium truncate max-w-40">{user.name}</TableCell>
+                  <TableCell className="font-medium truncate max-w-40">{user.email}</TableCell>
                   <TableCell>
                     {user.role === "admin" ? (
                       <span className="text-red-600 text-sm font-semibold">Admin</span>

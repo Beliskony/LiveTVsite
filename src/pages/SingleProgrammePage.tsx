@@ -120,8 +120,8 @@ export default function SingleProgrammePage() {
         </div>
 
         {/* Titre de la section vidéo & filtre */}
-        <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row w-full justify-between border-b mb-6 max-sm:items-start">
-            <h2 className="text-5xl md:text-2xl lg:text-3xl max-sm:text-xl font-semibold mb-6 text-left">Vidéos de l’émission</h2>
+        <div className="flex flex-col gap-4 max-sm:mt-10 md:flex-row lg:flex-row xl:flex-row w-full justify-between border-b mb-6 max-sm:items-start">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold w-full md:w-auto text-center md:text-left">Vidéos de l’émission</h2>
 
             <VideosFilters activeFilters={filters}
                        onSearchChange={handleSearchChange}

@@ -186,7 +186,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
               {paginatedArticles.map((article) => (
                 <TableRow key={article.id}>
                   <TableCell>
-                        <span className="font-medium line-clamp-2">{article.title}</span>
+                        <span className="font-medium truncate max-w-40">{article.title}</span>
                   </TableCell>
                   <TableCell>
                     {article.feature_image && (

@@ -176,7 +176,7 @@ const getProgrammeName = (id?: string) => {
           <TableBody>
             {paginatedVideos.map((video) => (
               <TableRow key={video.id}>
-                <TableCell className="font-medium">{video.title}</TableCell>
+                <TableCell className="font-medium truncate max-w-40">{video.title}</TableCell>
                 <TableCell>
                   {video.couverture ? (
                     <img src={video.couverture} className="h-12 w-20 object-cover rounded" />
@@ -190,7 +190,7 @@ const getProgrammeName = (id?: string) => {
                     
                 </TableCell>
                 <TableCell>
-                  <Badge>{getProgrammeName(video.programme_id)}</Badge>
+                  <Badge className="max-w-72">{getProgrammeName(video.programme_id)}</Badge>
                 </TableCell>
                 <TableCell>{video.duration}</TableCell>
                 <TableCell>{formatViews(video.views ?? 0)}</TableCell>

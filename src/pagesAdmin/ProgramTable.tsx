@@ -192,7 +192,7 @@ const filteredPrograms = programmes.filter((program) =>
           <TableBody>
             {filteredPrograms.map((program) => (
               <TableRow key={program.id}>
-                <TableCell className="font-medium">{program.nom}</TableCell>
+                <TableCell className="font-medium truncate max-w-40">{program.nom}</TableCell>
                 <TableCell>{getDayLabel(program.when.join(", "))}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1">
@@ -203,7 +203,7 @@ const filteredPrograms = programmes.filter((program) =>
                 <TableCell>
                   <Badge className={getTypeColor(program.genre)}>{getTypeLabel(program.genre)}</Badge>
                 </TableCell>
-                <TableCell className="max-w-xs truncate">{program.description}</TableCell>
+                <TableCell className="truncate font-medium max-w-40">{program.description}</TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
