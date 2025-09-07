@@ -114,7 +114,7 @@ export const VideoCard = (video: IVideo) => {
 
       <CardContent className="w-full py-2 space-y-1 h-20 text-gray-800">
         <div className="flex flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-        {/*  <span>{videoFormatRelativeDate(new Date(created_at).toLocaleDateString())}</span>*/}
+        <span>{videoFormatRelativeDate(new Date(created_at).toLocaleDateString())}</span>
 
          {duration && (
             <Badge variant="secondary" className="bg-black/80 text-white hover:bg-black/80">

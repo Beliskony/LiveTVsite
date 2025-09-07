@@ -96,7 +96,7 @@ export default function SingleArticlePage() {
 
               <h1 className="text-4xl font-bold text-gray-900 mb-8 leading-tight">{article.title}</h1>
 
-              <div className="prose prose-lg max-w-none overflow-y-scroll min-h-[400px] max-h-[600px]">
+              <div className="prose prose-lg max-w-none overflow-y-auto min-h-[400px] max-h-[600px]">
                 {article.contenu.split("\n\n").map((paragraph, index) => {
                   if (paragraph.startsWith("## ")) {
                     return (
@@ -156,7 +156,7 @@ export default function SingleArticlePage() {
                 .map((relatedArticle) => (
                   <Link
                     key={relatedArticle.id}
-                    to={`/article/${relatedArticle.id}`}
+                    to={`/egliseYeshoua/articles/${relatedArticle.id}`}
                     className="block p-4 w-full rounded-lg border hover:bg-gray-50 transition-colors"
                   >
                     <img className="w-full h-20 rounded object-cover" src={relatedArticle.feature_image} />

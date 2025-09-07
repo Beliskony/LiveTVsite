@@ -18,6 +18,7 @@ import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import { useEffect, useState } from 'react';
 import { SplashScreenWrapper } from './pages/SplashScreen';
+import NotFound from './pages/404';
 
 
 function AnimatedRoutes() {
@@ -52,6 +53,21 @@ function AnimatedRoutes() {
   <Header />
     <AnimatePresence mode='wait'>
       <Routes location={location} key={location.pathname}>
+        <Route
+          path='*'
+          element={
+            <motion.div 
+              variants={variants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className='min-h-screen'
+            >
+            <NotFound/>
+            </motion.div>
+          }
+        />
         <Route
           path="/"
           element={

@@ -173,7 +173,7 @@ useEffect(() => {
                           }}
                           className="text-white justify-between border-b border-gray-700 hover:border-blue-500 flex items-center pb-1.5">
                           {result.title || result.nom || result.name}
-                        <img src={result.couverture || result.featured_image}
+                        <img src={result.couverture || result.feature_image}
                           alt={result.title || result.nom || result.name}
                           className="h-10 w-10 ml-2 inline-block rounded-lg" />
                       </Link>

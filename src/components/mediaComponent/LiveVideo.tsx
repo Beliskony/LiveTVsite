@@ -1,29 +1,69 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import type { ILive } from "@/interfaces/Live"
 import { Skeleton } from "../ui/skeleton"
+import { extractHourFromDateTime } from "@/utilitaires/FormatHeure"
+import { isHlsLink } from "@/utilitaires/mediaUtils"
 
 const LiveVideo = () => {
   const [lives, setLives] = useState<ILive | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const hasIncrementedView = useRef(false)
+  const incrementTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
-    const fetchLive = async () => {
-      try {
-        const res = await fetch("https://api.yeshouatv.com/api/list_live_for_user")
-        if (!res.ok) throw new Error("Erreur lors du chargement du live")
-        const data: ILive = await res.json()
-        setLives(data)
-      } catch (err) {
-        console.error(err)
-        setError("Impossible de charger le live pour le moment.")
-      } finally {
-        setLoading(false)
+  const fetchLive = async () => {
+    try {
+      const res = await fetch("https://api.yeshouatv.com/api/list_live_for_user")
+      if (!res.ok) throw new Error("Erreur lors du chargement du live")
+      
+      const json = await res.json()
+      // json.data est un tableau d'objets ILive
+      if (Array.isArray(json.data) && json.data.length > 0) {
+        setLives(json.data[0])  // On prend le premier live
+      } else {
+        setLives(null)
       }
+    } catch (err) {
+      console.error(err)
+      setError("Impossible de charger le live pour le moment.")
+    } finally {
+      setLoading(false)
     }
+  }
 
-    fetchLive()
-  }, [])
+  fetchLive()
+}, [])
+
+  const handleViewIncrement = () => {
+  if (hasIncrementedView.current || !lives?.id) return
+  hasIncrementedView.current = true
+
+  incrementTimeoutRef.current = setTimeout(async () => {
+    try {
+      const response = await fetch(`https://api.yeshouatv.com/api/lives/${lives.id}/view`, {
+        method: "POST"
+      })
+
+      if (!response.ok) {
+        throw new Error(`Erreur API: ${response.status}`)
+      }
+
+      // Optionnel : si tu veux afficher localement les vues mises à jour
+       setLives(prev => prev ? { ...prev, viewers: (prev.viewers ?? 0) + 1 } : prev)
+    } catch (err) {
+      console.error("Erreur lors de l'incrémentation de la vue :", err)
+      hasIncrementedView.current = false
+    }
+  }, 2000)
+}
+
+useEffect(() => {
+  if (lives?.lien && !isHlsLink(lives.lien)) {
+    handleViewIncrement()
+  }
+}, [lives?.lien])
+
 
   if (loading || error) {
     return (
@@ -46,9 +86,9 @@ const LiveVideo = () => {
 
 
   return (
-    <div className="w-full h-full flex flex-col lg:flex-row lg:p-16 xl:p-16 gap-4 justify-center items-center">
+    <div className="w-full h-full flex flex-col xl:flex-row lg:p-16 xl:p-16 gap-4 justify-center items-center">
       {/* Vidéo à gauche */}
-      <div className="w-full px-5 md:px-5 lg:w-8/12 xl:w-7/12 max-sm:h-[250px] h-[400px] lg:h-[450px]">
+      <div className="w-full px-5 md:px-5 xl:w-7/12 max-sm:h-[250px] h-[400px] lg:h-[450px]">
         {lives?.lien ? (
           <iframe
             src={`${lives.lien}?autoplay=1&loop=1`}
@@ -62,11 +102,21 @@ const LiveVideo = () => {
       </div>
 
       {/* Infos à droite */}
-      <div className="w-full px-7 md:px-7 lg:w-4/12 xl:w-5/12 lg:px-2 xl:px-10 text-white text-left">
-        <h1 className="text-3xl max-sm:text-xl lg:text-2xl font-bold">Vous suivez actuellement le live</h1>
-        <h2 className="text-xl max-sm:text-lg font-semibold mt-2">{lives?.title}</h2>
-        <p className="mt-2 text-sm max-sm:hidden md:hidden lg:flex">{lives?.description}</p>
+      <div className="w-full px-7 md:px-7 lg:w-full xl:w-5/12 lg:px-4 xl:px-10 text-white text-left flex flex-col gap-4">
+        <h1 className="text-3xl max-sm:text-xl lg:text-2xl font-bold leading-tight">
+          Vous suivez actuellement le live
+        </h1>
+        <h2 className="text-xl max-sm:text-lg font-semibold leading-snug">
+          {lives?.title}
+        </h2>
+        <h3 className="text-lg max-sm:text-base mt-1 font-light">
+          De <span className="text-xl max-sm:text-lg font-bold">{extractHourFromDateTime(lives?.startTime ?? "")}</span> à <span className="text-xl max-sm:text-lg font-bold">{extractHourFromDateTime(lives?.endingTime ?? "")}</span>
+        </h3>
+        <p className="mt-2 text-sm max-sm:hidden md:hidden max-h-72 overflow-y-auto lg:hidden xl:block text-gray-300 leading-relaxed">
+          {lives?.description}
+        </p>
       </div>
+
     </div>
   )
 }

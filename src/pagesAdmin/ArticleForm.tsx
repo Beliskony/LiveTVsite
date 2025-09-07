@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { X, Save, Eye, CheckCircle } from "lucide-react"
+import { X, Save, Eye, CheckCircle, LoaderCircle } from "lucide-react"
 import type { IArticle } from "@/interfaces/Articles"
 import { ImageSelector } from "./ImageSelector"
 
@@ -52,7 +52,7 @@ useEffect(() => {
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -229,8 +229,16 @@ useEffect(() => {
             disabled={isSubmitting}
             className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-md transition-colors"
           >
-            <Save className="h-4 w-4" />
-            {article ? "Mettre à jour" : "Publier"}
+            {isSubmitting ? (
+              <>
+                <LoaderCircle className="animate-spin w-4 h-4" />
+              </>
+              ) : (
+              <>
+                <Save className="h-4 w-4" />
+                {article ? "Mettre à jour" : "Publier"}
+              </>
+            )}
           </button>
         </div>
       </form>

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { Save, Eye, EyeOff, X } from "lucide-react"
+import { Save, Eye, EyeOff, X, LoaderCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -16,6 +16,7 @@ interface LiveSettingsProps {
 
 export function LiveForm({ Live, onClose }: LiveSettingsProps) {
   const [showStreamUrl, setShowStreamUrl] = useState(false)
+  const [isSending, setIsSending] = useState(false)
   const [config, setConfig] = useState({
     lien: Live?.lien || "",
     title: Live?.title || "",
@@ -55,6 +56,7 @@ export function LiveForm({ Live, onClose }: LiveSettingsProps) {
     alert("Token non trouvé. Veuillez vous reconnecter.")
     return
   }
+    setIsSending(true)
 
   const formatTimeForAPI = (time: string) => {
     if (!time) return ""
@@ -91,14 +93,6 @@ export function LiveForm({ Live, onClose }: LiveSettingsProps) {
     })
 
     if (response.ok) {
-      const updatedLive = await response.json()  // récupérer la réponse avec le live à jour
-      setConfig({
-        lien: updatedLive.lien,
-        title: updatedLive.title,
-        startTime: updatedLive.startTime.replace(" ", "T").slice(0, 16),
-        endingTime: updatedLive.endingTime.replace(" ", "T").slice(0, 16),
-        description: updatedLive.description
-      })
       alert("Le live a été sauvegardé avec succès ✅")
       onClose()
     } else {
@@ -199,9 +193,18 @@ export function LiveForm({ Live, onClose }: LiveSettingsProps) {
 
         {/* Boutons d'action */}
         <div className="flex justify-end gap-3">
-          <Button onClick={handleSave} className="flex items-center gap-2">
-            <Save className="h-4 w-4" />
-            Sauvegarder
+          <Button onClick={handleSave} className="flex items-center gap-2" disabled={isSending}>
+            {isSending ? (
+              <> 
+              <LoaderCircle className="animate-spin w-4 h-4" />
+              </>
+            ):(
+              <>
+               <Save className="h-4 w-4" />
+               Sauvegarder
+              </>
+            )}
+           
           </Button>
         </div>
       </CardContent>

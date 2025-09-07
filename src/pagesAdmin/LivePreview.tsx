@@ -1,13 +1,15 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Play, Square, Settings, Users, Eye } from "lucide-react"
 import type { ILive } from "@/interfaces/Live"
 import { formatViews } from "@/utilitaires/FormatViews"
-import LiveVideo from "@/components/mediaComponent/LiveVideo"
+import { isHlsLink } from "@/utilitaires/mediaUtils"
+import { extractHourFromDateTime } from "@/utilitaires/FormatHeure"
+import { HlsPlayer } from "@/components/mediaComponent/HlsPlayer"
 
 interface LivePreviewProps {
   showControls?: boolean
@@ -18,6 +20,7 @@ export function LivePreview({ showControls = false }: LivePreviewProps) {
   const [liveData, setLiveData] = useState<ILive | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
 
 
   useEffect(() => {
@@ -34,7 +37,11 @@ export function LivePreview({ showControls = false }: LivePreviewProps) {
         }
 
         const data = await res.json()
-        setLiveData(data)
+        if (Array.isArray(data.data) && data.data.length > 0) {
+          setLiveData(data.data[0]) // ✅ le premier live
+        } else {
+          setLiveData(null)
+        }
       } catch (err) {
         console.error(err)
         setError("Impossible de récupérer les données du live.")
@@ -44,8 +51,10 @@ export function LivePreview({ showControls = false }: LivePreviewProps) {
     }
 
     fetchLiveData()
-  }, [])
 
+      const interval = setInterval(fetchLiveData, 2000)
+      return () => clearInterval(interval)
+  }, [])
 
 
   if (loading) {
@@ -92,12 +101,17 @@ export function LivePreview({ showControls = false }: LivePreviewProps) {
         {/* Aperçu vidéo simulé */}
         <div className="aspect-video bg-gray-900 rounded-lg flex items-center justify-center relative overflow-hidden">
          {liveData?.lien ? (  
+           isHlsLink(liveData?.lien) ? (
+            <HlsPlayer url={liveData.lien!} />
+           ) :(
           <iframe
             src={`${liveData?.lien}?autoplay=1&loop=1`}
             title={liveData?.title}
             className="w-full h-full rounded-md"
             allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
           />
+          )
           ) : (
             <div className="text-white text-center text-sm">Aucun live n’est actuellement disponible.</div>
           )}
@@ -106,7 +120,7 @@ export function LivePreview({ showControls = false }: LivePreviewProps) {
         {/* Informations du programme actuel */}
         <div className="bg-gray-50 rounded-lg p-4">
           <h4 className="font-medium text-gray-900 mb-1">{liveData?.title}</h4>
-          <p className="text-sm text-gray-600 mb-2">{liveData?.startTime} à {liveData?.endingTime}</p>
+          <p className="text-sm text-gray-600 mb-2">{extractHourFromDateTime(liveData?.startTime ?? "")} à {extractHourFromDateTime(liveData?.endingTime ?? "")}</p>
           
            <div className="text-sm text-gray-600 overflow-y-auto max-h-24">
               {liveData?.description}
