@@ -306,7 +306,7 @@ useEffect(() => {
               <Link to="/" className={`flex flex-col items-center text-white ${
               location.pathname === "/" ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-blue-500" : ""
               }`}>
-                <img src="/liveRed.svg" className="h-5 w-5"/>
+                <img src="/liveRed.svg" alt="liveIcon" className="h-5 w-5"/>
                 <span className="mt-1">Live</span>
               </Link>
 
