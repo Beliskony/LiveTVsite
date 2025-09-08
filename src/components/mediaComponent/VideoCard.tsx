@@ -69,6 +69,12 @@ export const VideoCard = ({ video }: VideoCardProps) => {
     if (hasIncrementedView.current) return
     hasIncrementedView.current = true
 
+    const viewedVideos = JSON.parse(localStorage.getItem("viewedVideos") || "[]")
+      if (viewedVideos.includes(video.id)) {
+    console.log("Vue déjà comptabilisée pour cette vidéo sur cet appareil.")
+    return
+  }
+
     incrementTimeoutRef.current = setTimeout(async () => {
       try {
       const response = await fetch(`https://api.yeshouatv.com/api/increment_views/${video.id}`, {
@@ -84,7 +90,10 @@ export const VideoCard = ({ video }: VideoCardProps) => {
       }
       const json = await response.json()
       console.log("Vue ajoutée:", json)
-        setViews(prev => prev + 1)
+      setViews(prev => prev + 1)
+
+      const updatedViewed = [...viewedVideos, video.id]
+      localStorage.setItem("viewedVideos", JSON.stringify(updatedViewed))
       } catch (err) {
         console.error("Erreur lors de l'incrémentation de la vue :", err)
         hasIncrementedView.current = false
@@ -139,10 +148,10 @@ export const VideoCard = ({ video }: VideoCardProps) => {
           {title}
         </h3>
 
-          <Badge variant="secondary" className="bg-gray-900/50 text-white">
+         {/* <Badge variant="secondary" className="bg-gray-900/50 text-white">
               <Eye className="mr-1 h-3 w-3"/>
               {views}
-          </Badge>
+          </Badge> */}
         </div>
       </CardContent>
     </Card>

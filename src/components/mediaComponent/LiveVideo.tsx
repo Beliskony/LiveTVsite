@@ -12,6 +12,15 @@ const LiveVideo = () => {
   const hasIncrementedView = useRef(false)
   const incrementTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
+  const getDeviceId = () => {
+    let deviceId = localStorage.getItem("device_id")
+    if (!deviceId) {
+      deviceId = crypto.randomUUID()
+      localStorage.setItem("device_id", deviceId)
+    }
+    return deviceId
+  }
+
   useEffect(() => {
   const fetchLive = async () => {
     try {
@@ -38,16 +47,24 @@ const LiveVideo = () => {
 
   const handleViewIncrement = () => {
   if (hasIncrementedView.current || !lives?.id) return
+  const viewedLives = JSON.parse(localStorage.getItem("viewedLives") || "[]")
+    if (viewedLives.includes(lives.id)) {
+      console.log("Vue déjà comptabilisée localement pour ce live.")
+      return
+    }
+
   hasIncrementedView.current = true
 
   incrementTimeoutRef.current = setTimeout(async () => {
     try {
+      const deviceId = getDeviceId()
+
       const response = await fetch(`https://api.yeshouatv.com/api/lives/${lives.id}/view`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify({device_id: deviceId}),
       })
 
       if (!response.ok) {
@@ -58,6 +75,10 @@ const LiveVideo = () => {
 
       // Optionnel : si tu veux afficher localement les vues mises à jour
        setLives(prev => prev ? { ...prev, viewers: json.viewers } : prev)
+
+       // Mémorise le live comme "vu"
+        const updatedViewed = [...viewedLives, lives.id]
+        localStorage.setItem("viewedLives", JSON.stringify(updatedViewed))
     } catch (err) {
       console.error("Erreur lors de l'incrémentation de la vue :", err)
       hasIncrementedView.current = false
