@@ -151,7 +151,7 @@ export default function ArticleCarousel() {
       </div>*/}
 
       <div className="flex w-full items-center justify-center my-4">
-        <Button className="mt-4 p-2 flex justify-center items-center bg-gray-900 shadow transition-all ease-in-out">
+        <Button className="mt-4 p-2 flex justify-center items-center bg-[#1faae1] shadow transition-all ease-in-out">
           <Link to="/egliseYeshoua/articles" className=" text-white">
             Voir tous les articles
           </Link>

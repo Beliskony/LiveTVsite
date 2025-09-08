@@ -28,7 +28,7 @@ export default function SplashScreenWrapper({ children }: SplashScreenWrapperPro
           transition={{ duration: 0.8 }}
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white"
         >
-          <img src="/logotvRM.png" className="h-60 w-64 animate-pulse" />
+          <img src="/logotvCouleur.png" className="h-60 w-64 animate-pulse" />
         </motion.div>
       ) : (
         <motion.div

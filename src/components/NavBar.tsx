@@ -91,7 +91,7 @@ useEffect(() => {
 
   return (
     <>
-      <header className={`fixed backdrop-blur-sm text-white font-normal text-lg hover:bg-gray-900 top-0 z-50 ${isScrolled ? " bg-gray-900" : "bg-transparent"}`}>
+      <header className={`fixed backdrop-blur-sm text-white font-normal text-lg hover:bg-[#1faae1] top-0 z-50 ${isScrolled ? " bg-[#1faae1]" : "bg-transparent"}`}>
         <div className="w-screen px-4">
           <div className="flex items-center max-sm:hidden justify-between w-full h-16">
             {/* Logo */}
@@ -104,11 +104,11 @@ useEffect(() => {
             {/* Navigation Desktop */}
             <nav className="hidden md:flex md:text-xs lg:text-[15px] items-center space-x-10 md:space-x-4 lg:space-x-5 xl:px-5 text-white">
 
-              <Link to={"/home"} className="hover:text-blue-400 transition-colors font-medium">
+              <Link to={"/home"} className="hover:text-gray-900 transition-colors font-medium">
                 Notre chaîne
               </Link>
 
-              <Link to={"/programmes"} className="hover:text-blue-400 transition-colors font-medium">
+              <Link to={"/programmes"} className="hover:text-gray-900 transition-colors font-medium">
                 Programmes
               </Link>
 
@@ -118,12 +118,12 @@ useEffect(() => {
               </Link>
               
               <div className="relative group">
-                  <button className="hover:text-blue-400 transition-colors font-medium flex items-center gap-1">
+                  <button className="hover:text-gray-900 transition-colors font-medium flex items-center gap-1">
                       Eglise Yeshoua
                       <ChevronDown className="h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
                   </button>
 
-                  <div className="absolute hidden group-hover:block  mt-1 rounded shadow-lg min-w-[150px] z-10 bg-gray-900 text-white transition-all ease-in-out delay-75">
+                  <div className="absolute hidden group-hover:block  mt-1 rounded shadow-lg min-w-[150px] z-10 bg-[#1faae1] text-white transition-all ease-in-out delay-75">
                       <Link to="/egliseYeshoua/presentation"
                             className="block px-4 py-2 hover:bg-gray-700 transition-colors">
                           Presentation
@@ -152,10 +152,10 @@ useEffect(() => {
                   value={searchQuery}
                   placeholder="Rechercher programmes, articles..."
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2  border border-white rounded-md text-white placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors"
+                  className="w-full pl-10 pr-4 py-2  border border-white rounded-md text-white placeholder-white/65 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors"
                 />
             {searchQuery.trim() && (
-              <div className="absolute top-full left-0 mt-2 w-full bg-gray-900 border border-gray-800 rounded-md shadow-lg z-50">
+              <div className="absolute top-full left-0 mt-2 w-full bg-[#1faae1] border border-gray-800 rounded-md shadow-lg z-50">
               {results.length > 0 ? (
                 <ul className="max-h-60 overflow-y-auto">
                   {results.map((result, _index) => (
@@ -212,7 +212,7 @@ useEffect(() => {
                     <button
                       onClick={toggleUserMenu}
                       className="flex items-center space-x-2 p-2 rounded-md transition-colors text-white hover:bg-gray-800 hover:text-white">
-                      <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center">
                         <span className="text-sm font-medium text-white ">
                           {user?.name?.charAt(0).toUpperCase()}
                         </span>
@@ -222,7 +222,7 @@ useEffect(() => {
                     </button>
 
                     {isUserMenuOpen && (
-                      <div className="absolute right-0 mt-2 w-48 bg-gray-900 border border-gray-700 rounded-md shadow-lg py-1 z-50">
+                      <div className="absolute right-0 mt-2 w-48 bg-[#1faae1] border border-gray-700 rounded-md shadow-lg py-1 z-50">
                         <button
                           onClick={handleLogout}
                           className="flex items-center space-x-2 w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition-colors"
@@ -242,7 +242,7 @@ useEffect(() => {
 
         {/* Mobile Menu */}
           <div className="md:hidden w-full fixed top-0 z-50 text-sm">
-            <div className="flex  bg-gray-900 border-t border-gray-800 p-2 justify-around items-center text-white font-bold text-[12px]">
+            <div className="flex  bg-[#1faae1] border-t border-gray-800 p-2 justify-around items-center text-white font-bold text-[12px]">
     
             {/* Menu Toggle */}
               <button onClick={() => setIsRightDrawerOpen(true)} className="flex flex-col items-center">
@@ -256,16 +256,16 @@ useEffect(() => {
                   onClick={() => setIsRightDrawerOpen(false)}></div>
 
                   {/* Drawer Content*/}
-                  <div className="fixed top-0 left-0 w-2/3 h-screen bg-gray-900 z-50 rounded-l p-3 transition-transform duration-300">
+                  <div className="fixed top-0 left-0 w-2/3 h-screen bg-[#1faae1] z-50 rounded-l p-3 transition-transform duration-300">
                     <div className="flex justify-between items-center mb-4">
-                      <img src="/logotvRM.png" className="h-16 w-24"/>
+                      <img src="/logotvRM.png" className="h-16 w-32"/>
                       <button onClick={() => setIsRightDrawerOpen(false)}>
                         <X className="text-white h-7 w-7"/>
                       </button>
                     </div>
 
                     <nav className="mt-10 flex flex-col gap-y-4 text-white text-xl">
-                      <Link to="/home" onClick={() => setIsRightDrawerOpen(false)} className="hover:text-blue-400">Notre chaîne</Link>
+                      <Link to="/home" onClick={() => setIsRightDrawerOpen(false)} className="hover:text-gray-900">Notre chaîne</Link>
                       <Link to="/programmes" onClick={() => setIsRightDrawerOpen(false)} className="">Programmes</Link>
                       <Link to="/" onClick={() => setIsRightDrawerOpen(false)} className="hover:text-red-400">Live</Link>
                       <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="flex justify-between items-center w-full text-white transition-colors">
@@ -275,11 +275,11 @@ useEffect(() => {
 
                     {isMenuOpen && (
                     <div className="ml-4 mt-2 space-y-2">
-                      <Link to="/egliseYeshoua/presentation" onClick={() => setIsMenuOpen(false)} className="block text-white hover:text-blue-400" >
+                      <Link to="/egliseYeshoua/presentation" onClick={() => setIsMenuOpen(false)} className="block text-white hover:text-gray-900" >
                         Présentation
                       </Link>
                       
-                      <Link to="/egliseYeshoua/articles" onClick={() => setIsMenuOpen(false)} className="block text-white hover:text-blue-400" >
+                      <Link to="/egliseYeshoua/articles" onClick={() => setIsMenuOpen(false)} className="block text-white hover:text-gray-900" >
                         Articles
                       </Link>
                     </div>
@@ -296,7 +296,7 @@ useEffect(() => {
 
             {/* Replay */}
               <Link to="/home" className={`flex flex-col items-center text-white ${
-              location.pathname.startsWith("/home") ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-blue-500" : ""
+              location.pathname.startsWith("/home") ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-gray-900" : ""
               }`}>
                 <Home className="h-5 w-5" />
                 <span className="mt-1">Chaîne</span>
@@ -304,7 +304,7 @@ useEffect(() => {
 
             {/* Live */}
               <Link to="/" className={`flex flex-col items-center text-white ${
-              location.pathname === "/" ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-blue-500" : ""
+              location.pathname === "/" ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-gray-900" : ""
               }`}>
                 <img src="/liveRed.svg" alt="liveIcon" className="h-5 w-5"/>
                 <span className="mt-1">Live</span>
@@ -312,7 +312,7 @@ useEffect(() => {
 
             {/* Programmes */}
               <Link to="/programmes" className={`flex flex-col items-center text-white ${
-              location.pathname.startsWith("/programmes") ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-blue-500" : ""
+              location.pathname.startsWith("/programmes") ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-gray-900" : ""
               }`}>
                 <GalleryVerticalEnd className="h-5 w-5 rotate-180" />
                 <span className="mt-1">Programmes</span>
@@ -336,7 +336,7 @@ useEffect(() => {
                 </button>
 
                 {isUserMenuOpen && (
-                      <div className="absolute top-14 right-5 mt-2 w-48 bg-gray-900 border border-gray-700 rounded-md shadow-lg py-1 z-50">
+                      <div className="absolute top-14 right-5 mt-2 w-48 bg-[#1faae1] border border-gray-700 rounded-md shadow-lg py-1 z-50">
                         <button
                           onClick={handleLogout}
                           className="flex items-center space-x-2 w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition-colors"
