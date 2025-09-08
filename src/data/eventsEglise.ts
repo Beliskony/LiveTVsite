@@ -1,25 +1,26 @@
- const events = [
+const events = [
+  {
+    day: "Mardi",
+    title: "Prière",
+    description: "Temps de louange, de prière et d'enseignement biblique.",
+    time: "15h00 - 20h00",
+    details: "Rencontre hebdomadaire ouverte à tous pour se ressourcer spirituellement.",
+  },
+  {
+    day: "Mercredi & Vendredi",
+    title: "Culte du soir",
+    description: "Moments d’approfondissement biblique et de méditation.",
+    time: "18h45 - 20h00",
+    details: "Enseignement interactif et échange autour de la Parole de Dieu.",
+  },
   {
     day: "Dimanche",
-    title: "Service Dominical",
-    description: "Culte de louange et enseignement biblique",
-    time: "10h30 - 12h00",
-    details: 'Thème: "La joie dans l\'épreuve" - Philippiens 4:4-7',
+    title: "Le grand culte",
+    description: "Culte principal : louange, prédication et communion fraternelle.",
+    time: "9h00 - 12h00",
+    details: "Accueil de tous dans un esprit de partage et de convivialité.",
   },
-  {
-    day: "Mercredi",
-    title: "Étude Biblique",
-    description: "Approfondissement de la Parole en petit groupe",
-    time: "19h30 - 21h00",
-    details: 'Série: "Les paraboles de Jésus" - Semaine 3',
-  },
-  {
-    day: "Samedi",
-    title: "Repas Communautaire",
-    description: "Moment de partage et de convivialité",
-    time: "18h00 - 21h00",
-    details: "Inscription recommandée - Participation libre",
-  },
-]
+];
+
 
 export default events
