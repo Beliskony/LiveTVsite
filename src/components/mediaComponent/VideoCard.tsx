@@ -89,7 +89,6 @@ export const VideoCard = ({ video }: VideoCardProps) => {
         throw new Error(`Erreur API: ${response.status}`)
       }
       const json = await response.json()
-      console.log("Vue ajoutée:", json)
       setViews(prev => prev + 1)
 
       const updatedViewed = [...viewedVideos, video.id]
