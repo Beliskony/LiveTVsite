@@ -97,7 +97,7 @@ useEffect(() => {
             {/* Logo */}
             <div className="flex items-center">
               <Link to={"/"}>
-                <img src="/logotvRM.png" className="h-full p-2 w-32 lg:w-44" />
+                <img src="/logotvRM.png" alt="logo" className="h-full p-2 w-32 lg:w-44" />
               </Link>
             </div>
 
@@ -113,7 +113,7 @@ useEffect(() => {
               </Link>
 
               <Link to={"/"} className="px-3 gap-x-2 justify-center items-center flex flex-row text-white transition-colors bg-red-500 rounded-lg font-medium">
-                <img src="/liveIcon.svg" className="h-4 w-4"  />
+                <img src="/liveIcon.svg" alt="liveIcon" className="h-4 w-4"  />
                 Live
               </Link>
               

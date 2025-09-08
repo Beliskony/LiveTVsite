@@ -76,7 +76,7 @@ export default function Footer() {
                   <span className="sr-only">Facebook</span>
                 </a>
                 <a href="https://www.tiktok.com/@eglisedeyeshoua" target="_blank" className="text-gray-300 hover:text-white">
-                  <img src='/tiktok.svg' className="h-6 w-6 max-sm:h-8 max-sm:w-8" />
+                  <img src='/tiktok.svg' alt='tiktokIcon' className="h-6 w-6 max-sm:h-8 max-sm:w-8" />
                   <span className="sr-only">Tiktok</span>
                 </a>
                 <a href="https://www.youtube.com/@EGLISEDEYESHOUA" target="_blank" className="text-gray-300 hover:text-white">
