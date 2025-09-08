@@ -17,7 +17,7 @@ export function HeroSectionPre() {
       {/* Background image + overlay */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/presentationBG.jpg')" }}
+        style={{ backgroundImage: "url('/presentationBG.webp')" }}
       />
       <div className="absolute inset-0 bg-black/40 backdrop-blur-xs" />
 

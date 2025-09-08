@@ -1,24 +1,29 @@
+import { Suspense,lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-
-import { Programmes } from './pages/Programmes';
-import { Acceuil } from './pages/Acceuil';
 import './App.css';
-import { TVLive } from './pages/Live';
-import Admin from './pages/Admin';
 import { AuthProvider } from './components/auth-context';
-import PresentationEglise from './pages/PresentationEglise';
-import ArticlesListePage from './pages/ArticlesListePage';
-import SingleArticlePage from './pages/SingleArticle';
-import { ContactTV } from './pages/ContactTV';
-import SingleProgrammePage from './pages/SingleProgrammePage';
 import ProtectedRoute from './components/ProtectedRoute';
 import Header from './components/NavBar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import { useEffect, useState } from 'react';
-import { SplashScreenWrapper } from './pages/SplashScreen';
-import NotFound from './pages/404';
+import SplashScreenWrapper from './pages/SplashScreen';
+
+
+
+// ⚡ Pages en lazy load
+const Programmes = lazy(() => import("./pages/Programmes"));
+const Acceuil = lazy(() => import("./pages/Acceuil"));
+const TVLive = lazy(() => import("./pages/Live"));
+const Admin = lazy(() => import("./pages/Admin"));
+const PresentationEglise = lazy(() => import("./pages/PresentationEglise"));
+const ArticlesListePage = lazy(() => import("./pages/ArticlesListePage"));
+const SingleArticlePage = lazy(() => import("./pages/SingleArticle"));
+const ContactTV = lazy(() => import("./pages/ContactTV"));
+const SingleProgrammePage = lazy(() => import("./pages/SingleProgrammePage"));
+const NotFound = lazy(() => import("./pages/404"));
+
 
 
 function AnimatedRoutes() {
@@ -52,6 +57,7 @@ function AnimatedRoutes() {
   <>
   <Header />
     <AnimatePresence mode='wait'>
+    <Suspense fallback={<SplashScreenWrapper/>}>
       <Routes location={location} key={location.pathname}>
         <Route
           path='*'
@@ -204,6 +210,7 @@ function AnimatedRoutes() {
           }
         />
       </Routes>
+    </Suspense>
     </AnimatePresence>
 
     <Footer/>

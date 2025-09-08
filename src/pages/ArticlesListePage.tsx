@@ -2,7 +2,7 @@ import { ArticlesGrid } from '@/components/articlesPage/ArticleGrid'
 
 function ArticlesListePage() {
   return (
-    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
+    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.webp')] bg-cover bg-center">
 
 
         <section className="flex flex-col flex-1 max-sm:my-0.5 backdrop-blur-sm bg-black/50">

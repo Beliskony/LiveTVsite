@@ -1,7 +1,12 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
+import type { ReactNode } from "react";
 
-export function SplashScreenWrapper({ children }: { children: React.ReactNode }) {
+type SplashScreenWrapperProps = {
+  children?: ReactNode; // <-- optionnel maintenant
+};
+
+export default function SplashScreenWrapper({ children }: SplashScreenWrapperProps) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -23,7 +28,7 @@ export function SplashScreenWrapper({ children }: { children: React.ReactNode })
           transition={{ duration: 0.8 }}
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white"
         >
-          <img src="/logotvRM.png" className="h-40 w-64 animate-pulse" />
+          <img src="/logotvRM.png" className="h-60 w-64 animate-pulse" />
         </motion.div>
       ) : (
         <motion.div

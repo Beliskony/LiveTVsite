@@ -1,8 +1,8 @@
 import ContactPage from '@/components/contactScreen/ContactFormTV'
 
-export const ContactTV = () => {
+const ContactTV = () => {
   return (
-    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
+    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.webp')] bg-cover bg-center">
         
         <section className="flex flex-col flex-1 max-sm:my-0.5 backdrop-blur-xl bg-black/50">
           <div className="w-full md:mt-20 xl:mt-20 max-sm:mt-20 xl:px-10">
@@ -20,3 +20,5 @@ export const ContactTV = () => {
     </div>
   )
 }
+
+export default ContactTV

@@ -96,7 +96,7 @@ export default function SingleProgrammePage() {
          {/* Image de couverture en fond */}
       <div
         className="absolute inset-0 bg-cover bg-center z-0"
-        style={{ backgroundImage: `url("${programme.couverture || '/images/bgForBlur.jpg'}")`, }}
+        style={{ backgroundImage: `url("${programme.couverture || '/images/bgForBlur.webp'}")`, }}
       />
 
       {/* Overlay noir + blur progressif */}

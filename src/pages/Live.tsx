@@ -5,10 +5,10 @@ import { SlideSection } from "../components/homeScreen/SlideSection";
 import { EmissionSlideSection } from "@/components/homeScreen/EmissionSlideSection";
 import DownloadAppBanner from "@/components/separateur/DownloadAppBanner";
 
-export const TVLive = () => {
+const TVLive = () => {
    
   return (
-    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
+    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.webp')] bg-cover bg-center">
 
 
         <section className="flex flex-col flex-1 max-sm:mt-0.5 backdrop-blur-sm bg-black/50">
@@ -31,3 +31,5 @@ export const TVLive = () => {
     </div>
   )
 }
+
+export default TVLive

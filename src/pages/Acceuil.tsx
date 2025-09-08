@@ -5,10 +5,10 @@ import TestimonialSection from "../components/homeScreen/TestimonialSection";
 import FeaturesListSection from "../components/homeScreen/FeaturesListSection";
 import { EmissionCarouselForEmission } from "@/components/EmblaCarouselForEmission";
 
-export const Acceuil = () => {
+const Acceuil = () => {
    
   return (
-    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.jpg')] bg-cover bg-center">
+    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.webp')] bg-cover bg-center">
 
         <section className="z-10">
           <EmissionCarouselForEmission/>
@@ -33,3 +33,5 @@ export const Acceuil = () => {
     </div>
   )
 }
+
+export default Acceuil

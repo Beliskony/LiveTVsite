@@ -87,7 +87,7 @@ export function TestimonialsSectionPre() {
               </p>
               <div className="flex items-center gap-3">
                 <img
-                  src="/images/profil.jpg"
+                  src="/images/profil.webp"
                   alt="Logbo Guy Stephane"
                   className="rounded-full w-12 h-12 object-cover border"
                 />
@@ -107,7 +107,7 @@ export function TestimonialsSectionPre() {
               </p>
               <div className="flex items-center gap-3">
                 <img
-                  src="/images/profile1.jpg"
+                  src="/images/profile1.webp"
                   alt="Jean-Marie Honoré"
                   className="rounded-full w-12 h-12 object-cover border"
                 />

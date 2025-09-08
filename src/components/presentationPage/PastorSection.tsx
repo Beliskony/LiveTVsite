@@ -60,7 +60,7 @@ export function PastorSection() {
             <div className="grid md:grid-cols-3 gap-8 items-center">
               <div className="md:col-span-1">
                 <img
-                  src="/images/pastorCover.jpg"
+                  src="/images/pastorCover.webp"
                   alt="pst.Gode Zorobabel"
                   className="rounded-xl w-64 h-72 object-cover object-top mx-auto shadow-lg"
                 />
