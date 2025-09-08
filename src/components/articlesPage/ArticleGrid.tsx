@@ -117,7 +117,7 @@ export function ArticlesGrid() {
 
   return (
     <section className="w-full h-full my-4 items-center flex flex-col p-2 lg:p-10 gap-y-3.5">
-      <h2 className="text-2xl font-bold mb-8">Tous les articles</h2>
+      <h2 className="text-2xl font-bold mb-2 xl:mb-8">Tous les articles</h2>
 
       <ArticleFilters
         onSearchChange={(search) => handleFilterChange({ search })}
@@ -128,9 +128,9 @@ export function ArticlesGrid() {
         categories={categories}
       />
 
-      <div className="mb-6">
+      <div className="mb-2 xl:mb-6">
         <p className="text-sm text-muted-foreground">
-          {filteredAndSortedArticles.length} article{filteredAndSortedArticles.length !== 1 ? "s" : ""} trouvé
+          {filteredAndSortedArticles.length} article{filteredAndSortedArticles.length !== 1 ? "s" : ""} trouvé{filteredAndSortedArticles.length !== 1 ? "s" : ""}
         </p>
       </div>
 

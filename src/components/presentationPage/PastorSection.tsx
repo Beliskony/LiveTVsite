@@ -66,17 +66,17 @@ export function PastorSection() {
                 />
               </div>
               <div className="md:col-span-2">
-                <h3 className="font-sans text-2xl font-bold text-foreground mb-2">Pasteur Martin Dubois</h3>
+                <h3 className="font-sans text-2xl font-bold text-foreground mb-2">pst.Gode Zorobabel</h3>
                 <Badge variant="secondary" className="mb-4">
                   Pasteur principal depuis 2010
                 </Badge>
-                <p className="font-serif text-muted-foreground mb-4 leading-relaxed">
+                <p className="font-serif max-sm:text-xs text-center text-muted-foreground mb-4 leading-relaxed">
                   Né le 22 mai à Kabinda, chef-lieu de la province de Lomami en République démocratique du Congo (RDC), le pasteur Gode Ncikye Zorobabel est un ancien pensionnaire du petit séminaire Pie X ,
                   de cette localité. De 1978 à 1985, il passe son cycle secondaire dans cet établissement catholique. A l’issue de laquelle, il obtient le baccalauréat option latin-philosophie en 1985. Ambitionnant 
                   auparavant de devenir prêtre missionnaire en lieu et place d’un prêtre diocésain, il rencontre en septembre de la même année, le message prêché par William Marrion Branham. C’est un choc. Pour la première fois, 
                   il entend un nouveau son de cloche totalement différent de tout ce qu’il savait. Mettant en cause tout ce qu’il avait appris au petit séminaire, cet évènement va radicalement changer sa vie.
                 </p>
-                <p className="font-serif text-muted-foreground leading-relaxed">
+                <p className="font-serif max-sm:text-xs text-center text-muted-foreground leading-relaxed">
                   "Mon cœur bat pour voir chaque personne découvrir l'amour transformateur de Dieu et grandir dans sa
                   foi, peu importe d'où elle vient."
                 </p>

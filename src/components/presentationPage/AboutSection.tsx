@@ -46,7 +46,7 @@ export function AboutSection() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="font-sans text-4xl font-bold text-foreground mb-6">Notre Mission</h2>
-            <p className="font-serif text-lg text-muted-foreground mb-6 leading-relaxed">
+            <p className="font-serif text-lg max-sm:text-xs text-center text-muted-foreground mb-6 leading-relaxed">
               L’église Adonaï Yeshoua Ha Hamashyah est une assemblée de l’Eglise universelle de Yeshoua
               Ha Mahsyhah dans le monde entier. Elle a son temple –siège dans la commune de Marcory à Abidjan en Côte d’Ivoire.
               Gode Ncikye Zorobabel est le pasteur principal de cette assemblée.

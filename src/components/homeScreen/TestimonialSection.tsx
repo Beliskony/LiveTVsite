@@ -23,10 +23,10 @@ const TestimonialSection = () => {
   return (
     <section className="flex flex-col w-full justify-center items-center py-4">
       <div className="flex flex-col w-full gap-y-6 text-center max-w-4xl mx-auto px-4">
-        <h2 className=" font-bold tracking-tight text-3xl lg:text-4xl xl:text-5xl leading-tight text-white">
+        <h2 className=" font-bold tracking-tight text-2xl lg:text-4xl xl:text-5xl leading-tight text-white">
           Explorez nos ressources{" "} <span className="bg-gradient-to-r from-white to-gray-300/60 bg-clip-text text-transparent" >& programmes</span>
         </h2>
-        <p className="text-gray-200/65 text-lg lg:text-xl mx-auto leading-relaxed mb-3">
+        <p className="text-gray-200/65 text-xs lg:text-xl mx-auto leading-relaxed mb-3">
           Divertissement, Religion, Découverte, Culture sont au rendez-vous
         </p>
       </div>

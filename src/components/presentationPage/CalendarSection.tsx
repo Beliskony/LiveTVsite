@@ -71,11 +71,11 @@ export function CalendarSectionPre() {
 
         <div className="grid md:grid-cols-3 gap-6">
           {events.map((event, index) => (
-            <Card key={index}>
+            <Card key={index} className="p-2 flex flex-col">
               <CardHeader>
-                <div className="flex items-center gap-2 p-2 text-primary mb-2">
+                <div className="flex flex-row items-center gap-2 py-2 text-primary">
                   <Calendar className="h-5 w-5" />
-                  <span className="font-serif text-sm">{event.day}</span>
+                  <span className="font-serif items-center text-sm">{event.day}</span>
                 </div>
                 <CardTitle className="font-sans">{event.title}</CardTitle>
                 <CardDescription className="font-serif">{event.description}</CardDescription>

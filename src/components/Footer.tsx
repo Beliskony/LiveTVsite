@@ -31,7 +31,7 @@ export default function Footer() {
           {/* Colonne 2: Aide */}
           <div className="space-y-4">
             <h3 className="text-lg max-sm:font-bold max-sm:text-2xl max-sm:text-center font-semibold">Aide</h3>
-            <ul className="space-y-2 flex max-sm:px-7 max-sm:items-center lg:text-left flex-row lg:flex-col gap-x-4">
+            <ul className="gap-y-2 flex max-sm:px-7 max-sm:items-center max-sm:h-10 max-sm:justify-center lg:text-left flex-row lg:flex-col gap-x-4">
               <li><button onClick={() => setShowFAQ(true)} className="text-gray-300 hover:text-white cursor-pointer">FAQ</button></li>
               {/*<li><button onClick={() => setShowSupport(true)} className="text-gray-300 hover:text-white cursor-pointer">Support</button></li>*/}
               <li><button onClick={() => setShowPolitique(true)} className="text-gray-300 hover:text-white cursor-pointer">Politique de confidentialité</button></li>

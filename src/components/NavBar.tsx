@@ -102,7 +102,7 @@ useEffect(() => {
             </div>
 
             {/* Navigation Desktop */}
-            <nav className="hidden md:flex items-center space-x-10 md:space-x-4 lg:space-x-5 xl:px-5 text-white">
+            <nav className="hidden md:flex md:text-xs lg:text-[15px] items-center space-x-10 md:space-x-4 lg:space-x-5 xl:px-5 text-white">
 
               <Link to={"/home"} className="hover:text-blue-400 transition-colors font-medium">
                 Notre chaîne
@@ -201,7 +201,7 @@ useEffect(() => {
                     onClick={openAuthModal}
                     className="flex items-center space-x-2 p-2 rounded-full transition-colors text-white  border border-white hover:bg-white hover:text-gray-900"
                   >
-                    <div className=" flex items-center justify-center gap-1.5">
+                    <div className=" flex items-center justify-center gap-1.5 md:text-xs lg:text-[15px]">
                       <User className="h-4 w-4" />
                       <h4>S'identifier</h4>
                     </div>
@@ -228,7 +228,7 @@ useEffect(() => {
                           className="flex items-center space-x-2 w-full text-left px-4 py-2 text-white hover:bg-gray-800 transition-colors"
                         >
                           <LogOut className="h-4 w-4" />
-                          <span>Se déconnecter</span>
+                          <span className="text-xs">Se déconnecter</span>
                         </button>
                       </div>
                     )}
@@ -241,7 +241,7 @@ useEffect(() => {
         </div>
 
         {/* Mobile Menu */}
-          <div className="md:hidden w-full fixed top-0 z-50">
+          <div className="md:hidden w-full fixed top-0 z-50 text-sm">
             <div className="flex  bg-gray-900 border-t border-gray-800 p-2 justify-around items-center text-white font-bold text-[12px]">
     
             {/* Menu Toggle */}
@@ -299,7 +299,7 @@ useEffect(() => {
               location.pathname.startsWith("/home") ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-blue-500" : ""
               }`}>
                 <Home className="h-5 w-5" />
-                <span className="mt-1">Home</span>
+                <span className="mt-1">Chaîne</span>
               </Link>
 
             {/* Live */}

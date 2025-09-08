@@ -72,8 +72,8 @@ export function TestimonialsSectionPre() {
     <section className="py-20 bg-background">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="font-sans text-4xl font-bold text-foreground mb-4">Témoignages de Notre Communauté</h2>
-          <p className="font-serif text-lg text-muted-foreground">
+          <h2 className="font-sans text-xl lg:text-4xl font-bold text-foreground mb-4">Témoignages de Notre Communauté</h2>
+          <p className="font-serif text-xs xl:text-lg text-muted-foreground">
             Découvrez comment Dieu transforme des vies dans notre église
           </p>
         </div>
@@ -81,7 +81,7 @@ export function TestimonialsSectionPre() {
         <div className="grid md:grid-cols-2 gap-8">
           <Card>
             <CardContent className="p-6">
-              <p className="font-serif text-muted-foreground mb-4 italic leading-relaxed">
+              <p className="font-serif text-muted-foreground mb-4 italic leading-relaxed text-center">
                 "J'ai trouvé bien plus qu'une église ici, j'ai trouvé une famille. L'accueil chaleureux et les
                 enseignements profonds m'ont aidée à grandir dans ma foi comme jamais auparavant."
               </p>
@@ -101,7 +101,7 @@ export function TestimonialsSectionPre() {
 
           <Card>
             <CardContent className="p-6">
-              <p className="font-serif text-muted-foreground mb-4 italic leading-relaxed">
+              <p className="font-serif text-muted-foreground mb-4 italic leading-relaxed text-center">
                 "Les groupes de jeunes ont complètement changé ma perspective sur la foi. C'est ici que j'ai appris que
                 suivre Jésus peut être à la fois profond et joyeux."
               </p>
