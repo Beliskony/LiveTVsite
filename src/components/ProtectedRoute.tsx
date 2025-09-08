@@ -10,17 +10,10 @@ type ProtectedRouteProps = {
 
 const ProtectedRoute = ({ element, requiredRole }: ProtectedRouteProps) => {
   const { isAuthenticated, user, loading } = useAuth()
-  const [shouldRender, setShouldRender] = useState(false)
-
-  useEffect(() => {
-    if (!loading) {
-      setShouldRender(true)
-    }
-  }, [loading])
 
   
 
-  if (loading || !shouldRender) {
+  if (loading) {
     return (
       <div className="flex justify-center py-8">
         <div className="w-8 h-8 border-4 border-gray-300 border-t-gray-100 rounded-full animate-spin" />
