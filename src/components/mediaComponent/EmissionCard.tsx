@@ -54,7 +54,7 @@ export const EmissionCard = (Emission:propsEmission) => {
                 variant="secondary"
                 className=" bg-gray-900/90 backdrop-blur-sm text-white border-gray-400/30 hover:bg-gray-900/50 max-w-[220px] max-h-20 whitespace-normal break-words">
                 <CalendarCheck2 className="w-7 h-7 mr-1" />
-                <span className="text-sm leading-snug break-words whitespace-normal">
+                <span className=" leading-snug break-words whitespace-normal">
                   {getReadableDaysRange(Emission.contenu.when)}
                 </span>
               </Badge>
