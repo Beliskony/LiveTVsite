@@ -4,30 +4,54 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="logotvCouleur.png" />
     <link rel="sitemap" href="/sitemap.xml" type="application/xml" />
-
     <meta name="google-site-verification" content="s5rHdff_TaZz6nlixl5GX5iqWdAOHRkndjCepdRkDR0" />
     <meta name="description" content="Yeshoua-TV - Découvrez nos programmes et articles sur la foi, l’église et bien plus." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google" content="translate" />
     <title>Yeshoua-TV</title>
 
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://api.yeshouatv.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+
+    <!-- Google Fonts (option : héberger localement pour + performance + confidentialité) -->
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600&display=swap" rel="stylesheet" />
 
     <!-- Google Tag Manager -->
-      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-TPQV925D');</script>
+    <script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-TPQV925D');
+    </script>
     <!-- End Google Tag Manager -->
-
 
   </head>
   <body>
+    <!-- Image LCP (à adapter selon ton image de couverture principale) -->
+    <img 
+      src="/logotvCouleur.png" 
+      alt="Image principale de couverture" 
+      width="1920" 
+      height="1080" 
+      fetchpriority="high" 
+      loading="eager" 
+      decoding="async"
+      style="display:none;" 
+    />
+
     <div id="root"></div>
+
     <script type="module" src="/src/main.tsx"></script>
-      <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TPQV925D"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-      <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TPQV925D"
+              height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
   </body>
 </html>
