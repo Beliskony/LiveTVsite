@@ -19,7 +19,7 @@ export const EmissionCard = (Emission:propsEmission) => {
     <Card className="group relative w-[250px] max-sm:w-[300px] h-[450px] lg:h-96 xl:h-[420px] overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
       {/* Image de couverture avec effet de zoom */}
       <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+        className="absolute inset-0 bg-cover object-fill bg-center transition-transform duration-700 group-hover:scale-110"
         style={{ backgroundImage: `url(${Emission.contenu.couverture.replace("http://", "https://")})` }}
         role="img"
         aria-label={`Couverture de l'émission: ${Emission.contenu.nom}`}

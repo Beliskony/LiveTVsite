@@ -120,7 +120,7 @@ export function EmissionCarouselForEmission() {
             <div key={emission.id} className="embla__slide flex-none w-full h-full relative overflow-hidden">
               {/* Background with gradient overlay */}
               <div
-                className="absolute inset-0 bg-cover bg-center transition-all duration-700"
+                className="absolute inset-0 bg-cover object-fill bg-no-repeat bg-center transition-all duration-700"
                 style={{ backgroundImage: `url(${emission.couverture || "/placeholder.svg"})` }}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent" />
@@ -135,7 +135,7 @@ export function EmissionCarouselForEmission() {
                   }`}>
                     {/* Logo */}
                     <div className="mb-8 max-sm:hidden justify-self-center md:justify-self-start">
-                      <img src={emission.couverture || "/placeholder.svg"} alt="Logo" className="h-24 w-auto" />
+                      <img src={emission.couverture || "/placeholder.svg"} alt="Logo" className="h-24 w-24 object-fill" />
                     </div>
 
                     {/* Title and subtitle */}
