@@ -256,7 +256,7 @@ useEffect(() => {
                   onClick={() => setIsRightDrawerOpen(false)}></div>
 
                   {/* Drawer Content*/}
-                  <div className="fixed top-0 left-0 w-2/3 h-screen bg-[#1faae1] z-50 rounded-l p-3 transition-transform duration-300">
+                  <div className="fixed top-0 left-0 w-2/3 h-screen bg-[rgba(0,0,0,0.9)] z-50 rounded-l p-3 transition-transform duration-300">
                     <div className="flex justify-between items-center mb-4">
                       <img src="/logotvRM.png" className="h-16 w-32"/>
                       <button onClick={() => setIsRightDrawerOpen(false)}>
@@ -265,9 +265,6 @@ useEffect(() => {
                     </div>
 
                     <nav className="mt-10 flex flex-col gap-y-4 text-white text-xl">
-                      <Link to="/home" onClick={() => setIsRightDrawerOpen(false)} className="hover:text-gray-900">Notre chaîne</Link>
-                      <Link to="/programmes" onClick={() => setIsRightDrawerOpen(false)} className="">Programmes</Link>
-                      <Link to="/" onClick={() => setIsRightDrawerOpen(false)} className="hover:text-red-400">Live</Link>
                       <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="flex justify-between items-center w-full text-white transition-colors">
                             <span>Eglise Yeshoua</span>
                             <ChevronDown className={`h-5 w-5 transition-transform duration-300 ${isMenuOpen ? "rotate-180" : ""}`}/>

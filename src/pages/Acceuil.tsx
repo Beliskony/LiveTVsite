@@ -4,6 +4,7 @@ import { EmissionSlideSection } from "../components/homeScreen/EmissionSlideSect
 import TestimonialSection from "../components/homeScreen/TestimonialSection";
 import FeaturesListSection from "../components/homeScreen/FeaturesListSection";
 import { EmissionCarouselForEmission } from "@/components/EmblaCarouselForEmission";
+import TVPresentation from "@/components/homeScreen/TvPresentation";
 
 const Acceuil = () => {
    
@@ -26,6 +27,9 @@ const Acceuil = () => {
         
         {/*OtherSection*/}
           <FeaturesListSection/>
+
+        {/* TV presentation*/}
+          <TVPresentation />
 
         </section>
 
