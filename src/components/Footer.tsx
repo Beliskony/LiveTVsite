@@ -22,7 +22,7 @@ export default function Footer() {
               <li><Link to="/programmes" className="text-white hover:text-white">Nos Programmes</Link></li>
               <li><Link to="/egliseYeshoua/articles" className="text-white hover:text-white">Articles</Link></li>
               <li><Link to={"/"} className="px-2 w-20 gap-x-1 justify-center items-center flex flex-row text-white transition-colors bg-red-500 rounded-lg font-medium cursor-pointer">
-                <img src="/liveIcon.svg" className="h-4 w-4"  />
+                <img src="/liveIcon.svg" alt='liveIcon' className="h-4 w-4"  />
                 Live
               </Link></li>
             </ul>
