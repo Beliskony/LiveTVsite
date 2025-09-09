@@ -136,7 +136,7 @@ useEffect(() => {
         {lives?.lien ? (
           <iframe
             src={`${lives.lien}?autoplay=1&loop=1`}
-            title={lives.title}
+            title={lives.title ?? ""}
             className="w-full h-full rounded-md"
             allow="autoplay; fullscreen; picture-in-picture"
             allowFullScreen
@@ -152,13 +152,13 @@ useEffect(() => {
           Vous suivez actuellement le live
         </h1>
         <h2 className="text-xl max-sm:text-lg font-semibold leading-snug">
-          {lives?.title}
+          {lives?.title ?? ""}
         </h2>
         <h3 className="text-lg max-sm:text-base mt-1 font-light">
           De <span className="text-xl max-sm:text-lg font-bold">{extractHourFromDateTime(lives?.startTime ?? "")}</span> à <span className="text-xl max-sm:text-lg font-bold">{extractHourFromDateTime(lives?.endingTime ?? "")}</span>
         </h3>
         <p className="mt-2 text-sm max-sm:hidden md:hidden max-h-72 overflow-y-auto lg:hidden xl:block text-gray-300 leading-relaxed">
-          {lives?.description}
+          {lives?.description ?? ""}
         </p>
       </div>
 
