@@ -69,7 +69,7 @@ export function ProgrammesGrid() {
       <h2 className="text-xl max-sm:text-center md:text-3xl lg:text-4xl xl:text-5xl text-white font-bold max-sm:mb-1 mb-4">Tous Nos Programmes</h2>
 
       {paginatedProgramme.length > 0 ? (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-sm:gap-8 md:gap-6 lg:gap-4 w-full justify-items-center">
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-5 max-sm:gap-8 md:gap-6 lg:gap-4 w-full justify-items-center">
           {paginatedProgramme.map((emission) => (
             <EmissionCard key={emission.id} contenu={emission} textCouleur="text-white" />
           ))}
