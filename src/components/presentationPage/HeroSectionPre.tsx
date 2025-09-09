@@ -17,7 +17,7 @@ export function HeroSectionPre() {
       {/* Background image + overlay */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/presentationBG.webp')" }}
+        
       />
       <div className="absolute inset-0 bg-black/40 backdrop-blur-xs" />
 
@@ -36,9 +36,7 @@ export function HeroSectionPre() {
     <section className="relative h-screen md:h-[500px] max-sm:h-[400px] flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url('/presentationBG.jpg')",
-        }}
+        style={{ backgroundImage: "url('/presentationBG.webp')" }}
       />
       <div className="absolute inset-0 bg-black/40 backdrop-blur-xs" />
       <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
