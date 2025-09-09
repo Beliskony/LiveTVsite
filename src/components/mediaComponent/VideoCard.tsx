@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react"
-import { formatRelativeDate, videoFormatRelativeDate } from "@/utilitaires/FormatDate"
+import { videoFormatRelativeDate } from "@/utilitaires/FormatDate"
 import type { IVideo } from "@/interfaces/Videos"
 import { Clock, Eye } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+
 
 interface VideoCardProps {
   video: IVideo
@@ -13,56 +14,12 @@ export const VideoCard = ({ video }: VideoCardProps) => {
   const { title, duration, created_at, video_url, couverture } = video
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
-  const [frame0Poster, setFrame0Poster] = useState<string | null>(null)
-  const [isIOS, setIsIOS] = useState(false)
-  const hasCapturedRef = useRef(false)
   const hasIncrementedView = useRef(false)
   // Nouvelle state locale pour les vues
   const [views, setViews] = useState<number>(video.views ?? 0)
   const incrementTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-
-
-
-  // Détecte si l'utilisateur est sur iOS
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent)
-      setIsIOS(isIOSDevice)
-    }
-  }, [])
-
-  // Capture frame 0 uniquement si non-iOS
-  useEffect(() => {
-    if (isIOS || hasCapturedRef.current) return
-
-    const videoEl = videoRef.current
-    if (!videoEl) return
-
-    const captureFrame0 = () => {
-      try {
-        const canvas = document.createElement("canvas")
-        canvas.width = videoEl.videoWidth
-        canvas.height = videoEl.videoHeight
-        const ctx = canvas.getContext("2d")
-        if (ctx) {
-          ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height)
-          const dataUrl = canvas.toDataURL("image/png")
-          setFrame0Poster(dataUrl)
-          hasCapturedRef.current = true
-          videoEl.pause()
-          videoEl.currentTime = 0
-        }
-      } catch (err) {
-        console.warn("Erreur lors de la capture de la frame 0", err)
-      }
-    }
-
-    videoEl.addEventListener("loadeddata", captureFrame0, { once: true })
-
-    return () => {
-      videoEl.removeEventListener("loadeddata", captureFrame0)
-    }
-  }, [isIOS])
+  const [dynamicPoster, setDynamicPoster] = useState<string | null>(null)
+  const [posterKey, setPosterKey] = useState(0)
 
 
   const handleViewIncrement = () => {
@@ -107,14 +64,60 @@ export const VideoCard = ({ video }: VideoCardProps) => {
     }
   }, [])
 
+  useEffect(() => {
+  const video = document.createElement("video");
+  const canvas = document.createElement("canvas");
+
+  video.src = video_url;
+  video.preload = "metadata";
+  video.load();
+
+  const captureThumbnail = () => {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const dataURL = canvas.toDataURL("image/jpeg");
+    setDynamicPoster(dataURL);
+  };
+
+  const handleLoadedMetadata = () => {
+    video.currentTime = 1;
+  };
+
+  const handleSeeked = () => {
+    captureThumbnail();
+    video.pause();
+  };
+
+  video.addEventListener("loadedmetadata", handleLoadedMetadata);
+  video.addEventListener("seeked", handleSeeked);
+
+  return () => {
+    video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+    video.removeEventListener("seeked", handleSeeked);
+  };
+}, [video_url]);
+
+  useEffect(() => {
+    if (dynamicPoster) {
+      setPosterKey((prev) => prev + 1)
+    }
+  }, [dynamicPoster])
+
+
+
 
   return (
     <Card className="group w-[350px] font-normal overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
       <div className="relative aspect-video overflow-hidden">
         <video
+          key={posterKey}
           ref={videoRef}
           src={video_url}
-          poster={ frame0Poster || couverture || "/placeholder.svg"}
+          poster={dynamicPoster || couverture}
           controls
           preload="metadata"
           muted={true}
