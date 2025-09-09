@@ -26,7 +26,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' https://www.googletagmanager.com 'unsafe-inline'; connect-src 'self' https://api.yeashouatv.com https://www.google-analytics.com https://www.googletagmanager.com https://live-t-vsite.vercel.app; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com https://live-t-vsite.vercel.app; frame-src https://www.googletagmanager.com https://live-t-vsite.vercel.app; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; require-trusted-types-for 'script';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://api.yeashouatv.com https://www.google-analytics.com https://www.googletagmanager.com https://live-t-vsite.vercel.app http://localhost:5173 https://yeshouatv.com; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://live-t-vsite.vercel.app https://yeshouatv.com; frame-src https://www.googletagmanager.com https://live-t-vsite.vercel.app; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; frame-ancestors 'none';"
         },
         {
           "key": "X-Frame-Options",
