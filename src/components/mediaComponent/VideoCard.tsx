@@ -19,7 +19,6 @@ export const VideoCard = ({ video }: VideoCardProps) => {
   const [views, setViews] = useState<number>(video.views ?? 0)
   const incrementTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [dynamicPoster, setDynamicPoster] = useState<string | null>(null)
-  const [posterKey, setPosterKey] = useState(0)
 
 
   const handleViewIncrement = () => {
@@ -101,11 +100,7 @@ export const VideoCard = ({ video }: VideoCardProps) => {
   };
 }, [video_url]);
 
-  useEffect(() => {
-    if (dynamicPoster) {
-      setPosterKey((prev) => prev + 1)
-    }
-  }, [dynamicPoster])
+
 
 
 
@@ -114,7 +109,6 @@ export const VideoCard = ({ video }: VideoCardProps) => {
     <Card className="group w-[350px] font-normal overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
       <div className="relative aspect-video overflow-hidden">
         <video
-          key={posterKey}
           ref={videoRef}
           src={video_url}
           poster={dynamicPoster || couverture}

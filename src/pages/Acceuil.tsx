@@ -5,6 +5,7 @@ import TestimonialSection from "../components/homeScreen/TestimonialSection";
 import FeaturesListSection from "../components/homeScreen/FeaturesListSection";
 import { EmissionCarouselForEmission } from "@/components/EmblaCarouselForEmission";
 import TVPresentation from "@/components/homeScreen/TvPresentation";
+import ProgrammeSchedule from "@/components/homeScreen/GrilleProgramme";
 
 const Acceuil = () => {
    
@@ -16,6 +17,8 @@ const Acceuil = () => {
         </section>
 
         <section className="flex flex-col flex-1 max-sm:mt-0.5 backdrop-blur-sm bg-black/50">
+
+          <ProgrammeSchedule />
           
           <SlideSection textVues="hidden" />
 

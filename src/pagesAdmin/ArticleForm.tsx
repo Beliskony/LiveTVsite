@@ -70,10 +70,6 @@ useEffect(() => {
    try {
     const url =  article ? `https://api.yeshouatv.com/api/update_article/${article.id}` : "https://api.yeshouatv.com/api/add_article"
 
-    if(article?.id){
-      payload.append("_methode", "PUT")
-    }
-
      const response = await fetch(url, {
       method: "POST",
       headers: {Authorization: `Bearer ${token ?? ""}`,},

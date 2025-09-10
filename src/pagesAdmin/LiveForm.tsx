@@ -80,10 +80,6 @@ export function LiveForm({ Live, onClose }: LiveSettingsProps) {
       ? `https://api.yeshouatv.com/api/update/lives/${Live.id}`
       : "https://api.yeshouatv.com/api/lives_add"
 
-    if (isUpdate) {
-      formData.append("_method", "PUT")
-    }
-
     const response = await fetch(url, {
       method: "POST",
       headers: {
