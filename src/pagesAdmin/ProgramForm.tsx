@@ -100,9 +100,6 @@ const initialDays = Array.isArray(program?.when) ? program.when : (program?.when
         ? `https://api.yeshouatv.com/api/update_programme/${program.id}`
         : "https://api.yeshouatv.com/api/add_programme"
       const method = "POST"
-      if (program?.id) {
-      payload.append("_method", "PUT")
-    }
 
       const response = await fetch(url, {
         method,
@@ -113,14 +110,24 @@ const initialDays = Array.isArray(program?.when) ? program.when : (program?.when
         body: payload,
       })
 
-      const text = await response.text()
-      console.log("Status:", response.status)
-      console.log("Response body:", text)
+     const responseText = await response.text()
 
-      if (!response.ok) throw new Error("Erreur lors de l'envoi")
+console.log("Status:", response.status)
+console.log("Response body:", responseText)
 
-      setIsSuccess(true)
-      onRefresh()
+// Vérifie si la réponse est HTML => probable erreur 500 avec page d'erreur
+const isHtml = responseText.trim().startsWith("<!DOCTYPE html>")
+const isOk = response.ok
+
+if (!isOk || isHtml) {
+  console.error("Échec de la requête ou réponse non attendue")
+  alert("Le serveur a rencontré une erreur. Veuillez réessayer plus tard.")
+  return // on ne fait rien d’autre
+}
+
+setIsSuccess(true)
+onRefresh()
+
     } catch (error) {
       console.error(error)
       alert("Une erreur est survenue lors de l'envoi du formulaire.")
