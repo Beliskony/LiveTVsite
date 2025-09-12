@@ -53,7 +53,7 @@ const ReplaySection = () => {
 
       <div className="w-full flex flex-row gap-x-2.5 xl:px-28 lg:px-20 md:px-10 max-sm:grid max-sm:grid-cols-2 max-sm:gap-y-1.5 max-sm:p-2">
         {/* Filtres de genres */}
-        <button onClick={() => setSelectedGenre(null)} className={`px-4 py-2 rounded-md ${!selectedGenre ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`} >
+        <button onClick={() => setSelectedGenre(null)} className={`px-4 py-2 rounded-md ${!selectedGenre ? "bg-blue-500 text-white" : "bg-gray-700/40 text-white"}`} >
           Tous
         </button>
 
