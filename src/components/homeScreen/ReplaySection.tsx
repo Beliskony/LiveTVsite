@@ -41,7 +41,7 @@ const ReplaySection = () => {
   return (
     <section className="py-10">
       <div className="items-center flex flex-row w-full xl:px-20">
-        <h1 className="text-xl md:text-3xl xl:text-5xl px-4 text-white">Replay</h1>
+        <h1 className="text-xl md:text-2xl lg:text-3xl px-4 text-white">Replay</h1>
         <hr className="w-full mx-3.5" />
       </div>
 
