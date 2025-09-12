@@ -104,12 +104,12 @@ useEffect(() => {
             {/* Navigation Desktop */}
             <nav className="hidden md:flex md:text-xs lg:text-[15px] items-center space-x-10 md:space-x-4 lg:space-x-5 xl:px-5 text-white">
 
-              <Link to={"/home"} className="hover:text-gray-900 transition-colors font-medium">
+              <Link to={"/Tvchaine"} className="hover:text-gray-900 transition-colors font-medium">
                 Notre chaîne
               </Link>
 
               <Link to={"/programmes"} className="hover:text-gray-900 transition-colors font-medium">
-                Programmes
+                Nos émissions
               </Link>
 
               <Link to={"/"} className="px-3 gap-x-2 justify-center items-center flex flex-row text-white transition-colors bg-red-500 rounded-lg font-medium">
@@ -292,8 +292,8 @@ useEffect(() => {
               )}
 
             {/* Replay */}
-              <Link to="/home" className={`flex flex-col items-center text-white ${
-              location.pathname.startsWith("/home") ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-gray-900" : ""
+              <Link to="/Tvchaine" className={`flex flex-col items-center text-white ${
+              location.pathname.startsWith("/Tvchaine") ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-gray-900" : ""
               }`}>
                 <Home className="h-5 w-5" />
                 <span className="mt-1">Chaîne</span>
@@ -312,7 +312,7 @@ useEffect(() => {
               location.pathname.startsWith("/programmes") ? "after:content-[''] after:block after:h-[2px] after:w-full after:mt-1 after:bg-gray-900" : ""
               }`}>
                 <GalleryVerticalEnd className="h-5 w-5 rotate-180" />
-                <span className="mt-1">Programmes</span>
+                <span className="mt-1">Emissions</span>
               </Link>
 
             {/* Connexion */}

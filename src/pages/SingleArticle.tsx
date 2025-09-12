@@ -6,6 +6,7 @@ import type { IArticle } from "@/interfaces/Articles"
 import { formatRelativeDate } from "@/utilitaires/FormatDate"
 import { useEffect, useState } from "react"
 
+
 function calculateReadTime(content: string): number {
   const wordsPerMinute = 200
   const wordCount = content.split(/\s+/).length
@@ -18,6 +19,7 @@ export default function SingleArticlePage() {
   const [articles, setArticles] = useState<IArticle[] | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+
 
   // 1️⃣ Récupération des articles
   useEffect(() => {

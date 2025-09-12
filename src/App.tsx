@@ -90,7 +90,7 @@ function AnimatedRoutes() {
           }
         />
         <Route
-          path="/home"
+          path="/Tvchaine"
           element={
             <motion.div
               variants={variants}

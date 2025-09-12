@@ -92,7 +92,7 @@ export function ImageSelector({ onImageSelect, selectedFile }: SelecteurImagePro
         >
           <Upload className={`h-12 w-12 mx-auto mb-4 ${isDragOver ? "text-green-500" : "text-gray-400"}`} />
           <p className="text-lg font-medium text-gray-700 mb-2">Glissez votre image ici ou cliquez pour sélectionner</p>
-          <p className="text-sm text-gray-500">Formats supportés: JPG, PNG, GIF</p>
+          <p className="text-sm text-gray-500">Formats supportés:Webp(recommandé) ,JPG, PNG, GIF</p>
           <input ref={fileInputRef} type="file" accept="image/*" onChange={handleInputChange} className="hidden" />
         </div>
       ) : (

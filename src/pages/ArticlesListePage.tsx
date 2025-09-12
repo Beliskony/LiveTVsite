@@ -5,10 +5,10 @@ function ArticlesListePage() {
     <div className="h-full flex flex-col bg-[url('/images/bgForBlur.webp')] bg-cover bg-center">
 
 
-        <section className="flex flex-col flex-1 max-sm:my-0.5 backdrop-blur-sm bg-black/50">
+        <section className="flex flex-col flex-1 backdrop-blur-sm">
 
         {/*liste d'articles*/}
-          <div className="w-full md:mt-20 xl:mt-20 max-sm:mt-20 xl:px-10 bg-white">
+          <div className="w-full md:mt-16 xl:mt-16 max-sm:py-20 xl:px-10 bg-white">
             <ArticlesGrid />
           </div>
         

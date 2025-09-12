@@ -1,199 +1,254 @@
 "use client"
 
-import useEmblaCarousel from "embla-carousel-react"
-import Autoplay from "embla-carousel-autoplay"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCallback, useEffect, useState, useRef } from "react"
 import type { IProgramme } from "@/interfaces/Programme"
-import { EmissionCarouselSkeleton } from "./Skeletons/SkeletionCarouselEmission"
+import { Link } from "react-router-dom"
+import getReadableDaysRange from "@/utilitaires/getReadableDaysRange"
+
+const fetchProgrammes = async () => {
+  try {
+    const res = await fetch("https://api.yeshouatv.com/api/list_programmes_for_user")
+    if (!res.ok) throw new Error("Erreur lors du chargement des programmes")
+    const result = await res.json()
+    if (!Array.isArray(result.data)) throw new Error("La réponse API ne contient pas un tableau de programmes.")
+
+    const programmesWithArrayWhen = result.data.map((prog: any) => ({
+      ...prog,
+      when: typeof prog.when === "string" ? prog.when.split(",").map((d: string) => d.trim()) : prog.when,
+    }))
+    return programmesWithArrayWhen
+  } catch (err) {
+    console.error("Erreur API: ", err)
+    throw new Error("Erreur lors du chargement des programmes")
+  }
+}
 
 export function EmissionCarouselForEmission() {
   const [programmes, setProgrammes] = useState<IProgramme[]>([])
-  const [error, setError] = useState("")
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const autoplayRef = useRef<NodeJS.Timeout | null>(null)
 
-  const fetchProgrammes = async () => {
-    try {
-      const res = await fetch("https://api.yeshouatv.com/api/list_programmes_for_user", {
-        method: "GET",
-      })
-
-      if (!res.ok) {
-        throw new Error("Erreur lors du chargement des programmes")
+  useEffect(() => {
+    const loadProgrammes = async () => {
+      try {
+        const fetchedProgrammes = await fetchProgrammes()
+        setProgrammes(fetchedProgrammes)
+        setError(null)
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message)
+        } else {
+          setError(String(err))
+        }
       }
-
-      const result = await res.json()
-
-      if (!Array.isArray(result.data)) {
-        throw new Error("La réponse API ne contient pas un tableau de programmes.")
-      }
-
-      const programmesWithArrayWhen = result.data.map((prog: any) => ({
-        ...prog,
-        when: typeof prog.when === "string"
-          ? prog.when.split(",").map((d: string) => d.trim())
-          : prog.when,
-      }))
-
-      setProgrammes(programmesWithArrayWhen)
-    } catch (error) {
-      setError("Erreur lors du chargement des programmes")
-      console.error("Erreur API: ", error)
     }
+
+    loadProgrammes()
+  }, [])
+
+  const goToSlide = useCallback(
+    (index: number) => {
+      if (isTransitioning || programmes.length === 0) return
+
+      setIsTransitioning(true)
+
+      setTimeout(() => {
+        setCurrentIndex(index)
+      }, 250)
+
+      setTimeout(() => {
+        setIsTransitioning(false)
+      }, 750)
+    },
+    [isTransitioning, programmes.length],
+  )
+
+  const goToNext = useCallback(() => {
+    if (programmes.length === 0) return
+    const nextIndex = (currentIndex + 1) % programmes.length
+    goToSlide(nextIndex)
+  }, [currentIndex, programmes.length, goToSlide])
+
+  const goToPrev = useCallback(() => {
+    if (programmes.length === 0) return
+    const prevIndex = currentIndex === 0 ? programmes.length - 1 : currentIndex - 1
+    goToSlide(prevIndex)
+  }, [currentIndex, programmes.length, goToSlide])
+
+  const startAutoplay = useCallback(() => {
+    if (isPaused || programmes.length === 0) return
+
+    if (autoplayRef.current) clearTimeout(autoplayRef.current)
+
+    autoplayRef.current = setTimeout(() => {
+      goToNext()
+    }, 5000)
+  }, [isPaused, programmes.length, goToNext])
+
+  const stopAutoplay = useCallback(() => {
+    if (autoplayRef.current) {
+      clearTimeout(autoplayRef.current)
+      autoplayRef.current = null
+    }
+  }, [])
+
+  const resetAutoplay = useCallback(() => {
+    stopAutoplay()
+    startAutoplay()
+  }, [stopAutoplay, startAutoplay])
+
+  useEffect(() => {
+    if (programmes.length > 0 && !isPaused) {
+      startAutoplay()
+    }
+
+    return () => stopAutoplay()
+  }, [currentIndex, programmes.length, isPaused, startAutoplay, stopAutoplay])
+
+  const handleMouseEnter = () => {
+    setIsPaused(true)
+    stopAutoplay()
   }
 
-  useEffect(() => {
-    fetchProgrammes()
+  const handleMouseLeave = () => {
+    setIsPaused(false)
+  }
 
-    const interval = setInterval(() => {
-      fetchProgrammes()
-    }, 5000)
+  const handlePrev = () => {
+    goToPrev()
+    resetAutoplay()
+  }
 
-    return () => clearInterval(interval)
-  }, [])
+  const handleNext = () => {
+    goToNext()
+    resetAutoplay()
+  }
 
-  const autoplay = useRef(
-    Autoplay({ delay: 4000, stopOnInteraction: true, playOnInit: true })
-  )
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [autoplay.current])
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [scrollSnaps, setScrollSnaps] = useState<number[]>([])
+  const handleDotClick = (index: number) => {
+    goToSlide(index)
+    resetAutoplay()
+  }
 
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) {
-      autoplay.current.stop()
-      emblaApi.scrollPrev()
-      autoplay.current.play()
-    }
-  }, [emblaApi])
+  const currentProgramme = programmes[currentIndex]
 
-  const scrollNext = useCallback(() => {
-    if (emblaApi) {
-      autoplay.current.stop()
-      emblaApi.scrollNext()
-      autoplay.current.play()
-    }
-  }, [emblaApi])
-
-  const scrollTo = useCallback((index: number) => {
-    if (emblaApi) {
-      autoplay.current.stop()
-      emblaApi.scrollTo(index)
-      autoplay.current.play()
-    }
-  }, [emblaApi])
-
-  const onInit = useCallback((emblaApi: any) => {
-    setScrollSnaps(emblaApi.scrollSnapList())
-  }, [])
-
-  const onSelect = useCallback((emblaApi: any) => {
-    setSelectedIndex(emblaApi.selectedScrollSnap())
-  }, [])
-
-  useEffect(() => {
-    if (!emblaApi) return
-    onInit(emblaApi)
-    onSelect(emblaApi)
-    emblaApi.on("reInit", onInit)
-    emblaApi.on("select", onSelect)
-  }, [emblaApi, onInit, onSelect])
-
-
-  if (programmes.length === 0 && !error) {
-  return <EmissionCarouselSkeleton />
-}
-
+  if (programmes.length === 0) {
+    return (
+      <div className="relative w-full lg:h-[650px] max-sm:h-[300px] max-sm:mt-16 md:h-[500px] overflow-hidden md:mt-16 bg-gray-200 animate-pulse">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-gray-500">{error ? error : "Chargement..."}</div>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="relative w-full lg:h-[650px] max-sm:h-[300px] max-sm:mt-16 font-normal text-[22px] md:h-[500px] overflow-hidden md:mt-16">
-      {/* Carousel */}
+    <>
       <div
-        className="embla h-full"
-        ref={emblaRef}
-        onMouseEnter={() => emblaApi?.plugins()?.autoplay?.stop()}
-        onMouseLeave={() => emblaApi?.plugins()?.autoplay?.play()}
+        className="relative w-full lg:h-[650px] max-sm:h-[400px] max-sm:mt-16 font-normal text-[22px] md:h-[500px] overflow-hidden md:mt-16"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        <div className="embla__container flex h-full">
-          {programmes.map((emission) => (
-            <div
-              key={emission.id}
-              className="embla__slide flex-none w-full h-full relative overflow-hidden"
-            >
-              {/* Background image using <img /> */}
+        <div className="relative w-full h-full">
+          <div
+            className={`absolute inset-0 w-full h-full transition-all duration-300 ease-in-out ${
+              isTransitioning ? "opacity-50 scale-[1.02]" : "opacity-100 scale-100"
+            }`}
+          >
+            <div className="absolute inset-0">
               <img
-                src={emission.couverture || "/placeholder.svg"}
-                alt={emission.nom}
-                className="absolute inset-0 w-full h-full object-fill transition-all duration-700"
+                src={currentProgramme?.couverture || "/placeholder.svg?height=650&width=1200&query=tv studio background"}
+                alt={currentProgramme?.nom || ""}
+                className="absolute inset-0 w-full h-full object-fill"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement
+                  target.style.display = "none"
+                }}
               />
+            </div>
+            <div className="absolute inset-0" />
 
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent" />
-
-              {/* Text content 
-              <div className="relative z-10 flex items-center h-full">
-                <div className="container mx-auto px-6 flex items-center justify-center max-sm:text-center md:justify-between lg:justify-between max-sm:mt-52">
-                  <div
-                    className={`embla__slide flex-none w-full h-full relative overflow-hidden transition-all duration-700 ease-out ${
-                      selectedIndex === index ? "opacity-100" : "opacity-0 pointer-events-none"
-                    }`}
-                  >
-                    
-                    <h1 className="text-white text-5xl max-sm:text-2xl font-bold mb-4 max-sm:mb-2 break-words line-clamp-2 overflow-hidden">
-                      {emission.nom}
+            <div className="relative z-10 flex items-center h-full">
+              <div className="container mx-auto px-6 flex items-center justify-center max-sm:text-center md:justify-between lg:justify-between">
+                <div className="flex-none w-full h-full relative xl:pl-24 md:pl-9 ">
+                  {currentProgramme?.logo && (
+                    <img
+                      src={currentProgramme.logo}
+                      alt={`${currentProgramme.nom} logo`}
+                      className="h-32 w-32 max-sm:hidden"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement
+                        target.style.display = "none"
+                      }}
+                    />
+                  )}
+                  <div className="max-sm:hidden">
+                    <h1 className="text-white text-3xl font-bold mb-4 break-words line-clamp-2 drop-shadow-lg">
+                      {currentProgramme?.nom}
                     </h1>
-
-                   
-                    <p className="text-white/90 text-xl max-sm:text-lg mb-8 max-sm:mb-2 break-words line-clamp-3 overflow-hidden">
-                      {emission.description}
+                    <p className="text-white/90 text-lg mb-8 break-words line-clamp-3 drop-shadow-md items-center flex gap-1.5">
+                      {getReadableDaysRange(currentProgramme?.when)} <span className="text-2xl font-bold"> - </span> {currentProgramme?.starting}
                     </p>
-
-                    
-                    <Button
-                      size="lg"
-                      className="bg-transparent border-2 border-white text-white hover:bg-gray-900 hover:text-blue-600 transition-all duration-300 px-8 max-sm:px-3 py-3 max-sm:py-1 text-lg rounded-full"
+                    <Link
+                      to={`/programmes/${currentProgramme.id}`}
+                      className="bg-transparent border-2 border-white text-white px-8 py-3 text-lg rounded-full drop-shadow-md"
                     >
-                      {emission.genre}
-                    </Button>
+                      {currentProgramme?.genre}
+                    </Link>
                   </div>
                 </div>
-              </div> */}
+              </div>
             </div>
+          </div>
+        </div>
+
+        {/* Navigation Arrows */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute max-sm:hidden left-6 top-1/2 -translate-y-1/2 z-20 text-white hover:bg-white/20 w-12 h-12"
+          onClick={handlePrev}
+        >
+          <ChevronLeft className="w-8 h-8" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute max-sm:hidden right-6 top-1/2 -translate-y-1/2 z-20 text-white hover:bg-white/20 w-12 h-12"
+          onClick={handleNext}
+        >
+          <ChevronRight className="w-8 h-8" />
+        </Button>
+
+        {/* Pagination Dots */}
+        <div className="absolute max-sm:bottom-1.5 max-sm:right-1/2 max-sm:translate-x-1/2 bottom-8 right-10 z-20 flex space-x-2">
+          {programmes.map((_, index) => (
+            <button
+              key={index}
+              className={`w-6 h-2 duration-300 ${
+                index === currentIndex ? "bg-gray-900" : "bg-white/40 hover:bg-white/60"
+              }`}
+              onClick={() => handleDotClick(index)}
+            />
           ))}
         </div>
       </div>
 
-      {/* Arrows */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute max-sm:hidden left-6 top-1/2 -translate-y-1/2 z-20 text-white hover:bg-white/20 w-12 h-12"
-        onClick={scrollPrev}
-      >
-        <ChevronLeft className="w-8 h-8" />
-      </Button>
-
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute max-sm:hidden right-6 top-1/2 -translate-y-1/2 z-20 text-white hover:bg-white/20 w-12 h-12"
-        onClick={scrollNext}
-      >
-        <ChevronRight className="w-8 h-8" />
-      </Button>
-
-      {/* Pagination dots */}
-      <div className="absolute max-sm:bottom-1.5 max-sm:right-0 bottom-8 right-10 -translate-x-1/2 z-20 flex space-x-2">
-        {scrollSnaps.map((_, index) => (
-          <button
-            key={index}
-            className={`w-6 h-2 duration-300 ${
-              index === selectedIndex ? "bg-gray-900" : "bg-white/40 hover:bg-white/60"
-            }`}
-            onClick={() => scrollTo(index)}
-          />
-        ))}
+      {/* Bloc mobile sous le carousel */}
+      <div className="md:hidden p-4 flex flex-col justify-center items-center text-white">
+        <h1 className="text-lg font-bold mb-2">{currentProgramme?.nom}</h1>
+        <p className="text-sm mb-4 flex items-center gap-x-1.5">{getReadableDaysRange(currentProgramme?.when)} <span className="text-2xl font-bold"> - </span> {currentProgramme?.starting}</p>
+        <Link
+          to={`/programmes/${currentProgramme.id}`}
+          className="inline-block border border-white text-white px-3 py-1 text-sm rounded-full"
+        >
+          {currentProgramme?.genre}
+        </Link>
       </div>
-    </div>
+    </>
   )
 }

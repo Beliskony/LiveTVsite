@@ -1,14 +1,11 @@
 import LiveVideoComponent from "@/components/mediaComponent/LiveVideoComponent";
-
-
-import { SlideSection } from "../components/homeScreen/SlideSection";
-import { EmissionSlideSection } from "@/components/homeScreen/EmissionSlideSection";
 import DownloadAppBanner from "@/components/separateur/DownloadAppBanner";
+import ReplaySection from "@/components/homeScreen/ReplaySection";
 
 const TVLive = () => {
    
   return (
-    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.webp')] bg-cover bg-center">
+    <div className="h-full min-h-screen flex flex-col bg-[url('/images/bgForBlur.webp')] bg-cover bg-center">
 
 
         <section className="flex flex-col flex-1 max-sm:mt-0.5 backdrop-blur-sm bg-black/50">
@@ -21,8 +18,8 @@ const TVLive = () => {
             <div className="mx-3.5">
               <DownloadAppBanner />
             </div>
-            <EmissionSlideSection />
-            <SlideSection textVues="" />
+
+            <ReplaySection />
           </div>
 
         </section>

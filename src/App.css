@@ -41,11 +41,43 @@
 }
 .embla__container {
   display: flex;
+  gap:0;
+  transition: transform 0.3s ease-in-out;
 }
 .embla__slide {
   position: relative;
   flex: 0 0 100%; /* Chaque slide prend toute la largeur */
 }
+
+
+/* Position des éléments */
+.embla__slide-prev {
+  transform: translateX(-100%); /* Déplace le slide précédent hors de la vue */
+}
+.embla__slide-active {
+  transform: translateX(0); /* L'élément actif reste à sa place */
+}
+.embla__slide-next {
+  transform: translateX(100%); /* Déplace l'élément suivant hors de la vue */
+}
+
+.embla__slideUn {
+  flex-shrink: 0;
+  width: 240px; /* Prendre toute la largeur du conteneur */
+  height: 460px; /* Ajuste selon la taille de ton design */
+  transition: transform 0.3s ease-in-out;
+}
+
+/* globals.css */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE & Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);

@@ -1,34 +1,51 @@
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
 import team from "@/data/TvTeams"
+import ProgrammesPhare from "./ProgrammePhare"
 
 export default function TVPresentation() {
   return (
-    <section className="text-white py-12 px-6 md:px-20 space-y-16">
+    <section className="text-white py-8 px-6 md:px-10">
       {/* SECTION CHAÎNE */}
-      <div className="flex flex-col lg:flex-row gap-4 lg:gap-10 justify-center items-center">
-         <div className="lg:w-1/2">
-           <h1 className="text-4xl md:text-5xl font-bold uppercase text-white">
-            Yeshoua TV
+      <div className="flex flex-col justify-center items-center">
+        <div className="w-full flex flex-row gap-x-1.5 items-center">
+          <h1 className="text-xl lg:text-2xl xl:text-3xl px-4 max-sm:px-1 md:px-0 font-bold text-white">
+            Yeshoua&nbsp;TV
            </h1>
 
-           <p className="mt-6 text-lg text-gray-300 leading-relaxed">
+           <hr className="w-full"/>
+        </div>
+
+        <div className="flex flex-col lg:flex-row md:py-5 justify-center items-center">
+         <div className="lg:w-1/2 w-full max-sm:p-1.5">
+           <p className="text-lg max-sm:text-sm text-gray-300 leading-relaxed xl:px-4">
             Yeshoua TV est une chaîne généraliste qui propose une programmation riche et variée, accessible 24h/24 sur plusieurs plateformes en Afrique et à l’international.
             Notre mission est de partager des contenus qui inspirent, informent et divertissent un large public.
            </p>
          </div>
 
-         <div className="lg:w-1/2 flex justify-center items-center">
-            <img src="/logotvCouleur.png" alt="logo Yeshoua TV" className="max-w-full rounded-lg shadow-lg" />
+         <div className="lg:w-1/2 w-full flex justify-center items-center">
+            <img src="/logotvCouleur.png" alt="logo Yeshoua TV" className="h-[300px] w-[300px] lg:max-h-full lg:max-w-full object-fill rounded-lg shadow-lg" />
          </div>
+        </div>
+     </div>
+
+
+     <div className="xl:my-20 my-5 px-4">
+      
+        <div className="w-full flex flex-col gap-y-2.5 text-center justify-center items-center my-7">
+            <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white uppercase">Les programmes phares de YeshouaTv</h1>
+
+            <p className="text-xs md:text-xl text-white max-w-3xl">Des programmes télé de qualité pour répondre aux attentes des ivoiriens et de la diaspora.</p>
+        </div>
+      <ProgrammesPhare/>
      </div>
 
 
       {/* SECTION ÉQUIPE */}
       
      <div>
-        <h2 className="text-3xl font-bold mb-8">Notre équipe</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold mb-8">Notre équipe</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 my-4">
             {team.map((membre, index) => (
                 <div key={index} className="flex flex-col items-center text-center space-y-2">
                     <img src={membre.photoProfil} alt={`Photo de ${membre.nom}`} className="w-24 h-24 rounded-full object-cover shadow-md" />

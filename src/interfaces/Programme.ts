@@ -7,6 +7,8 @@ export interface IProgramme {
   ending: string;
   when: string[];
   genre: string;
-  couverture: string; // URL ou chemin de l'image
+  couverture: string; 
+  slide_cover?:string; //nouveau
+  logo?:string; //nouveau
   videos?: IVideo[],
 }

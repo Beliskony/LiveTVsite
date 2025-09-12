@@ -7,12 +7,11 @@ import { Badge } from "@/components/ui/badge"
 import type {IProgramme} from "@/interfaces/Programme"
 import type { IVideo } from "@/interfaces/Videos"
 import { VideoCard } from "@/components/mediaComponent/VideoCard"
-import { VideosFilters } from "@/components/mediaComponent/VideoFilter"
 import getReadableDaysRange from "@/utilitaires/getReadableDaysRange"
 import { PaginationArticle } from "@/components/articlesPage/PaginationArticle"
 import { SkeletonVideoCard } from "@/components/Skeletons/SkeletonVideoCard"
 
-const ITEMS_PER_PAGE = 9
+const ITEMS_PER_PAGE = 15
 
 export default function SingleProgrammePage() {
   const { id } = useParams<{ id: string }>()
@@ -20,7 +19,6 @@ export default function SingleProgrammePage() {
   const [allVideos, setAllVideos] = useState<IVideo[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
-  const [filters, setFilters] = useState({ search: "", sort: "recent", })
   const [currentPage, setCurrentPage] = useState(1)
 
     // Récupération de l'émission
@@ -54,44 +52,18 @@ export default function SingleProgrammePage() {
 
 
 
-  const handleSearchChange = (search: string) => {
-    setFilters((prev) => ({ ...prev, search }))
-  }
-
-  const handleSortChange = (sort: string) => {
-    setFilters((prev) => ({ ...prev, sort }))
-  }
 
 
       // Lier automatiquement les vidéos à l'émission
   const linkedVideos: IVideo[]= programme ? allVideos.filter((video) => video.programme_id === programme.id) : []
 
-    const filteredVideos = linkedVideos
-  .filter((video) =>
-    video.title?.toLowerCase().includes(filters.search.toLowerCase())
-  )
-  .sort((a, b) => {
-    if (filters.sort === "recent") {
-      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-    }
-    if (filters.sort === "oldest") {
-      return new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
-    }
-    if (filters.sort === "title") {
-      return (a.title ?? "").localeCompare(b.title ?? "")
-    }
-    if (filters.sort === "title-desc") {
-      return (b.title ?? "").localeCompare(a.title ?? "")
-    }
-    return 0
-  })
 
-    const totalPages = Math.ceil(filteredVideos.length / ITEMS_PER_PAGE)
+    const totalPages = Math.ceil(linkedVideos.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-  const paginatedVideos = filteredVideos.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+  const paginatedVideos = linkedVideos.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
   return (
-    <div className="relative min-h-screen flex flex-col">
+    <div className="relative min-h-screen flex flex-col bg-[url('/images/bgForBlur.webp')] backdrop-blur-2xl">
 
  {/* 🟦 Section 1 : Titre + Description (Hero sans flou) */}
 <section className="relative z-10 w-full h-[500px] xl:h-[600px] overflow-hidden">
@@ -100,27 +72,35 @@ export default function SingleProgrammePage() {
   <img
     src={programme.couverture}
     alt={programme.nom}
-    className="absolute inset-0 w-full h-full object-fill z-0"
+    className="absolute inset-0 w-full h-full object-fill z-0 mt-16"
   />
 
   {/* ✅ Overlay foncé pour lisibilité */}
-  <div className="absolute inset-0 bg-black/50 z-10" />
+  <div className="absolute inset-0 z-10" />
 
   {/* ✅ Infos texte en bas à gauche */}
-  <div className="absolute bottom-0 left-0 z-20 p-6 xl:px-20 text-white max-w-5xl">
-    <h1 className="text-2xl md:text-6xl font-bold mb-4 break-words">{programme.nom}</h1>
+  <div className="absolute bottom-20 md:bottom-10 lg:bottom-20 xl:bottom-50 left-0 z-20 p-6 xl:px-20 text-white max-w-5xl">
+    <h1 className="text-2xl md:text-3xl font-bold mb-4 break-words">{programme.nom}</h1>
 
-    <p className="mb-6 text-sm md:text-xl leading-relaxed break-words">{programme.description}</p>
-
-    <div className="flex flex-wrap items-center gap-4 text-sm mb-2">
-      <Badge className="bg-indigo-100 text-indigo-800">{programme.genre}</Badge>
-      <div className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {getReadableDaysRange(programme.when)}</div>
+    <div className="flex items-center gap-1">{getReadableDaysRange(programme.when)}</div>
+    
+      <div className="flex flex-wrap items-center gap-4 text-sm mb-2">
       <div className="flex items-center gap-1"><Clock className="w-4 h-4" /> {programme.starting} - {programme.ending}</div>
+    
     </div>
 
     <div className="flex items-center gap-1 text-sm">
-      <Clapperboard className="w-4 h-4" /> {linkedVideos.length} <span>Vidéo(s)</span>
+       {linkedVideos.length} <span>Vidéo(s)</span>
     </div>
+  </div>
+
+  <div className="absolute bottom-2 items-center flex flex-row w-full xl:px-20">
+    <h1 className="text-xl md:text-3xl px-4 text-white">
+      Emission&nbsp;Entière
+    </h1>
+
+    <hr className="w-full mx-3.5 border-t-2 text-white"/>
+
   </div>
 </section>
 
@@ -140,15 +120,6 @@ export default function SingleProgrammePage() {
     {/* Contenu au-dessus du flou */}
     <div className="relative z-10">
 
-      {/* Filtres + titre */}
-      <div className="flex flex-col gap-4 md:flex-row justify-between border-b mb-6">
-        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold">Vidéos</h2>
-        <VideosFilters
-          activeFilters={filters}
-          onSearchChange={handleSearchChange}
-          onSortChange={handleSortChange}
-        />
-      </div>
 
       {/* Vidéos */}
       <div className="flex-1">
@@ -163,7 +134,7 @@ export default function SingleProgrammePage() {
             Aucune vidéo disponible pour cette émission.
           </p>
         ) : (
-          <div className="w-full my-4 grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 justify-items-center">
+          <div className="w-full my-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 justify-items-center">
             {paginatedVideos.map((video) => (
               <VideoCard key={video.id} video={video} />
             ))}
@@ -175,7 +146,7 @@ export default function SingleProgrammePage() {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
-        totalItems={filteredVideos.length}
+        totalItems={linkedVideos.length}
         itemsPerPage={ITEMS_PER_PAGE}
       />
     </div>

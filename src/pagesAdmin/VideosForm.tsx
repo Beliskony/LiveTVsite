@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -15,14 +14,13 @@ import { SelecteurVideo } from "./VideoSelector"
 import type { IProgramme } from "@/interfaces/Programme"
 import { ImageSelector } from "./ImageSelector"
 
-
 interface VideoFormProps {
   onClose: () => void
   onRefresh: () => void
   video?: IVideo | null
 }
 
-export function VideoForm({ onClose, video }: VideoFormProps) {
+export function VideoForm({ onClose, onRefresh, video }: VideoFormProps) {
   const [formData, setFormData] = useState({
     title: video?.title || "",
     description: video?.description || "",
@@ -31,133 +29,125 @@ export function VideoForm({ onClose, video }: VideoFormProps) {
     programme_id: video?.programme_id || ""
   })
 
-   const [selectedVideoFile, setSelectedVideoFile] = useState<File | null>(null)
-   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
-   const [isSubmitting, setIsSubmitting] = useState(false)
-   const [isSuccess, setIsSuccess] = useState(false)
-   const [programmes, setProgrammes] = useState<IProgramme[]>([])
-   const [error, setError] = useState<string | null>(null)
-       
-     
-      const fetchProgrammes = async () => {
-         try {
-           const token = localStorage.getItem("token")
-           const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
-             method: "GET",
-             headers: { Authorization: `Bearer ${token}` }
-           })
-     
-           if (!res.ok) {
-             const errorText = await res.text()
-             console.error("Erreur API:", errorText)
-             throw new Error("Erreur lors du chargement des programmes")
-           }
-     
-           const result = await res.json()
-     
-           if (!Array.isArray(result.data)) {
-             throw new Error("La réponse API ne contient pas un tableau de programmes.")
-           }
-     
-           const programmesWithArrayWhen = result.data.map((prog: any) => ({
-             ...prog,
-             when: typeof prog.when === "string" ? prog.when.split(",").map((d: string) => d.trim()) : prog.when,
-           }))
-     
-           setProgrammes(programmesWithArrayWhen)
-         } catch (error) {
-           setError("Erreur lors du chargement des programmes")
-           console.error("Erreur Api: ", error)
-         }
-       }
-     
-       // Appel initial
-       useEffect(() => {
-         fetchProgrammes()
-     
-       const interval = setInterval(() => {
-         fetchProgrammes() // refetch every 5 sec
-         }, 5000)
-     
-         return() => clearInterval(interval)
-     
-       }, [])
+  const [selectedVideoFile, setSelectedVideoFile] = useState<File | null>(null)
+  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState(0)
+  const [programmes, setProgrammes] = useState<IProgramme[]>([])
+  const [error, setError] = useState<string | null>(null)
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault()
-  setIsSubmitting(true)
-  setError(null)
-
-  const token = localStorage.getItem("token")
-
-  // Prépare FormData de base (sans status ici)
-  const buildFormData = (status: "published" | "draft") => {
-    const form = new FormData()
-    form.append("title", formData.title || "")
-    form.append("description", formData.description || "")
-    form.append("duration", formData.duration || "")
-    form.append("programme_id", formData.programme_id)
-    form.append("status", status)
-
-    if (selectedImageFile) form.append("couverture", selectedImageFile)
-    if (selectedVideoFile) form.append("video_url", selectedVideoFile)
-
-    return form
-  }
-
-  const url = video?.id
-    ? `https://api.yeshouatv.com/api/update_video/${video.id}`
-    : "https://api.yeshouatv.com/api/add_video"
-
-  try {
-    // 🟢 Tentative de publication avec "published"
-    let form = buildFormData("published")
-    let response = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: form,
-    })
-
-    const resText = await response.text()
-    console.log("Réponse brute :", resText)
-
-    if (!response.ok) {
-      console.warn("Erreur lors de la publication. Tentative de sauvegarde en brouillon...")
-
-      // 🔁 Rebuild form avec "draft"
-      form = buildFormData("draft")
-
-      response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token ?? ""}`,
-        },
-        body: form,
+  // Fetch programmes depuis API
+  const fetchProgrammes = async () => {
+    try {
+      const token = localStorage.getItem("token")
+      const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` }
       })
 
-      const retryText = await response.text()
-      console.log("Réponse tentative brouillon :", retryText)
+      if (!res.ok) throw new Error("Erreur lors du chargement des programmes")
 
-      if (!response.ok) {
-        throw new Error(`Erreur API après tentative en draft: ${retryText}`)
-      }
+      const result = await res.json()
+      if (!Array.isArray(result.data)) throw new Error("La réponse API est invalide")
+
+      const programmesWithArrayWhen = result.data.map((prog: any) => ({
+        ...prog,
+        when: typeof prog.when === "string" ? prog.when.split(",").map((d: string) => d.trim()) : prog.when,
+      }))
+
+      setProgrammes(programmesWithArrayWhen)
+    } catch (err) {
+      setError("Erreur lors du chargement des programmes")
+      console.error("Erreur API: ", err)
     }
-
-    setIsSuccess(true)
-    setTimeout(() => onClose(), 3000)
-    console.log(response);
-    
-  } catch (err) {
-    console.error("Erreur lors de l'envoi:", err)
-    setError("Impossible de publier la vidéo. Merci de réessayer.")
-    setIsSubmitting(false)
   }
-}
 
+  useEffect(() => {
+    fetchProgrammes()
+  }, [])
 
-    if (isSuccess) {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setError(null)
+    setUploadProgress(0)
+
+    const token = localStorage.getItem("token")
+    const uploadId = Date.now().toString() // identifiant unique par vidéo
+
+    const url = video?.id
+      ? `https://chunk.yeshouatv.com/api/update_video/${video.id}`
+      : "https://chunk.yeshouatv.com/api/add_video"
+
+    try {
+      if (!selectedVideoFile) throw new Error("Veuillez sélectionner un fichier vidéo.")
+
+      const chunkSize = 5 * 1024 * 1024 // 5 Mo
+      const totalChunks = Math.ceil(selectedVideoFile.size / chunkSize)
+
+      for (let i = 0; i < totalChunks; i++) {
+        const start = i * chunkSize
+        const end = Math.min(start + chunkSize, selectedVideoFile.size)
+        const chunk = selectedVideoFile.slice(start, end)
+
+        const chunkForm = new FormData()
+        chunkForm.append("file", chunk)
+        chunkForm.append("resumableChunkNumber", (i + 1).toString())
+        chunkForm.append("resumableChunkSize", chunkSize.toString())
+        chunkForm.append("resumableTotalSize", selectedVideoFile.size.toString())
+        chunkForm.append("resumableIdentifier", uploadId)
+        chunkForm.append("resumableFilename", selectedVideoFile.name)
+        chunkForm.append("resumableTotalChunks", totalChunks.toString())
+
+        // ⚡ métadonnées uniquement au 1er chunk
+        if (i === 0) {
+          chunkForm.append("title", formData.title || "")
+          chunkForm.append("description", formData.description || "")
+          chunkForm.append("duration", formData.duration || "")
+          chunkForm.append("programme_id", formData.programme_id)
+          chunkForm.append("status", "published")
+          if (selectedImageFile) chunkForm.append("couverture", selectedImageFile)
+        }
+
+        const chunkResponse = await fetch(url, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: chunkForm,
+        })
+
+        const result = await chunkResponse.json()
+
+        if (!chunkResponse.ok) {
+          throw new Error(result?.message || `Erreur à l’envoi du chunk ${i + 1}/${totalChunks}`)
+        }
+
+        // ✅ mise à jour progression
+        if (result.done) {
+          setUploadProgress(result.done)
+        } else {
+          setUploadProgress(Math.round(((i + 1) / totalChunks) * 100))
+        }
+
+        // ✅ Si dernier chunk terminé
+        if (result.success) {
+          setIsSuccess(true)
+          setIsSubmitting(false)
+          setUploadProgress(100)
+          onRefresh()
+          setTimeout(() => onClose(), 3000)
+          return
+        }
+      }
+    } catch (err) {
+      console.error("Erreur lors de l’envoi:", err)
+      setError("Impossible de publier la vidéo. Merci de réessayer.")
+      setIsSubmitting(false)
+    }
+  }
+
+  // === JSX ===
+  if (isSuccess) {
     return (
       <Card className="mb-6">
         <CardContent className="pt-6">
@@ -165,15 +155,12 @@ const handleSubmit = async (e: React.FormEvent) => {
             <CheckCircle className="h-16 w-16 text-green-500 mx-auto" />
             <h3 className="text-xl font-semibold text-green-700">Vidéo postée avec succès !</h3>
             <p className="text-gray-600">Votre vidéo "{formData.title}" a été ajoutée.</p>
-            <Button onClick={onClose} className="mt-4">
-              Fermer
-            </Button>
+            <Button onClick={onClose} className="mt-4">Fermer</Button>
           </div>
         </CardContent>
       </Card>
     )
   }
-  
 
   return (
     <Card className="mb-6 p-4">
@@ -183,7 +170,16 @@ const handleSubmit = async (e: React.FormEvent) => {
           <X className="h-4 w-4" />
         </Button>
       </CardHeader>
+
       <CardContent>
+        {error && <p className="text-red-600 mb-2">{error}</p>}
+        {isSubmitting && (
+          <div className="w-full bg-gray-200 h-3 rounded mb-4">
+            <div className="h-3 bg-green-500 rounded" style={{ width: `${uploadProgress}%` }} />
+            <p className="text-sm text-gray-600 mt-1">{uploadProgress}%</p>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -196,26 +192,22 @@ const handleSubmit = async (e: React.FormEvent) => {
                 required
               />
             </div>
+
             <div className="space-y-2">
-              <Label htmlFor="category">Programme</Label>
+              <Label htmlFor="programme">Programme</Label>
               <Select
                 value={formData.programme_id}
                 onValueChange={(value) => setFormData({ ...formData, programme_id: value })}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionnez une emistion" />
+                  <SelectValue placeholder="Sélectionnez une émission" />
                 </SelectTrigger>
                 <SelectContent>
-                  {programmes.map((emission) => {
-                    const emissionNorm: IProgramme ={...emission,
-                      when: Array.isArray(emission.when) ? emission.when : [emission.when],
-                    }
-                    return (
-                      <SelectItem key={emissionNorm.id} value={emissionNorm.id}>
-                        {emissionNorm.nom}
-                      </SelectItem>
-                    );
-                  })}
+                  {programmes.map((emission) => (
+                    <SelectItem key={emission.id} value={emission.id}>
+                      {emission.nom}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -242,23 +234,23 @@ const handleSubmit = async (e: React.FormEvent) => {
                 placeholder="ex: 15:30"
               />
             </div>
-          
+
             <div className="space-y-2">
               <Label>Fichier vidéo</Label>
               <SelecteurVideo onVideoSelect={setSelectedVideoFile} selectedFile={selectedVideoFile} />
             </div>
 
             <div className="space-y-2">
-              <Label>Fichier image(pour la cover)</Label>
+              <Label>Fichier image (cover)</Label>
               <ImageSelector onImageSelect={setSelectedImageFile} selectedFile={selectedImageFile} />
             </div>
           </div>
 
           <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={onClose}>
-              Annuler
+            <Button type="button" variant="outline" onClick={onClose}>Annuler</Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Publication..." : video ? "Mettre à jour" : "Ajouter la vidéo"}
             </Button>
-            <Button type="submit" disabled={isSubmitting} >{isSubmitting ? "Publication..." : video ? "Mettre à jour" : "Ajouter la vidéo"}</Button>
           </div>
         </form>
       </CardContent>

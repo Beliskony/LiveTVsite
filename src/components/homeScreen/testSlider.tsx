@@ -3,12 +3,12 @@
 import { useState, useEffect, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { EmissionCard } from "../mediaComponent/EmissionCard"
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
 import { Badge } from "../ui/badge"
 
 const jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
 
-export default function ProgrammesParJourSlider() {
+export default function ProgrammesParJourSlidertest() {
   const todayIndex = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
   const [selectedDay, setSelectedDay] = useState<number>(todayIndex)
   const [programmes, setProgrammes] = useState<any[]>([])
@@ -89,7 +89,7 @@ export default function ProgrammesParJourSlider() {
   }, [selectedDay, currentDayProgramsOrdered])
 
   return (
-    <div className="p-6">
+    <div className="min-h-screen p-6">
       <div className="mx-auto max-w-7xl">
         {/* Boutons jours */}
         <div className="flex flex-wrap gap-2 mb-6 justify-center max-sm:flex-row max-sm:overflow-x-auto">
@@ -119,7 +119,7 @@ export default function ProgrammesParJourSlider() {
               disabled={selectedIndex === 0}
               className="bg-white/10 text-white rounded-full hover:bg-[#1faae1] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <ChevronLeft />
+              <ArrowLeft />
             </Button>
             <Button
               size="icon"
@@ -127,7 +127,7 @@ export default function ProgrammesParJourSlider() {
               disabled={selectedIndex === currentDayProgramsOrdered.length - 1}
               className="bg-white/10 text-white rounded-full hover:bg-[#1faae1] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <ChevronRight />
+              <ArrowRight />
             </Button>
           </div>
         </div>
@@ -167,19 +167,36 @@ export default function ProgrammesParJourSlider() {
             {/* Desktop version */}
             <div className="flex flex-row max-sm:hidden">
               <div className="flex flex-col w-2/5 items-start justify-center gap-2">
-                <div className="rounded-md xl:pl-32 lg:pl-28 md:pl-20 flex items-center justify-center transition-all duration-300 w-full relative">
+                <div className="rounded-md flex items-center justify-center transition-all duration-300 w-full relative">
                   {selectedIndex !== null && (
-                    <span className="text-sm font-bold rounded bg-[#1faae1] text-white p-4 z-10 relative">
+                    <span className="text-sm font-bold bg-[#1faae1] text-white p-1 z-10 relative">
                       {currentDayProgramsOrdered[selectedIndex].starting.split("-")[0]}
                     </span>
                   )}
-                  <hr className="flex-1 w-full border-[#1faae1] border-t-2 mt-0" />
-                  
+                  <hr className="flex-1 border-[#1faae1] border-t-2 mt-0" />
+                  <div
+                    className="absolute right-0 w-2 h-2 bg-[#1faae1] rounded-full transform translate-x-1/2"
+                    style={{
+                      transform: `translateX(${selectedIndex * 12 + 6}px)`, // Position based on selected slide
+                    }}
+                  />
                 </div>
 
+                <div className="flex flex-wrap gap-2 mt-4 w-full">
+                  {currentDayProgramsOrdered.map((program, index) => (
+                    <button
+                      key={program.id}
+                      onClick={() => goToSlide(index)}
+                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                        index === selectedIndex ? "bg-[#1faae1] scale-125" : "bg-white/30 hover:bg-white/50"
+                      }`}
+                      title={`${program.nom} - ${program.starting.split("-")[0]}`}
+                    />
+                  ))}
+                </div>
               </div>
 
-              <div className="overflow-hidden px-0.5 flex-1">
+              <div className="overflow-hidden px-5 flex-1">
                 <div
                   className="flex gap-2 transition-transform duration-300 ease-in-out"
                   style={{
@@ -198,22 +215,15 @@ export default function ProgrammesParJourSlider() {
                       <div
                         key={program.id}
                         className={`flex-shrink-0 w-[220px] h-[460px] pt-2.5 transition-all duration-300 cursor-pointer ${
-                          isActive ? "opacity-100" : isVisible ? "opacity-70 scale-95" : "opacity-30 scale-90"
+                          isActive ? "opacity-100 scale-105" : isVisible ? "opacity-70 scale-95" : "opacity-30 scale-90"
                         }`}
                         onClick={() => goToSlide(i)}
                       >
                         <div
-                          className={` relative rounded-xl duration-300 ${
+                          className={`rounded-xl duration-300 ${
                             isActive ? "ring-2 ring-[#1faae1] shadow-lg shadow-[#1faae1]/20" : "ring-0"
                           }`}
                         >
-
-                          {/* ✅ Badge en haut à gauche */}
-                            <div className={`absolute top-3 left-32 m-2 z-30 ${isActive ? "hidden transition-all duration-300" : ""}`}>
-                              <Badge className="text-white text-sm bg-[#1faae1] justify-center p-2 h-5 rounded">
-                                  {startHour}
-                              </Badge>
-                            </div>
                           <EmissionCard contenu={program} textCouleur="hidden" />
                         </div>
 

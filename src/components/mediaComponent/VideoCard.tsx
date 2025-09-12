@@ -106,7 +106,7 @@ export const VideoCard = ({ video }: VideoCardProps) => {
 
 
   return (
-    <Card className="group w-[350px] font-normal overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+    <Card className="group w-[300px] font-normal overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
       <div className="relative aspect-video overflow-hidden">
         <video
           ref={videoRef}

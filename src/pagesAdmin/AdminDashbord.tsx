@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { StatsCard } from "./StatsCard"
 import { LivePreview } from "./LivePreview"
-import {  BarChart3, Users, Tv, Newspaper, Video } from "lucide-react"
+import { Users, Tv, Newspaper, Video } from "lucide-react"
 
 
 

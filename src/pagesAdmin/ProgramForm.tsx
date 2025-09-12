@@ -46,6 +46,8 @@ const initialDays = Array.isArray(program?.when) ? program.when : (program?.when
   })
 
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
+  const [selectedSlideCover, setSelectedSlideCover] = useState<File | null>(null)
+  const [selectedLogo, setSelectedLogo] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const { user } = useAuth()
@@ -94,6 +96,9 @@ const initialDays = Array.isArray(program?.when) ? program.when : (program?.when
       payload.append("genre", formData.type)
 
       if (selectedImageFile) payload.append("couverture", selectedImageFile)
+      if (selectedSlideCover) payload.append("slide_cover", selectedSlideCover)
+      if (selectedLogo) payload.append("logo", selectedLogo)
+
 
       // Choix de l'URL et méthode selon création ou modification
       const url = program?.id
@@ -205,59 +210,36 @@ onRefresh()
             <div className="space-y-2">
               <Label htmlFor="days">Jours</Label>
               <Popover>
-  <PopoverTrigger asChild>
-    <Button variant="outline" className="w-full justify-start text-left">
-      {formData.day.length > 0
-        ? formData.day
-            .map((d) => d.charAt(0).toUpperCase() + d.slice(1)) // capitalise
-            .join(", ")
-        : "Sélectionnez des jours"}
-    </Button>
-  </PopoverTrigger>
-  <PopoverContent className="w-64 bg-white shadow z-50">
-    <div className="space-y-2 p-2">
-      {days.map((day) => (
-        <div key={day.value} className="flex items-center space-x-2">
-          <Checkbox
-            id={day.value}
-            checked={formData.day.includes(day.value)}
-            onCheckedChange={(checked) => {
-              setFormData((prev) => {
-                const updatedDays = checked
-                  ? [...prev.day, day.value]
-                  : prev.day.filter((d) => d !== day.value)
-                return { ...prev, day: updatedDays }
-              })
-            }}
-          />
-          <Label htmlFor={day.value}>{day.label.charAt(0).toUpperCase() + day.label.slice(1)}</Label>
-        </div>
-      ))}
-    </div>
-  </PopoverContent>
-</Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="w-full justify-start text-left">
+                    {formData.day.length > 0 ? formData.day .map((d) => d.charAt(0).toUpperCase() + d.slice(1)) .join(", ") : "Sélectionnez des jours"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-64 bg-white shadow z-50">
+                  <div className="space-y-2 p-2">
 
-            </div>
+                  {days.map((day) => (
+                    <div key={day.value} className="flex items-center space-x-2">
+                      <Checkbox id={day.value} checked={formData.day.includes(day.value)}
+                        onCheckedChange={(checked) => { setFormData((prev) => {
+                        const updatedDays = checked ? [...prev.day, day.value] : prev.day.filter((d) => d !== day.value)
+                        return { ...prev, day: updatedDays } }) }} />
+                      <Label htmlFor={day.value}>{day.label.charAt(0).toUpperCase() + day.label.slice(1)}</Label>
+                    </div>
+                  ))}
+          </div>
+        </PopoverContent>
+      </Popover>
+
+    </div>
 
             <div className="space-y-2">
               <Label htmlFor="startTime">Heure de début</Label>
-              <Input
-                id="startTime"
-                type="time"
-                value={formData.startTime}
-                onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
-                required
-              />
+              <Input id="startTime" type="time" value={formData.startTime} onChange={(e) => setFormData({ ...formData, startTime: e.target.value })} required />
             </div>
             <div className="space-y-2">
               <Label htmlFor="endTime">Heure de fin</Label>
-              <Input
-                id="endTime"
-                type="time"
-                value={formData.endTime}
-                onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
-                required
-              />
+              <Input id="endTime" type="time" value={formData.endTime} onChange={(e) => setFormData({ ...formData, endTime: e.target.value })} required />
             </div>
           </div>
 
@@ -265,6 +247,17 @@ onRefresh()
             <Label>Image de couverture</Label>
             <ImageSelector onImageSelect={setSelectedImageFile} selectedFile={selectedImageFile} />
           </div>
+
+          <div className="space-y-2">
+            <Label>Image Slide Cover</Label>
+            <ImageSelector onImageSelect={setSelectedSlideCover} selectedFile={selectedSlideCover} />
+          </div>
+
+          <div className="space-y-2">
+              <Label>Logo</Label>
+              <ImageSelector onImageSelect={setSelectedLogo} selectedFile={selectedLogo} />
+          </div>
+
 
           <div className="flex justify-end gap-2">
             <Button type="button" variant="outline" onClick={onClose}>
