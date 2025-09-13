@@ -115,7 +115,7 @@ useEffect(() => {
                   </div>
                   <div className="flex gap-4">
                     <img
-                      src={prog.couverture}
+                      src={prog.couverture ?? "/placeholder.png"}
                       alt={prog.nom}
                       className="w-[200px] h-[350px] rounded-2xl object-fill"
                     />

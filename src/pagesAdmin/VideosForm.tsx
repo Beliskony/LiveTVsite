@@ -174,7 +174,7 @@ export function VideoForm({ onClose, onRefresh, video }: VideoFormProps) {
       <CardContent>
         {error && <p className="text-red-600 mb-2">{error}</p>}
         {isSubmitting && (
-          <div className="w-full bg-gray-200 h-3 rounded mb-4">
+          <div className="w-full h-3 flex flex-col bg-gray-200 rounded-xl my-4 ">
             <div className="h-3 bg-green-500 rounded" style={{ width: `${uploadProgress}%` }} />
             <p className="text-sm text-gray-600 mt-1">{uploadProgress}%</p>
           </div>

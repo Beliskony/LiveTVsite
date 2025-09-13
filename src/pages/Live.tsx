@@ -8,7 +8,7 @@ const TVLive = () => {
     <div className="h-full min-h-screen flex flex-col bg-[url('/images/bgForBlur.webp')] bg-cover bg-center">
 
 
-        <section className="flex flex-col flex-1 max-sm:mt-0.5 backdrop-blur-sm bg-black/50">
+        <section className="flex flex-col flex-1 max-sm:mt-0.5 backdrop-blur-3xl bg-black/85">
           {/*la partie Live*/}
           <div className="w-full md:mt-20 xl:mt-16 max-sm:mt-20">
             <LiveVideoComponent />

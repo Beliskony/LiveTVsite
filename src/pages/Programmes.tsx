@@ -5,7 +5,7 @@ import ProgrammesGrid from "@/components/programmesPage/ProgrammesListGrid"
   return (
     <div className="min-h-screen h-full flex flex-col bg-[url('/images/bgForBlur.webp')] bg-cover bg-center">
         
-        <section className="flex flex-col flex-1 max-sm:mt-0.5 backdrop-blur-3xl bg-gray-100/10">
+        <section className="flex flex-col flex-1 max-sm:mt-0.5 backdrop-blur-3xl bg-black/80">
           {/* Programmes list */}
           <div className="w-full md:mt-20 xl:mt-20 max-sm:mt-20 xl:px-10">
             <ProgrammesGrid/>

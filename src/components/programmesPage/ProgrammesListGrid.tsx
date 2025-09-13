@@ -53,7 +53,7 @@ export default function ProgrammesGrid() {
         <div className="xl:px-20 py-7 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {/* Affichage des programmes */}
           {programmes.map((programme) => (
-            <EmissionCard key={programme.id} textCouleur="text-white" contenu={programme} />
+            <EmissionCard key={programme.id} textCouleur="text-white" contenu={programme}/>
           ))}
         </div>
       </div>

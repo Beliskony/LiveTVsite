@@ -63,23 +63,23 @@ export default function SingleProgrammePage() {
   const paginatedVideos = linkedVideos.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-[url('/images/bgForBlur.webp')] backdrop-blur-2xl">
+  <div className="relative min-h-screen flex flex-col bg-[url('/images/bgForBlur.webp')] backdrop-blur-2xl bg-black/70">
 
  {/* 🟦 Section 1 : Titre + Description (Hero sans flou) */}
 <section className="relative z-10 w-full h-[500px] xl:h-[600px] overflow-hidden">
   
   {/* ✅ Image en arrière-plan (remplit tout) */}
   <img
-    src={programme.couverture}
+    src={programme.slide_cover ?? programme.couverture}
     alt={programme.nom}
-    className="absolute inset-0 w-full h-full object-fill z-0 mt-16"
+    className="absolute inset-0 w-full h-full object-fill max-sm:object-cover z-0 mt-16"
   />
 
   {/* ✅ Overlay foncé pour lisibilité */}
   <div className="absolute inset-0 z-10" />
 
   {/* ✅ Infos texte en bas à gauche */}
-  <div className="absolute bottom-20 md:bottom-10 lg:bottom-20 xl:bottom-50 left-0 z-20 p-6 xl:px-20 text-white max-w-5xl">
+  <div className="absolute bottom-20 max-sm:hidden md:bottom-10 lg:bottom-20 xl:bottom-50 left-0 z-20 p-6 xl:px-20 text-white max-w-5xl">
     <h1 className="text-2xl md:text-3xl font-bold mb-4 break-words">{programme.nom}</h1>
 
     <div className="flex items-center gap-1">{getReadableDaysRange(programme.when)}</div>
@@ -94,7 +94,12 @@ export default function SingleProgrammePage() {
     </div>
   </div>
 
-  <div className="absolute bottom-2 items-center flex flex-row w-full xl:px-20">
+  <div className="absolute bottom-5 left-[125px] justify-end items-center md:hidden">
+    <img src={programme.logo} className="border-2 rounded-full w-36 h-36"/>
+
+  </div>
+
+  <div className="absolute max-sm:hidden bottom-2 items-center flex flex-row w-full xl:px-20">
     <h1 className="text-xl md:text-3xl px-4 text-white">
       Emission&nbsp;Entière
     </h1>
@@ -104,9 +109,21 @@ export default function SingleProgrammePage() {
   </div>
 </section>
 
+    
+
 
   {/* 🟪 Section 2 : Filtres + Vidéos (avec flou) */}
   <section className="relative z-10 xl:px-20 px-6 py-10 flex flex-col text-white">
+    {/*section Mobile*/}
+    <section className="flex flex-col justify-center items-center w-full text-white md:hidden z-50 ">
+      <h2 className="text-lg">{programme.nom}</h2>
+      <div className="flex flex-row text-white/90 gap-x-2.5 justify-center items-center">
+        <h2 className="text-lg break-words line-clamp-3">{getReadableDaysRange(programme.when)}</h2>
+        <span className="text-2xl font-bold">-</span>
+        <h2>{programme.starting}</h2>
+      </div>
+
+    </section>
 
     {/* 💡 Fond flouté */}
     <div
@@ -115,7 +132,7 @@ export default function SingleProgrammePage() {
     />
 
     {/* 🧼 Overlay pour assombrir un peu */}
-    <div className="absolute inset-0 bg-black/70 z-0" />
+    <div className="absolute inset-0 bg-black/90 z-0" />
 
     {/* Contenu au-dessus du flou */}
     <div className="relative z-10">

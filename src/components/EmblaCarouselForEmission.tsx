@@ -161,7 +161,7 @@ export function EmissionCarouselForEmission() {
           >
             <div className="absolute inset-0">
               <img
-                src={currentProgramme?.couverture || "/placeholder.svg?height=650&width=1200&query=tv studio background"}
+                src={currentProgramme?.slide_cover || currentProgramme?.couverture ||"/placeholder.svg?height=650&width=1200&query=tv studio background"}
                 alt={currentProgramme?.nom || ""}
                 className="absolute inset-0 w-full h-full object-fill"
                 onError={(e) => {

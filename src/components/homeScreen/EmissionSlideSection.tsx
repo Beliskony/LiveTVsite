@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { EmissionCard } from "../mediaComponent/EmissionCard"
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Badge } from "../ui/badge"
 
 const jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
@@ -92,7 +92,7 @@ export default function ProgrammesParJourSlider() {
     <div className="p-6">
       <div className="mx-auto max-w-7xl">
         {/* Boutons jours */}
-        <div className="flex flex-wrap gap-2 mb-6 justify-center max-sm:flex-row max-sm:overflow-x-auto">
+        <div className="flex flex-wrap gap-2 mb-6 justify-center max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:justify-start max-sm:px-2 max-sm:no-scrollbar">
           {jours.map((jour, index) => (
             <Button
               key={jour}
@@ -183,8 +183,8 @@ export default function ProgrammesParJourSlider() {
                 <div
                   className="flex gap-2 transition-transform duration-300 ease-in-out"
                   style={{
-                    transform: `translateX(-${selectedIndex * (220 + 8)}px)`, // 220px width + 8px gap
-                    width: `${currentDayProgramsOrdered.length * (220 + 8)}px`,
+                    transform: `translateX(-${selectedIndex * (280 + 8)}px)`, // 220px width + 8px gap
+                    width: `${currentDayProgramsOrdered.length * (260 + 8)}px`,
                   }}
                 >
                   {currentDayProgramsOrdered.map((program, i) => {
@@ -197,8 +197,8 @@ export default function ProgrammesParJourSlider() {
                     return (
                       <div
                         key={program.id}
-                        className={`flex-shrink-0 w-[220px] h-[460px] pt-2.5 transition-all duration-300 cursor-pointer ${
-                          isActive ? "opacity-100" : isVisible ? "opacity-70 scale-95" : "opacity-30 scale-90"
+                        className={`flex-shrink-0 w-[280px] h-[520px] pt-2.5 transition-all duration-300 cursor-pointer ${
+                          isActive ? "opacity-100" : isVisible ? "opacity-70 scale-95" : "opacity-30 scale-85"
                         }`}
                         onClick={() => goToSlide(i)}
                       >
@@ -209,7 +209,7 @@ export default function ProgrammesParJourSlider() {
                         >
 
                           {/* ✅ Badge en haut à gauche */}
-                            <div className={`absolute top-3 left-32 m-2 z-30 ${isActive ? "hidden transition-all duration-300" : ""}`}>
+                            <div className={`absolute top-3 left-48 m-2 z-30 ${isActive ? "hidden transition-all duration-300" : ""}`}>
                               <Badge className="text-white text-sm bg-[#1faae1] justify-center p-2 h-5 rounded">
                                   {startHour}
                               </Badge>

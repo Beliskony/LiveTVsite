@@ -26,6 +26,8 @@ interface ProgramFormProps {
     ending: string
     genre: string
     couverture: string
+    slide_cover?:string; 
+    logo?:string;
   }
 
 

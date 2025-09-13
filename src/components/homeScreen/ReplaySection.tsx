@@ -42,7 +42,7 @@ const ReplaySection = () => {
     <section className="py-10">
       <div className="items-center flex flex-row w-full xl:px-20">
         <h1 className="text-xl md:text-2xl lg:text-3xl px-4 text-white">Replay</h1>
-        <hr className="w-full mx-3.5" />
+        <hr className="w-full mx-3.5 max-sm:px-1 border-t-2" />
       </div>
 
       <div className="w-full xl:px-20 py-6">
@@ -51,7 +51,7 @@ const ReplaySection = () => {
         </h3>
       </div>
 
-      <div className="w-full flex flex-row gap-x-2.5 xl:px-28 lg:px-20 md:px-10 max-sm:grid max-sm:grid-cols-2 max-sm:gap-y-1.5 max-sm:p-2">
+      <div className="w-full flex flex-row gap-x-2.5 xl:px-28 lg:px-20 md:px-10 max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:justify-center max-sm:px-2 max-sm:no-scrollbar">
         {/* Filtres de genres */}
         <button onClick={() => setSelectedGenre(null)} className={`px-4 py-2 rounded-md ${!selectedGenre ? "bg-blue-500 text-white" : "bg-gray-700/40 text-white"}`} >
           Tous

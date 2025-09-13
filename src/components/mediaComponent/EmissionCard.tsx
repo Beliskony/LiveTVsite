@@ -12,14 +12,12 @@ export const EmissionCard = (Emission: propsEmission) => {
   return (
     <div className="flex flex-col items-center justify-center p-4">
       <Link to={`/programmes/${Emission.contenu.id}`} className="no-underline">
-        <Card className="group relative w-[200px] h-[350px] overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer bg-black">
+        <Card className="group relative w-[250px] h-[420px] overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer bg-black">
 
         {/* ✅ Image nette centrée (non cropée) */}
-      <img src={Emission.contenu.couverture.replace("http://", "https://") || "/placeholder.svg"}
-        alt={`Couverture de l'émission: ${Emission.contenu.nom}`} className="absolute inset-0 w-full h-full object-contain transition-transform duration-700 z-10"/>
+      <img src={Emission.contenu.couverture ?? "/placeholder.png"}
+        alt={`Couverture de l'émission: ${Emission.contenu.nom}`} className="absolute inset-0 w-full h-full object-fill transition-transform duration-700 z-10 hover:scale-110 ease-in-out"/>
 
-          {/* ✅ Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-900/40 to-transparent z-10" />
 
         </Card>
 
