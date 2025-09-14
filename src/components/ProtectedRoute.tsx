@@ -1,4 +1,4 @@
-import { useState, useEffect, type JSX } from "react"
+import { type JSX } from "react"
 import { Navigate } from "react-router-dom"
 import { useAuth } from "./auth-context"
 
@@ -13,7 +13,7 @@ const ProtectedRoute = ({ element, requiredRole }: ProtectedRouteProps) => {
 
   
 
-  if (loading) {
+  if (loading && !isAuthenticated) {
     return (
       <div className="flex justify-center py-8">
         <div className="w-8 h-8 border-4 border-gray-300 border-t-gray-100 rounded-full animate-spin" />

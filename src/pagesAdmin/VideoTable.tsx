@@ -232,7 +232,7 @@ const getProgrammeName = (id?: string) => {
 
        {paginatedVideos.length === 0 && (
           <div className="flex justify-center items-center w-full py-12">
-            <LoaderCircle className="h-10 w-10 animate-spin " />
+            <p>Pas de videos pour le moment</p>
           </div>
        )}
 

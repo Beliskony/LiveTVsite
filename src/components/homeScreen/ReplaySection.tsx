@@ -64,7 +64,7 @@ const ReplaySection = () => {
         ))}
       </div>
 
-      <div className=" xl:px-20 py-7 grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      <div className=" xl:px-20 py-7 grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         {/* Afficher les programmes filtrés */}
         {filteredProgrammes.map((programme) => (
           <EmissionCard key={programme.id} textCouleur="text-white" contenu={programme} />

@@ -109,7 +109,7 @@ export default function ProgrammesParJourSlider() {
         </div>
 
         {/* Titre + flèches */}
-        <div className="flex items-center mb-6 gap-4">
+        <div className="flex items-center mb-2 gap-4">
           <h1 className="text-white text-xl md:text-2xl font-bold">Programme du {jours[selectedDay]}</h1>
           <hr className="flex-grow border border-white/20" />
           <div className="flex gap-2 max-sm:hidden">
@@ -183,8 +183,8 @@ export default function ProgrammesParJourSlider() {
                 <div
                   className="flex gap-2 transition-transform duration-300 ease-in-out"
                   style={{
-                    transform: `translateX(-${selectedIndex * (280 + 8)}px)`, // 220px width + 8px gap
-                    width: `${currentDayProgramsOrdered.length * (260 + 8)}px`,
+                    transform: `translateX(-${selectedIndex * (290 + 8)}px)`, // 220px width + 8px gap
+                    width: `${currentDayProgramsOrdered.length * (290 + 8)}px`,
                   }}
                 >
                   {currentDayProgramsOrdered.map((program, i) => {
@@ -197,7 +197,7 @@ export default function ProgrammesParJourSlider() {
                     return (
                       <div
                         key={program.id}
-                        className={`flex-shrink-0 w-[280px] h-[520px] pt-2.5 transition-all duration-300 cursor-pointer ${
+                        className={`flex-shrink-0 w-[290px] h-[570px] pt-2.5 transition-all duration-300 cursor-pointer ${
                           isActive ? "opacity-100" : isVisible ? "opacity-70 scale-95" : "opacity-30 scale-85"
                         }`}
                         onClick={() => goToSlide(i)}

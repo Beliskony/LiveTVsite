@@ -26,30 +26,38 @@ export function VideoForm({ onClose, onRefresh, video }: VideoFormProps) {
     description: video?.description || "",
     duration: video?.duration || "",
     thumbnail: video?.couverture || "",
-    programme_id: video?.programme_id || ""
+    programme_id: video?.programme_id?.toString() || "" // 👈 toujours en string
   })
 
   const [selectedVideoFile, setSelectedVideoFile] = useState<File | null>(null)
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const [uploadProgress, setUploadProgress] = useState(0)
+   const [uploadProgress, setUploadProgress] = useState(0)
   const [programmes, setProgrammes] = useState<IProgramme[]>([])
   const [error, setError] = useState<string | null>(null)
 
-  // Fetch programmes depuis API
   const fetchProgrammes = async () => {
     try {
       const token = localStorage.getItem("token")
+      if (!token) throw new Error("Token manquant")
+
       const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
         method: "GET",
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` }, // ✅ backticks
       })
 
-      if (!res.ok) throw new Error("Erreur lors du chargement des programmes")
+      if (!res.ok) {
+        const errorText = await res.text()
+        console.error("Erreur API:", errorText)
+        throw new Error("Erreur lors du chargement des programmes")
+      }
 
       const result = await res.json()
-      if (!Array.isArray(result.data)) throw new Error("La réponse API est invalide")
+
+      if (!Array.isArray(result.data)) {
+        throw new Error("La réponse API ne contient pas un tableau de programmes.")
+      }
 
       const programmesWithArrayWhen = result.data.map((prog: any) => ({
         ...prog,
@@ -57,31 +65,34 @@ export function VideoForm({ onClose, onRefresh, video }: VideoFormProps) {
       }))
 
       setProgrammes(programmesWithArrayWhen)
-    } catch (err) {
+    } catch (error) {
       setError("Erreur lors du chargement des programmes")
-      console.error("Erreur API: ", err)
+      console.error("Erreur Api: ", error)
     }
   }
 
   useEffect(() => {
     fetchProgrammes()
+    const interval = setInterval(() => {
+      fetchProgrammes()
+    }, 10000) //10s
+    return () => clearInterval(interval)
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setError(null)
-    setUploadProgress(0)
-
-    const token = localStorage.getItem("token")
-    const uploadId = Date.now().toString() // identifiant unique par vidéo
-
-    const url = video?.id
-      ? `https://chunk.yeshouatv.com/api/update_video/${video.id}`
-      : "https://chunk.yeshouatv.com/api/add_video"
 
     try {
+      const token = localStorage.getItem("token")
+      if (!token) throw new Error("Token manquant")
       if (!selectedVideoFile) throw new Error("Veuillez sélectionner un fichier vidéo.")
+
+      const uploadId = Date.now().toString() // identifiant unique
+      const url = video?.id
+        ? `https://chunk.yeshouatv.com/api/update_video/${video.id}`
+        : "https://chunk.yeshouatv.com/api/add_video"
 
       const chunkSize = 5 * 1024 * 1024 // 5 Mo
       const totalChunks = Math.ceil(selectedVideoFile.size / chunkSize)
@@ -92,70 +103,61 @@ export function VideoForm({ onClose, onRefresh, video }: VideoFormProps) {
         const chunk = selectedVideoFile.slice(start, end)
 
         const chunkForm = new FormData()
-        chunkForm.append("file", chunk)
-        chunkForm.append("resumableChunkNumber", (i + 1).toString())
-        chunkForm.append("resumableChunkSize", chunkSize.toString())
-        chunkForm.append("resumableTotalSize", selectedVideoFile.size.toString())
-        chunkForm.append("resumableIdentifier", uploadId)
-        chunkForm.append("resumableFilename", selectedVideoFile.name)
-        chunkForm.append("resumableTotalChunks", totalChunks.toString())
+        chunkForm.append("upload_id", uploadId)
+        chunkForm.append("chunk_index", i.toString())
+        chunkForm.append("total_chunks", totalChunks.toString())
+        chunkForm.append("video_chunk", chunk)
 
-        // ⚡ métadonnées uniquement au 1er chunk
+        // ✅ Métadonnées uniquement au premier chunk
         if (i === 0) {
-          chunkForm.append("title", formData.title || "")
-          chunkForm.append("description", formData.description || "")
-          chunkForm.append("duration", formData.duration || "")
-          chunkForm.append("programme_id", formData.programme_id)
+          chunkForm.append("title", formData.title)
+          chunkForm.append("description", formData.description)
+          chunkForm.append("duration", formData.duration)
+          chunkForm.append("programme_id", formData.programme_id.toString())
           chunkForm.append("status", "published")
-          if (selectedImageFile) chunkForm.append("couverture", selectedImageFile)
+          if (selectedImageFile) {
+            chunkForm.append("couverture", selectedImageFile)
+          }
         }
 
         const chunkResponse = await fetch(url, {
           method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${token}` }, // ✅ corrigé
           body: chunkForm,
         })
 
-        const result = await chunkResponse.json()
-
         if (!chunkResponse.ok) {
-          throw new Error(result?.message || `Erreur à l’envoi du chunk ${i + 1}/${totalChunks}`)
+          const errTxt = await chunkResponse.text()
+          throw new Error(`Erreur à l’envoi du chunk ${i + 1}/${totalChunks}: ${errTxt}`)
         }
-
-        // ✅ mise à jour progression
-        if (result.done) {
-          setUploadProgress(result.done)
-        } else {
+        
           setUploadProgress(Math.round(((i + 1) / totalChunks) * 100))
-        }
-
-        // ✅ Si dernier chunk terminé
-        if (result.success) {
-          setIsSuccess(true)
-          setIsSubmitting(false)
-          setUploadProgress(100)
-          onRefresh()
-          setTimeout(() => onClose(), 3000)
-          return
-        }
+        
       }
-    } catch (err) {
+
+      setIsSuccess(true)
+      onRefresh() // ✅ rafraîchir la liste après succès
+      setTimeout(() => onClose(), 3000)
+    } catch (err: any) {
       console.error("Erreur lors de l’envoi:", err)
-      setError("Impossible de publier la vidéo. Merci de réessayer.")
+      setError(err.message || "Impossible de publier la vidéo. Merci de réessayer.")
+    } finally {
       setIsSubmitting(false)
     }
   }
 
-  // === JSX ===
   if (isSuccess) {
     return (
       <Card className="mb-6">
         <CardContent className="pt-6">
+         
           <div className="text-center space-y-4">
             <CheckCircle className="h-16 w-16 text-green-500 mx-auto" />
             <h3 className="text-xl font-semibold text-green-700">Vidéo postée avec succès !</h3>
             <p className="text-gray-600">Votre vidéo "{formData.title}" a été ajoutée.</p>
-            <Button onClick={onClose} className="mt-4">Fermer</Button>
+            <Button onClick={onClose} className="mt-4">
+              Fermer
+            </Button>
           </div>
         </CardContent>
       </Card>
@@ -170,16 +172,16 @@ export function VideoForm({ onClose, onRefresh, video }: VideoFormProps) {
           <X className="h-4 w-4" />
         </Button>
       </CardHeader>
-
       <CardContent>
-        {error && <p className="text-red-600 mb-2">{error}</p>}
         {isSubmitting && (
-          <div className="w-full h-3 flex flex-col bg-gray-200 rounded-xl my-4 ">
+        <div className="py-5">
+          <div className="w-full bg-gray-200 h-3 rounded mb-4">
             <div className="h-3 bg-green-500 rounded" style={{ width: `${uploadProgress}%` }} />
             <p className="text-sm text-gray-600 mt-1">{uploadProgress}%</p>
           </div>
+        </div>
         )}
-
+        
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -192,9 +194,8 @@ export function VideoForm({ onClose, onRefresh, video }: VideoFormProps) {
                 required
               />
             </div>
-
             <div className="space-y-2">
-              <Label htmlFor="programme">Programme</Label>
+              <Label htmlFor="category">Programme</Label>
               <Select
                 value={formData.programme_id}
                 onValueChange={(value) => setFormData({ ...formData, programme_id: value })}
@@ -203,11 +204,17 @@ export function VideoForm({ onClose, onRefresh, video }: VideoFormProps) {
                   <SelectValue placeholder="Sélectionnez une émission" />
                 </SelectTrigger>
                 <SelectContent>
-                  {programmes.map((emission) => (
-                    <SelectItem key={emission.id} value={emission.id}>
-                      {emission.nom}
-                    </SelectItem>
-                  ))}
+                  {programmes.map((emission) => {
+                    const emissionNorm: IProgramme = {
+                      ...emission,
+                      when: Array.isArray(emission.when) ? emission.when : [emission.when],
+                    }
+                    return (
+                      <SelectItem key={emissionNorm.id} value={emissionNorm.id.toString()}>
+                        {emissionNorm.nom}
+                      </SelectItem>
+                    )
+                  })}
                 </SelectContent>
               </Select>
             </div>
@@ -234,20 +241,23 @@ export function VideoForm({ onClose, onRefresh, video }: VideoFormProps) {
                 placeholder="ex: 15:30"
               />
             </div>
-
+          {!video && (
             <div className="space-y-2">
               <Label>Fichier vidéo</Label>
               <SelecteurVideo onVideoSelect={setSelectedVideoFile} selectedFile={selectedVideoFile} />
             </div>
+          )}
 
             <div className="space-y-2">
-              <Label>Fichier image (cover)</Label>
+              <Label>Fichier image (pour la cover)</Label>
               <ImageSelector onImageSelect={setSelectedImageFile} selectedFile={selectedImageFile} />
             </div>
           </div>
 
           <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={onClose}>Annuler</Button>
+            <Button type="button" variant="outline" onClick={onClose}>
+              Annuler
+            </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Publication..." : video ? "Mettre à jour" : "Ajouter la vidéo"}
             </Button>

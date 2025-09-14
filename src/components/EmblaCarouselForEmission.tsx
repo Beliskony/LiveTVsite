@@ -210,18 +210,18 @@ export function EmissionCarouselForEmission() {
         <Button
           variant="ghost"
           size="icon"
-          className="absolute max-sm:hidden left-6 top-1/2 -translate-y-1/2 z-20 text-white hover:bg-white/20 w-12 h-12"
+          className="absolute max-sm:hidden left-6 top-1/2 -translate-y-1/2 z-20 text-white hover:text-white hover:bg-[#1faae1] w-12 h-12"
           onClick={handlePrev}
         >
-          <ChevronLeft className="w-8 h-8" />
+          <ChevronLeft />
         </Button>
         <Button
           variant="ghost"
           size="icon"
-          className="absolute max-sm:hidden right-6 top-1/2 -translate-y-1/2 z-20 text-white hover:bg-white/20 w-12 h-12"
+          className="absolute max-sm:hidden right-6 top-1/2 -translate-y-1/2 z-20 text-white hover:text-white hover:bg-[#1faae1] w-12 h-12"
           onClick={handleNext}
         >
-          <ChevronRight className="w-8 h-8" />
+          <ChevronRight/>
         </Button>
 
         {/* Pagination Dots */}
@@ -230,7 +230,7 @@ export function EmissionCarouselForEmission() {
             <button
               key={index}
               className={`w-6 h-2 duration-300 ${
-                index === currentIndex ? "bg-gray-900" : "bg-white/40 hover:bg-white/60"
+                index === currentIndex ? "bg-[#1faae1]" : "bg-white/40 hover:bg-white/60"
               }`}
               onClick={() => handleDotClick(index)}
             />

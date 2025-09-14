@@ -7,14 +7,13 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<IUser | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [token, setToken] = useState<string | null>(null)
 
   const saveUserToLocal = (user: IUser) => localStorage.setItem("user", JSON.stringify(user))
   const removeUserFromLocal = () => localStorage.removeItem("user")
 
   const fetchUser = async (tokenToUse: string) => {
-    setLoading(true)
     try {
       const res = await fetch(`https://api.yeshouatv.com/api/user`, {
         headers: {
@@ -42,8 +41,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       removeUserFromLocal()
       localStorage.removeItem("token")
       return null
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -57,8 +54,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (storedToken) {
       setToken(storedToken)
-      fetchUser(storedToken)
-    }
+      fetchUser(storedToken).finally(() => setLoading(false))
+    }else {
+    setLoading(false)
+  }
   }, [])
 
   const login = async (email: string, password: string): Promise<IUser | null> => {

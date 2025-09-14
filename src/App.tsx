@@ -205,7 +205,7 @@ function AnimatedRoutes() {
               transition={{ duration: 0.5, ease: "easeInOut" }}
               className='min-h-screen'
             >
-              <ProtectedRoute element={<Admin />} />
+              <ProtectedRoute element={<Admin />} requiredRole='admin' />
             </motion.div>
           }
         />

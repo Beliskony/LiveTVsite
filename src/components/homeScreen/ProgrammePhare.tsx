@@ -176,11 +176,11 @@ useEffect(() => {
   
 
       {/* Arrows desktop only */}
-      <button onClick={prevSlide} className="flex absolute top-1/2 left-0 -translate-y-1/2 bg-white/30 hover:bg-white p-2 rounded-full shadow" >
-        <ChevronLeft className="w-6 h-6 text-black" />
+      <button onClick={prevSlide} className="flex absolute top-1/2 left-0 -translate-y-1/2 bg-white/30 text-white hover:text-white hover:bg-[#1faae1] p-2 rounded-full shadow" >
+        <ChevronLeft className="w-6 h-6" />
       </button>
-      <button onClick={nextSlide} className="flex absolute top-1/2 right-0 -translate-y-1/2 bg-white/30 hover:bg-white p-2 rounded-full shadow" >
-        <ChevronRight className="w-6 h-6 text-black" />
+      <button onClick={nextSlide} className="flex absolute top-1/2 right-0 -translate-y-1/2 bg-white/30  text-white hover:text-white hover:bg-[#1faae1] p-2 rounded-full shadow" >
+        <ChevronRight className="w-6 h-6"/>
       </button>
     </div>
   )
