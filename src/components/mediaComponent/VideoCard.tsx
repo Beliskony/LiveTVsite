@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { videoFormatRelativeDate } from "@/utilitaires/FormatDate"
 import type { IVideo } from "@/interfaces/Videos"
-import { Clock, Eye } from "lucide-react"
+import { Clock} from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
@@ -33,7 +33,7 @@ export const VideoCard = ({ video }: VideoCardProps) => {
 
     incrementTimeoutRef.current = setTimeout(async () => {
       try {
-      const response = await fetch(`https://api.yeshouatv.com/api/increment_views/${video.id}`, {
+      const response = await fetch(`https://chunk.yeshouatv.com/api/increment_views/${video.id}`, {
           method: "POST",
           headers: {
           "Content-Type": "application/json",
@@ -101,16 +101,11 @@ export const VideoCard = ({ video }: VideoCardProps) => {
 }, [video_url]);
 
 
-
-
-
-
   return (
     <Card className="group w-[300px] font-normal overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
       <div className="relative aspect-video overflow-hidden">
         <video
           ref={videoRef}
-          src={video_url}
           poster={dynamicPoster || couverture}
           controls
           preload="metadata"
@@ -124,7 +119,9 @@ export const VideoCard = ({ video }: VideoCardProps) => {
             e.currentTarget.currentTime = 0
           }}
           className="w-full h-full max-h-[80vh] object-contain transition-transform duration-300 group-hover:scale-105"
-        />
+        >
+          <source src={video_url.endsWith(".mp4")? video_url : `${video_url}.mp4`} type="video/mp4"/>
+        </video>
       </div>
 
       <CardContent className="w-full py-2 space-y-1 h-20 text-gray-800">
@@ -140,14 +137,9 @@ export const VideoCard = ({ video }: VideoCardProps) => {
         </div>
 
         <div className="flex flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <h3 className="text-wrap truncate text-sm leading-tight line-clamp-2 font-extrabold transition-colors">
+         <h3 className="text-wrap truncate text-sm leading-tight line-clamp-2 font-extrabold transition-colors">
           {title}
-        </h3>
-
-         {/* <Badge variant="secondary" className="bg-gray-900/50 text-white">
-              <Eye className="mr-1 h-3 w-3"/>
-              {views}
-          </Badge> */}
+         </h3>
         </div>
       </CardContent>
     </Card>

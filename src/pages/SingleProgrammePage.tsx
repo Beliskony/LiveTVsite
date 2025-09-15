@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { Calendar, Clapperboard, Clock} from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import { Clock } from "lucide-react"
 import type {IProgramme} from "@/interfaces/Programme"
 import type { IVideo } from "@/interfaces/Videos"
 import { VideoCard } from "@/components/mediaComponent/VideoCard"
@@ -28,8 +27,8 @@ export default function SingleProgrammePage() {
     setLoading(true)
 
     Promise.all([
-      fetch("https://api.yeshouatv.com/api/list_programmes_for_user").then(res => res.json()),
-      fetch("https://api.yeshouatv.com/api/list_videos_for_user").then(res => res.json())
+      fetch("https://chunk.yeshouatv.com/api/list_programmes_for_user").then(res => res.json()),
+      fetch("https://chunk.yeshouatv.com/api/list_videos_for_user").then(res => res.json())
     ])
       .then(([programmesRes, videosRes]) => {
         const foundProgramme = programmesRes.data.find((p: IProgramme) => p.id === id)
@@ -50,15 +49,11 @@ export default function SingleProgrammePage() {
   if (error) return <div className="text-red-500">{error}</div>
   if (!programme) return <div>Aucune émission trouvée.</div>
 
-
-
-
-
       // Lier automatiquement les vidéos à l'émission
   const linkedVideos: IVideo[]= programme ? allVideos.filter((video) => video.programme_id === programme.id) : []
 
 
-    const totalPages = Math.ceil(linkedVideos.length / ITEMS_PER_PAGE)
+  const totalPages = Math.ceil(linkedVideos.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const paginatedVideos = linkedVideos.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
@@ -72,7 +67,7 @@ export default function SingleProgrammePage() {
   <img
     src={programme.slide_cover ?? programme.couverture}
     alt={programme.nom}
-    className="absolute inset-0 w-full h-full object-fill max-sm:object-cover z-0 mt-16"
+    className="absolute inset-0 w-full h-full object-fill max-sm:object-center z-0 mt-16"
   />
 
   {/* ✅ Overlay foncé pour lisibilité */}
@@ -132,7 +127,7 @@ export default function SingleProgrammePage() {
     />
 
     {/* 🧼 Overlay pour assombrir un peu */}
-    <div className="absolute inset-0 bg-black/90 z-0" />
+    <div className="absolute inset-0 lg:min-h-screen z-0" />
 
     {/* Contenu au-dessus du flou */}
     <div className="relative z-10">

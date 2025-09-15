@@ -24,7 +24,7 @@ const LiveVideo = () => {
   useEffect(() => {
   const fetchLive = async () => {
     try {
-      const res = await fetch("https://api.yeshouatv.com/api/list_live_for_user")
+      const res = await fetch("https://chunk.yeshouatv.com/api/list_live_for_user")
       if (!res.ok) throw new Error("Erreur lors du chargement du live")
       
       const json = await res.json()
@@ -59,7 +59,7 @@ const LiveVideo = () => {
     try {
       const deviceId = getDeviceId()
 
-      const response = await fetch(`https://api.yeshouatv.com/api/lives/${lives.id}/view`, {
+      const response = await fetch(`https://chunk.yeshouatv.com/api/lives/${lives.id}/view`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +83,7 @@ const LiveVideo = () => {
       console.error("Erreur lors de l'incrémentation de la vue :", err)
       hasIncrementedView.current = false
     }
-  }, 2000)
+  }, 60000)
 }
 
 useEffect(() => {

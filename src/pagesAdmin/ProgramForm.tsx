@@ -13,6 +13,7 @@ import { ImageSelector } from "./ImageSelector"
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useAuth } from "@/components/auth-context"
+import type { IProgramme } from "@/interfaces/Programme"
 
 interface ProgramFormProps {
   onClose: () => void
@@ -104,14 +105,14 @@ const initialDays = Array.isArray(program?.when) ? program.when : (program?.when
 
       // Choix de l'URL et méthode selon création ou modification
       const url = program?.id
-        ? `https://api.yeshouatv.com/api/update_programme/${program.id}`
-        : "https://api.yeshouatv.com/api/add_programme"
+        ? `https://chunk.yeshouatv.com/api/update_programme/${program.id}`
+        : "https://chunk.yeshouatv.com/api/add_programme"
       const method = "POST"
 
       const response = await fetch(url, {
         method,
         headers: {
-          Authorization: `Bearer ${token ?? ""}`,
+          Authorization: `Bearer ${token}`,
           // Ne pas définir 'Content-Type' avec FormData, le navigateur le gère
         },
         body: payload,

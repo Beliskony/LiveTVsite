@@ -21,7 +21,7 @@ export function ArticlesGrid() {
   const fetchArticles = async () => {
     setLoading(true)
     try {
-      const res = await fetch("https://api.yeshouatv.com/api/list_article_for_user", {
+      const res = await fetch("https://chunk.yeshouatv.com/api/list_article_for_user", {
         method: "GET"
       })
 

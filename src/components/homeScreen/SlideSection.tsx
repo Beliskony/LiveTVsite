@@ -16,7 +16,7 @@ export const SlideSection = ({textVues}: optionShow) => {
 
   const fetchVideos = async () => {
   try {
-    const res = await fetch("https://api.yeshouatv.com/api/list_videos_for_user", {
+    const res = await fetch("https://chunk.yeshouatv.com/api/list_videos_for_user", {
       method: "GET",
     })
     if (!res.ok) throw new Error("Erreur lors du chargement des vidéos")

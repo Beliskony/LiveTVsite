@@ -14,7 +14,7 @@ const ArticleManager = () => {
     const fetchArticles = async () => {
   try {
     const token = localStorage.getItem("token")
-    const res = await fetch("https://api.yeshouatv.com/api/list_article", {
+    const res = await fetch("https://chunk.yeshouatv.com/api/list_article", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     })

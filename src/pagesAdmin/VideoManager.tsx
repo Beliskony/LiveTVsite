@@ -25,7 +25,7 @@ const VideoManager = () => {
   const fetchVideos = async () => {
   try {
     const token = localStorage.getItem("token")
-    const res = await fetch("https://api.yeshouatv.com/api/list_videos", {
+    const res = await fetch("https://chunk.yeshouatv.com/api/list_videos", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     })

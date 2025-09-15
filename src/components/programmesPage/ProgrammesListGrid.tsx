@@ -19,7 +19,7 @@ export default function ProgrammesGrid() {
   useEffect(() => {
     const fetchProgrammes = async () => {
       try {
-        const res = await fetch("https://api.yeshouatv.com/api/list_programmes_for_user");
+        const res = await fetch("https://chunk.yeshouatv.com/api/list_programmes_for_user");
         if (!res.ok) throw new Error(`Erreur API ${res.status}`);
         const result = await res.json();
         const parsed = result.data.map((prog: any) => ({

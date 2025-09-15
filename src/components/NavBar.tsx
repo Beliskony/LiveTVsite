@@ -44,8 +44,8 @@ const handleSearch = async (query: string) => {
 
     try {
     const [programmesRes, articlesRes] = await Promise.allSettled([
-      fetch("https://api.yeshouatv.com/api/list_programmes_for_user", {method: "GET"}),
-      fetch("https://api.yeshouatv.com/api/list_article_for_user", {method: "GET"}),
+      fetch("https://chunk.yeshouatv.com/api/list_programmes_for_user", {method: "GET"}),
+      fetch("https://chunk.yeshouatv.com/api/list_article_for_user", {method: "GET"}),
     ])
 
        let programmes: any[] = []

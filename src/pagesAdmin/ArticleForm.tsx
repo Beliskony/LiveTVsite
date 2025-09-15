@@ -68,7 +68,7 @@ useEffect(() => {
       if (selectedImageFile) payload.append("feature_image", selectedImageFile)
 
    try {
-    const url =  article ? `https://api.yeshouatv.com/api/update_article/${article.id}` : "https://api.yeshouatv.com/api/add_article"
+    const url =  article ? `https://chunk.yeshouatv.com/api/update_article/${article.id}` : "https://chunk.yeshouatv.com/api/add_article"
 
      const response = await fetch(url, {
       method: "POST",

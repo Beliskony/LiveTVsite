@@ -15,7 +15,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const fetchUser = async (tokenToUse: string) => {
     try {
-      const res = await fetch(`https://api.yeshouatv.com/api/user`, {
+      const res = await fetch(`https://chunk.yeshouatv.com/api/user`, {
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${tokenToUse}`,
@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string): Promise<IUser | null> => {
     setLoading(true)
     try {
-      const res = await fetch(`https://api.yeshouatv.com/api/login`, {
+      const res = await fetch(`https://chunk.yeshouatv.com/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -100,7 +100,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = async (name: string, email: string, password: string): Promise<IUser | null> => {
     setLoading(true)
     try {
-      const res = await fetch(`https://api.yeshouatv.com/api/register`, {
+      const res = await fetch(`https://chunk.yeshouatv.com/api/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -137,7 +137,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const sendPasswordResetAndVerifyCode = async (email: string): Promise<boolean> => {
   setLoading(true)
   try {
-    const res = await fetch(`https://api.yeshouatv.com/api/send_code`, {
+    const res = await fetch(`https://chunk.yeshouatv.com/api/send_code`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -164,7 +164,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 const resetPassword = async (email: string, OTP:string, newPassword: string): Promise<boolean> => {
   setLoading(true)
   try {
-    const res = await fetch(`https://api.yeshouatv.com/api/reset_password`, {
+    const res = await fetch(`https://chunk.yeshouatv.com/api/reset_password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -196,7 +196,7 @@ const resetPassword = async (email: string, OTP:string, newPassword: string): Pr
 
   const logout = async () => {
     try {
-      await fetch(`https://api.yeshouatv.com/api/logout`, {
+      await fetch(`https://chunk.yeshouatv.com/api/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

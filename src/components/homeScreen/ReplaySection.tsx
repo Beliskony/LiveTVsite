@@ -12,7 +12,7 @@ const ReplaySection = () => {
   useEffect(() => {
     const fetchProgrammes = async () => {
       try {
-        const res = await fetch("https://api.yeshouatv.com/api/list_programmes_for_user");
+        const res = await fetch("https://chunk.yeshouatv.com/api/list_programmes_for_user");
         if (!res.ok) throw new Error(`Erreur API ${res.status}`);
         const result = await res.json();
         const parsed = result.data.map((prog: any) => ({
@@ -64,7 +64,7 @@ const ReplaySection = () => {
         ))}
       </div>
 
-      <div className=" xl:px-20 py-7 grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+      <div className=" xl:px-20 py-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {/* Afficher les programmes filtrés */}
         {filteredProgrammes.map((programme) => (
           <EmissionCard key={programme.id} textCouleur="text-white" contenu={programme} />

@@ -32,7 +32,7 @@ export function VideoTable({ onEdit }: VideoTableProps) {
    const fetchProgrammes = async () => {
       try {
         const token = localStorage.getItem("token")
-        const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
+        const res = await fetch("https://chunk.yeshouatv.com/api/list_programmes", {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` }
         })
@@ -66,7 +66,7 @@ export function VideoTable({ onEdit }: VideoTableProps) {
 const fetchVideos = async () => {
   try {
     const token = localStorage.getItem("token")
-    const res = await fetch("https://api.yeshouatv.com/api/list_videos", {
+    const res = await fetch("https://chunk.yeshouatv.com/api/list_videos", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -86,20 +86,13 @@ const fetchVideos = async () => {
 useEffect(() => {
   fetchVideos()
   fetchProgrammes()
-
-    const interval = setInterval(() => {
-    fetchVideos() // refetch every 60 sec
-    fetchProgrammes()
-    }, 60000)
-
-    return() => clearInterval(interval)
 }, [])
 
 const handleDelete = async (id: string) => {
-  if (!confirm("Voulez-vous vraiment supprimer cette vidéo ?")) return
+  //if (!confirm("Voulez-vous vraiment supprimer cette vidéo ?")) return
   try {
     const token = localStorage.getItem("token")
-    const res = await fetch(`https://api.yeshouatv.com/api/delete_video/${id}`, {
+    const res = await fetch(`https://chunk.yeshouatv.com/api/delete_video/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -136,9 +129,6 @@ const programmeMap = useMemo(() => {
 const getProgrammeName = (id?: string) => {
   return programmeMap.get(id ?? "") ?? "_"
 }
-
-
-
 
   return (
     <Card className="px-0 py-4 md:p-4 lg:p-4 xl:p-4">

@@ -77,8 +77,8 @@ export function LiveForm({ Live, onClose }: LiveSettingsProps) {
 
     const isUpdate = !!Live?.id
     const url = isUpdate
-      ? `https://api.yeshouatv.com/api/update/lives/${Live.id}`
-      : "https://api.yeshouatv.com/api/lives_add"
+      ? `https://chunk.yeshouatv.com/api/update/lives/${Live.id}`
+      : "https://chunk.yeshouatv.com/api/lives_add"
 
     const response = await fetch(url, {
       method: "POST",

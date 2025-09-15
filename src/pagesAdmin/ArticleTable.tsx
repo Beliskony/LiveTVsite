@@ -28,7 +28,7 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
   const fecthArticles = async () => {
     try {
       const token = localStorage.getItem("token")
-      const res = await fetch("https://api.yeshouatv.com/api/list_article", {
+      const res = await fetch("https://chunk.yeshouatv.com/api/list_article", {
         method: "GET",
         headers: {Authorization: `Bearer ${token}` }
       })
@@ -56,19 +56,12 @@ export function ArticleTable({ onEdit }: ArticleTableProps) {
     // Appel initial
   useEffect(() => {
     fecthArticles()
-
-  const interval = setInterval(() => {
-    fecthArticles()
-    }, 60000)
-
-    return() => clearInterval(interval)
-
   }, [])
 
   const deleteArticle = async (id: string) =>{
     try {
       const token = localStorage.getItem("token")
-      const res = await fetch(`https://api.yeshouatv.com/api/delete_article/${id}`, {
+      const res = await fetch(`https://chunk.yeshouatv.com/api/delete_article/${id}`, {
         method: "DELETE",
         headers: {Authorization: `Bearer ${token}`}
       })

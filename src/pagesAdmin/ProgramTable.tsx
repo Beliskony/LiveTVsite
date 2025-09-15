@@ -25,7 +25,7 @@ export function ProgramTable({ onEdit}: ProgramTableProps) {
  const fetchProgrammes = async () => {
     try {
       const token = localStorage.getItem("token")
-      const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
+      const res = await fetch("https://chunk.yeshouatv.com/api/list_programmes", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` }
       })
@@ -57,19 +57,12 @@ export function ProgramTable({ onEdit}: ProgramTableProps) {
   // Appel initial
   useEffect(() => {
     fetchProgrammes()
-
-  const interval = setInterval(() => {
-    fetchProgrammes() // refetch every 5 sec
-    }, 60000)
-
-    return() => clearInterval(interval)
-
   }, [])
 
 const updateProgramme = async (id: string, updatedData: Partial<IProgramme>) => {
   try {
     const token = localStorage.getItem("token")
-    const res = await fetch(`https://api.yeshouatv.com/api/programmes/${id}`, {
+    const res = await fetch(`https://chunk.yeshouatv.com/api/programmes/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -98,7 +91,7 @@ const updateProgramme = async (id: string, updatedData: Partial<IProgramme>) => 
 const deleteProgramme = async (id: string) => {
   try {
     const token = localStorage.getItem("token")
-    const res = await fetch(`https://api.yeshouatv.com/api/delete_programme/${id}`, {
+    const res = await fetch(`https://chunk.yeshouatv.com/api/delete_programme/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`

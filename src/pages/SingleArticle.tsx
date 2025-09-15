@@ -25,7 +25,7 @@ export default function SingleArticlePage() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await fetch("https://api.yeshouatv.com/api/list_article_for_user", {
+        const res = await fetch("https://chunk.yeshouatv.com/api/list_article_for_user", {
           method: "GET",
         })
         const data = await res.json()

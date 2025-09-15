@@ -9,7 +9,7 @@ import getReadableDaysRange from "@/utilitaires/getReadableDaysRange"
 
 const fetchProgrammes = async () => {
   try {
-    const res = await fetch("https://api.yeshouatv.com/api/list_programmes_for_user")
+    const res = await fetch("https://chunk.yeshouatv.com/api/list_programmes_for_user")
     if (!res.ok) throw new Error("Erreur lors du chargement des programmes")
     const result = await res.json()
     if (!Array.isArray(result.data)) throw new Error("La réponse API ne contient pas un tableau de programmes.")
@@ -239,7 +239,8 @@ export function EmissionCarouselForEmission() {
       </div>
 
       {/* Bloc mobile sous le carousel */}
-      <div className="md:hidden p-4 flex flex-col justify-center items-center text-white">
+      <div className="md:hidden p-4 flex flex-col justify-center items-center text-white border ">
+        <img src={currentProgramme.logo} className="w-36 h-36 object-fill max-w-full"/>
         <h1 className="text-lg font-bold mb-2">{currentProgramme?.nom}</h1>
         <p className="text-sm mb-4 flex items-center gap-x-1.5">{getReadableDaysRange(currentProgramme?.when)} <span className="text-2xl font-bold"> - </span> {currentProgramme?.starting}</p>
         <Link

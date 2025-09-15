@@ -23,7 +23,7 @@ export function AdminDashboard() {
     const fetchStats = async () => {
       try {
         const token = localStorage.getItem("token")
-        const res = await fetch("https://api.yeshouatv.com/api/stat", {
+        const res = await fetch("https://chunk.yeshouatv.com/api/stat", {
           headers: {
             Authorization: `Bearer ${token}`
           },

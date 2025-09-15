@@ -22,7 +22,7 @@ export function UserInfoTable() {
       setLoading(true)
       try {
         const token = localStorage.getItem("token")
-        const res = await fetch("https://api.yeshouatv.com/api/list_users", {
+        const res = await fetch("https://chunk.yeshouatv.com/api/list_users", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -42,12 +42,6 @@ export function UserInfoTable() {
       // useEffect pour le chargement initial + refresh auto
   useEffect(() => {
     fetchUsers()
-
-    const interval = setInterval(() => {
-      fetchUsers()
-    }, 60000)
-
-    return () => clearInterval(interval)
   }, [])
 
   useEffect(() => {
@@ -58,7 +52,7 @@ export function UserInfoTable() {
 {/*  const deleteUser = async (id: string) =>{
     try {
       const token = localStorage.getItem("token")
-      const res = await fetch(`https://api.yeshouatv.com/api/delete_user/${id}`, {
+      const res = await fetch(`https://chunk.yeshouatv.com/api/delete_user/${id}`, {
         method: "DELETE",
         headers: {Authorization: `Bearer ${token}`}
       })

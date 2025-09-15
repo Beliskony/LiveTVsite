@@ -26,7 +26,7 @@ export default function ProgrammesParJourSlider() {
   useEffect(() => {
     const fetchProgrammes = async () => {
       try {
-        const res = await fetch("https://api.yeshouatv.com/api/list_programmes_for_user")
+        const res = await fetch("https://chunk.yeshouatv.com/api/list_programmes_for_user")
         if (!res.ok) throw new Error(`Erreur API ${res.status}`)
         const result = await res.json()
         const parsed = result.data.map((prog: any) => ({
@@ -110,8 +110,8 @@ export default function ProgrammesParJourSlider() {
 
         {/* Titre + flèches */}
         <div className="flex items-center mb-2 gap-4">
-          <h1 className="text-white text-xl md:text-2xl font-bold">Programme du {jours[selectedDay]}</h1>
-          <hr className="flex-grow border border-white/20" />
+          <h1 className="text-white text-xl md:text-2xl font-bold">Programme</h1>
+          <hr className="flex-grow border border-white" />
           <div className="flex gap-2 max-sm:hidden">
             <Button
               size="icon"
@@ -139,7 +139,7 @@ export default function ProgrammesParJourSlider() {
           <div className="text-white text-center mt-10">Aucun programme pour ce jour.</div>
         ) : (
           <>
-            <div className="flex flex-row md:hidden">
+            <div className="flex flex-row md:hidden py-4">
               {/* Version mobile: Info + EmissionCard */}
               <div className="w-full md:w-1/5 flex flex-col md:hidden">
                 {currentDayProgramsOrdered.map((program, i) => {
