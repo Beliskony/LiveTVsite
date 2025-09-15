@@ -145,8 +145,8 @@ export default function ProgrammesParJourSlider() {
                 {currentDayProgramsOrdered.map((program, i) => {
                   const startHour = program.starting.split("-")[0]
                   return (
-                    <div key={program.id} className={`mb-6 flex flex-row justify-center gap-x-10 program-item-${i}`}>
-                      <div className="flex flex-col items-start pt-2.5 ">
+                    <div key={program.id} className={`mb-6 flex flex-row justify-center gap-x-3 program-item-${i}`}>
+                      <div className="flex flex-col items-start pt-1 ">
                         <span className="text-white text-sm bg-[#1faae1] justify-center p-2 h-10 rounded">
                           {startHour}
                         </span>
