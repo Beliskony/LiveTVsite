@@ -127,14 +127,14 @@ export default function SingleProgrammePage() {
     />
 
     {/* 🧼 Overlay pour assombrir un peu */}
-    <div className="absolute inset-0 lg:min-h-screen z-0" />
+    <div className="absolute inset-0 min-h-screen z-0" />
 
     {/* Contenu au-dessus du flou */}
     <div className="relative z-10">
 
 
       {/* Vidéos */}
-      <div className="flex-1">
+      <div className="flex-1 min-h-screen py-4">
         {loading ? (
           <div className="w-full min-h-[50vh] my-4 grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 justify-items-center">
             {Array.from({ length: 6 }).map((_, i) => (
