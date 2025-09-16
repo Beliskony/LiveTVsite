@@ -18,7 +18,8 @@ export const VideoCard = ({ video }: VideoCardProps) => {
   // Nouvelle state locale pour les vues
   const [views, setViews] = useState<number>(video.views ?? 0)
   const incrementTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const [dynamicPoster, setDynamicPoster] = useState<string | null>(null)
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+
 
 
   const handleViewIncrement = () => {
@@ -77,12 +78,15 @@ export const VideoCard = ({ video }: VideoCardProps) => {
           loop
           onPlay={handleViewIncrement}
           playsInline
-          onMouseEnter={(e) => e.currentTarget.play()}
-          onMouseLeave={(e) => {
-            e.currentTarget.pause()
-            e.currentTarget.currentTime = 0
-          }}
           className="w-full h-full max-h-[80vh] object-fill transition-transform duration-300 group-hover:scale-105"
+
+          {...(!isMobile && {
+            onMouseEnter: (e: React.SyntheticEvent<HTMLVideoElement>) => e.currentTarget.play(),
+            onMouseLeave: (e: React.SyntheticEvent<HTMLVideoElement>) => {
+              e.currentTarget.pause();
+              e.currentTarget.currentTime = 0;
+          }
+         })}
         />
           
       </div>
