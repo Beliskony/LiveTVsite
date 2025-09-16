@@ -197,7 +197,7 @@ export default function ProgrammesParJourSlider() {
                     return (
                       <div
                         key={program.id}
-                        className={`flex-shrink-0 w-[290px] h-[570px] pt-2.5 transition-all duration-300 cursor-pointer ${
+                        className={`flex-shrink-0 w-[290px] h-[580px] pt-2.5 transition-all duration-300 cursor-pointer ${
                           isActive ? "opacity-100" : isVisible ? "opacity-70 scale-95" : "opacity-30 scale-85"
                         }`}
                         onClick={() => goToSlide(i)}
@@ -219,7 +219,7 @@ export default function ProgrammesParJourSlider() {
 
                         <div className="mt-4 font-bold text-sm text-center text-white">
                           <h2 className="truncate">{program.nom}</h2>
-                          <Badge className={isActive ? "bg-[#1faae1]" : ""}>{program.genre}</Badge>
+                          <Badge className={isActive ? "bg-[#1faae1] mt-1" : ""}>{program.genre}</Badge>
                         </div>
                       </div>
                     )

@@ -135,7 +135,7 @@ useEffect(() => {
       <div className="w-full px-5 md:px-5 xl:w-7/12 max-sm:h-[250px] h-[400px] lg:h-[450px]">
         {lives?.lien ? (
           <iframe
-            src={`${lives.lien}?autoplay=1&loop=1`}
+            src={lives.lien}
             title={lives.title ?? ""}
             className="w-full h-full rounded-md"
             allow="autoplay; fullscreen; picture-in-picture"
