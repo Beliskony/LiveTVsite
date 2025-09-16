@@ -146,7 +146,7 @@ export default function SingleProgrammePage() {
             Aucune vidéo disponible pour cette émission.
           </p>
         ) : (
-          <div className="w-full my-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 justify-items-center">
+          <div className="w-full mt-0.5 mb-4 grid gap-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 justify-items-center">
             {paginatedVideos.map((video) => (
               <VideoCard key={video.id} video={video} />
             ))}

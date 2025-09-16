@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 
 interface VideoThumbnailProps {
   videoUrl: string;
@@ -26,15 +26,13 @@ export function VideoThumbnail({ videoUrl }: VideoThumbnailProps) {
 
   return (
     <video
-      ref={videoRef}
       src={videoUrl}
       muted
       autoPlay
-      loop={false}  // On loop pas car on gère via timeupdate
+      loop
       playsInline
       className="h-12 w-20 object-cover rounded"
       preload="metadata"
-      controls={false}
     />
   );
 }
