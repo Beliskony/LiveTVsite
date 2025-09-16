@@ -239,7 +239,7 @@ export function EmissionCarouselForEmission() {
       </div>
 
       {/* Bloc mobile sous le carousel */}
-      <div className="md:hidden p-4 flex flex-col justify-center items-center text-white border ">
+      <div className="md:hidden p-4 flex flex-col justify-center items-center text-white border-x ">
         <img src={currentProgramme.logo} className="w-36 h-36 object-fill max-w-full"/>
         <h1 className="text-lg font-bold mb-2">{currentProgramme?.nom}</h1>
         <p className="text-sm mb-4 flex items-center gap-x-1.5">{getReadableDaysRange(currentProgramme?.when)} <span className="text-2xl font-bold"> - </span> {currentProgramme?.starting}</p>
