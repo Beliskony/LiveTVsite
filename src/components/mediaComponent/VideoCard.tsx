@@ -102,7 +102,7 @@ export const VideoCard = ({ video }: VideoCardProps) => {
 
 
   return (
-    <Card className="group w-[250px] md:w-[220px] lg:w-[250px]  font-normal overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+    <Card className="group w-[250px] md:w-[220px] lg:w-[250px] bg-transparent border-0 font-normal overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
       <div className="relative aspect-video overflow-hidden">
         <video
           ref={videoRef}
@@ -119,13 +119,13 @@ export const VideoCard = ({ video }: VideoCardProps) => {
             e.currentTarget.pause()
             e.currentTarget.currentTime = 0
           }}
-          className="w-full h-full max-h-[80vh] object-contain transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-full max-h-[80vh] object-fill transition-transform duration-300 group-hover:scale-105"
         />
           
       </div>
 
-      <CardContent className="w-full py-2 space-y-1 h-20 text-gray-800">
-        <div className="flex flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+      <CardContent className="w-full py-2 space-y-1 h-20 text-white">
+        <div className="flex flex-row justify-between items-center gap-4 text-sm">
         <span>{videoFormatRelativeDate(new Date(created_at))}</span>
 
          {duration && (
@@ -136,7 +136,7 @@ export const VideoCard = ({ video }: VideoCardProps) => {
           )} 
         </div>
 
-        <div className="flex flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+        <div className="flex flex-row justify-between items-center gap-4 text-sm">
          <h3 className="text-wrap truncate text-sm leading-tight line-clamp-2 font-extrabold transition-colors">
           {title}
          </h3>
