@@ -90,7 +90,7 @@ export default function SingleProgrammePage() {
   </div>
 
   <div className="absolute bottom-5 left-[125px] justify-end items-center md:hidden">
-    <img src={programme.logo} className="border-2 rounded-lg w-36 h-36 object-fill max-w-full"/>
+    <img src={programme.logo} className="border-2 w-32 h-32 object-fill max-w-full"/>
 
   </div>
 
