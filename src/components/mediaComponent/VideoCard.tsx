@@ -63,43 +63,6 @@ export const VideoCard = ({ video }: VideoCardProps) => {
     }
   }, [])
 
-  useEffect(() => {
-  const video = document.createElement("video");
-  const canvas = document.createElement("canvas");
-
-  video.src = video_url;
-  video.preload = "metadata";
-  video.load();
-
-  const captureThumbnail = () => {
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const dataURL = canvas.toDataURL("image/jpeg");
-    setDynamicPoster(dataURL);
-  };
-
-  const handleLoadedMetadata = () => {
-    video.currentTime = 1;
-  };
-
-  const handleSeeked = () => {
-    captureThumbnail();
-    video.pause();
-  };
-
-  video.addEventListener("loadedmetadata", handleLoadedMetadata);
-  video.addEventListener("seeked", handleSeeked);
-
-  return () => {
-    video.removeEventListener("loadedmetadata", handleLoadedMetadata);
-    video.removeEventListener("seeked", handleSeeked);
-  };
-}, [video_url]);
-
 
   return (
     <Card className="group w-[320px] md:w-[220px] lg:w-[250px] bg-black/45 border-0 font-normal overflow-hidden transition-all duration-300 hover:shadow-xl cursor-pointer">
@@ -107,7 +70,7 @@ export const VideoCard = ({ video }: VideoCardProps) => {
         <video
           ref={videoRef}
           src={video_url}
-          poster={dynamicPoster || couverture}
+          poster={ couverture}
           controls
           preload="metadata"
           muted={true}
