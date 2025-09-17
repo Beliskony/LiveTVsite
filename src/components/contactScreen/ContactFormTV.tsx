@@ -42,7 +42,7 @@ export default function ContactPage() {
    setSuccessMessage("")
 
     try {
-    const response = await fetch("https://api.yeshouatv.com/api/contact", {
+    const response = await fetch("https://chunk.yeshouatv.com/api/contact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -13,7 +13,7 @@ const ProgramManager = () => {
 const fetchProgrammes = async () => {
   try {
     const token = localStorage.getItem("token")
-    const res = await fetch("https://api.yeshouatv.com/api/list_programmes", {
+    const res = await fetch("https://chunk.yeshouatv.com/api/list_programmes", {
       headers: { Authorization: `Bearer ${token}` },
     })
 
