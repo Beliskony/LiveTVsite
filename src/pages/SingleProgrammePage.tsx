@@ -19,6 +19,15 @@ export default function SingleProgrammePage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
+  const [isSmall, setIsSmall] = useState(false);
+
+
+   useEffect(() => {
+    const checkSize = () => setIsSmall(window.innerWidth <= 640);
+    checkSize();
+    window.addEventListener("resize", checkSize);
+    return () => window.removeEventListener("resize", checkSize);
+  }, []);
 
     // Récupération de l'émission
   useEffect(() => {
@@ -61,13 +70,13 @@ export default function SingleProgrammePage() {
   <div className="relative min-h-screen flex flex-col bg-[url('/images/bgForBlur.webp')] backdrop-blur-2xl bg-black/70">
 
  {/* 🟦 Section 1 : Titre + Description (Hero sans flou) */}
-<section className="relative z-10 w-full h-[500px] xl:h-[600px] overflow-hidden">
+<section className="relative z-10 w-full max-sm:h-[530px] h-[500px] xl:h-[600px] overflow-hidden">
   
   {/* ✅ Image en arrière-plan (remplit tout) */}
   <img
-    src={programme.slide_cover ?? programme.couverture}
+    src={isSmall ? programme.couverture : (programme.slide_cover ?? programme.couverture)}
     alt={programme.nom}
-    className="absolute inset-0 w-full h-full object-fill max-sm:object-center z-0 mt-16"
+    className="absolute inset-0 w-full h-full max-sm:h-[470px] object-fill max-sm:object-center z-0 mt-16"
   />
 
   {/* ✅ Overlay foncé pour lisibilité */}
@@ -89,10 +98,7 @@ export default function SingleProgrammePage() {
     </div>
   </div>
 
-  <div className="absolute bottom-5 left-[125px] justify-end items-center md:hidden">
-    <img src={programme.logo} className="border-2 w-32 h-32 object-fill max-w-full"/>
 
-  </div>
 
   <div className="absolute max-sm:hidden bottom-2 items-center flex flex-row w-full xl:px-20">
     <h1 className="text-xl md:text-3xl px-4 text-white">
@@ -108,9 +114,9 @@ export default function SingleProgrammePage() {
 
 
   {/* 🟪 Section 2 : Filtres + Vidéos (avec flou) */}
-  <section className="relative z-10 xl:px-20 px-6 py-10 flex flex-col text-white">
+  <section className="relative z-10 xl:px-20 px-6 py-5 flex flex-col text-white">
     {/*section Mobile*/}
-    <section className="flex flex-col justify-center items-center w-full text-white md:hidden z-50 ">
+    <section className="flex flex-col justify-center py-3 items-center w-full text-white md:hidden z-50 ">
       <h2 className="text-lg">{programme.nom}</h2>
       <div className="flex flex-row text-white/90 gap-x-2.5 justify-center items-center">
         <h2 className="text-lg break-words line-clamp-3">{getReadableDaysRange(programme.when)}</h2>
@@ -122,7 +128,7 @@ export default function SingleProgrammePage() {
 
     {/* 💡 Fond flouté */}
     <div
-      className="absolute inset-0 z-0 bg-cover bg-center blur-xl opacity-30"
+      className="absolute inset-0 z-0 bg-cover bg-center blur-3xl opacity-30"
       style={{ backgroundImage: `url("${programme.couverture}")` }}
     />
 
