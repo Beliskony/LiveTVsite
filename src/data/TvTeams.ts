@@ -24,6 +24,14 @@ const team: MembreEquipe[] = [
     nom: "Mohamed Diallo",
     photoProfil: "/team/diallo.jpg",
   },
+    {
+    nom: "Mohamed Diallo",
+    photoProfil: "/team/diallo.jpg",
+  },
+    {
+    nom: "Mohamed Diallo",
+    photoProfil: "/team/diallo.jpg",
+  },
 ]
 
 export default team

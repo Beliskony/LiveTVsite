@@ -91,7 +91,7 @@ useEffect(() => {
 
   return (
     <>
-      <header className={`fixed backdrop-blur-sm text-white font-normal text-lg hover:bg-[#1faae1] top-0 z-50 ${isScrolled ? " bg-[#1faae1]" : "bg-transparent"}`}>
+      <header className={`fixed backdrop-blur-sm text-white font-normal text-lg hover:bg-[#1faae1] top-0 z-50 ${isScrolled ? " bg-[#1faae1]" : "bg-black"}`}>
         <div className="w-screen px-4">
           <div className="flex items-center max-sm:hidden justify-between w-full h-16">
             {/* Logo */}

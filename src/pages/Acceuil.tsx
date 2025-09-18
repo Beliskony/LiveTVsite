@@ -8,9 +8,9 @@ import TVPresentation from "@/components/homeScreen/TvPresentation";
 const Acceuil = () => {
    
   return (
-    <div className="h-full flex flex-col bg-[url('/images/bgForBlur.webp')] bg-cover bg-center">
+    <div className="h-full flex flex-col bg-black bg-cover bg-center">
 
-        <section className="z-10 bg-black/50 backdrop-blur-3xl">
+        <section className="z-10 backdrop-blur-3xl">
           <EmissionCarouselForEmission/>
         </section>
 

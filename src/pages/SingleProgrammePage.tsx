@@ -67,7 +67,7 @@ export default function SingleProgrammePage() {
   const paginatedVideos = linkedVideos.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
   return (
-  <div className="relative min-h-screen flex flex-col bg-[url('/images/bgForBlur.webp')] backdrop-blur-2xl bg-black/70">
+  <div className="relative min-h-screen flex flex-col backdrop-blur-3xl bg-black">
 
  {/* 🟦 Section 1 : Titre + Description (Hero sans flou) */}
 <section className="relative z-10 w-full max-sm:h-[530px] h-[500px] xl:h-[600px] overflow-hidden">
@@ -128,8 +128,7 @@ export default function SingleProgrammePage() {
 
     {/* 💡 Fond flouté */}
     <div
-      className="absolute inset-0 z-0 bg-cover bg-center blur-3xl opacity-30"
-      style={{ backgroundImage: `url("${programme.couverture}")` }}
+      className="absolute inset-0 z-0 bg-black blur-3xl opacity-30"
     />
 
     {/* 🧼 Overlay pour assombrir un peu */}

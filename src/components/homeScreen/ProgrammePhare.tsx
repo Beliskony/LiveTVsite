@@ -29,7 +29,7 @@ export default function ProgrammesPhare() {
             : prog.when,
         }))
 
-        setProgrammes(parsed)
+        setProgrammes(parsed.slice(0, 6)) // Limite à 6 programmes
       } catch (err) {
         console.error("Erreur API:", err)
       }
@@ -94,7 +94,7 @@ useEffect(() => {
         ref={containerRefDesktop}
         className="hidden lg:flex items-center gap-6 overflow-x-auto scroll-smooth px-4 no-scrollbar"
       >
-        {programmes.map((prog, index) => {
+        {programmes.slice(0, 6).map((prog, index) => {
           const isActive = index === currentIndex
           const isAdjacent =
             Math.abs(index - currentIndex) === 1 ||
@@ -157,7 +157,7 @@ useEffect(() => {
 
       {/* Version Mobile */}
 <div ref={containerRefMobile} className="flex  lg:hidden overflow-x-auto no-scrollbar snap-x snap-mandatory gap-4 px-4 relative">
-  {programmes.map((prog, index) => {
+  {programmes.slice(0, 6).map((prog, index) => {
     const isActive = index === currentIndex
     const isAdjacent = Math.abs(index - currentIndex) === 1 || (currentIndex === 0 && index === programmes.length - 1) || (currentIndex === programmes.length - 1 && index === 0)
 

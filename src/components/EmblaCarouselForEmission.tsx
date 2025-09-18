@@ -134,6 +134,29 @@ export function EmissionCarouselForEmission() {
     resetAutoplay()
   }
 
+  // Nombre max de dots visibles
+const MAX_DOTS = 7
+
+// Calcul de la fenêtre de dots autour de l’index courant
+const getVisibleDots = () => {
+  if (programmes.length <= MAX_DOTS) return programmes.map((_, i) => i)
+
+  const half = Math.floor(MAX_DOTS / 2)
+  let start = currentIndex - half
+  let end = currentIndex + half
+
+  if (start < 0) {
+    start = 0
+    end = MAX_DOTS - 1
+  } else if (end >= programmes.length) {
+    end = programmes.length - 1
+    start = end - MAX_DOTS + 1
+  }
+
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i)
+}
+
+
   const currentProgramme = programmes[currentIndex]
 
   if (programmes.length === 0) {
@@ -226,11 +249,11 @@ export function EmissionCarouselForEmission() {
 
         {/* Pagination Dots */}
         <div className="absolute max-sm:bottom-1.5 max-sm:right-1/2 max-sm:translate-x-1/2 bottom-8 right-10 z-20 flex space-x-2">
-          {programmes.map((_, index) => (
+          {getVisibleDots().map((_, index) => (
             <button
               key={index}
-              className={`w-6 h-2 duration-300 ${
-                index === currentIndex ? "bg-[#1faae1]" : "bg-white/40 hover:bg-white/60"
+              className={`duration-300 ${
+                index === currentIndex ? "bg-[#1faae1] w-6 h-2 " : "bg-white/40 hover:bg-white/60 w-6 h-0.5 "
               }`}
               onClick={() => handleDotClick(index)}
             />
