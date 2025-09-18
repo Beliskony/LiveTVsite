@@ -107,7 +107,7 @@ export default function ArticleCarousel() {
   }, [emblaApi, onInit, onSelect])
 
   return (
-    <div className="relative w-full max-w-6xl mx-auto px-4 my-4">
+    <div className="relative w-full max-w-6xl mx-auto px-auto my-4">
       <div className="embla__viewport overflow-hidden" ref={emblaRef}>
        <div className="embla__container flex space-x-4 touch-action-pan-y" >
           {articles.slice(0, 5).map((article) => (
@@ -124,7 +124,7 @@ export default function ArticleCarousel() {
       <button
         onClick={() => emblaApi?.scrollPrev()}
         disabled={prevBtnDisabled}
-        className="absolute -left-20 max-md:-left-5 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-75 text-white p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all md:hidden max-sm:hidden lg:block xl:block duration-200 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="absolute -left-20 max-md:-left-5 lg:-left-0 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-75 text-white p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all md:hidden max-sm:hidden lg:block xl:block duration-200 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
         aria-label="Faire défiler vers la gauche"
       >
         <ChevronLeft className="w-6 h-6" />
@@ -132,7 +132,7 @@ export default function ArticleCarousel() {
       <button
         onClick={() => emblaApi?.scrollNext()}
         disabled={nextBtnDisabled}
-        className="absolute -right-20 max-md:-right-5 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-75 text-white p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all md:hidden max-sm:hidden lg:block xl:block duration-200 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="absolute -right-20 max-md:-right-5 lg:-right-0 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-75 text-white p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all md:hidden max-sm:hidden lg:block xl:block duration-200 z-20 disabled:opacity-50 disabled:cursor-not-allowed"
         aria-label="Faire défiler vers la droite"
       >
         <ChevronRight className="w-6 h-6" />

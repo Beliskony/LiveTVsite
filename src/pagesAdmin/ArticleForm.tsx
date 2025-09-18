@@ -94,7 +94,7 @@ useEffect(() => {
 
     if (isSuccess) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6 text-center">
+      <div className="bg-white rounded-lg shadow-md p-6  my-4 text-center">
         <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
         <h3 className="text-xl font-semibold text-green-700">Article publié avec succès !</h3>
         <p className="text-gray-600">"{formData.title}" a été ajouté/modifié.</p>
@@ -110,7 +110,7 @@ useEffect(() => {
  
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 shadow-sm mb-2">
+    <div className="bg-white rounded-lg border border-gray-200 shadow-sm my-6">
       <div className="flex items-center justify-between p-6 border-b border-gray-200">
         <div className="flex items-center gap-4">
           <h3 className="text-lg font-semibold">{article ? "Modifier l'article" : "Nouvel article"}</h3>
