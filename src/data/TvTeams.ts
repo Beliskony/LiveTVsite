@@ -5,32 +5,48 @@ interface MembreEquipe {
 
 const team: MembreEquipe[] = [
   {
-    nom: "Aïssata Diaby",
-    photoProfil: "/team/diaby.jpg",
+    nom: "Deza Romeo",
+    photoProfil: "/images/team/DEZARomeo.png",
   },
   {
-    nom: "Franck Kouadio",
-    photoProfil: "/team/kouadio.jpg",
+    nom: "Didi Benjamin",
+    photoProfil: "/images/team/DIDIBenjamin.png",
   },
   {
-    nom: "Kevin Gondo",
-    photoProfil: "/team/gondo.jpg",
+    nom: "Ekissi Romaric",
+    photoProfil: "/images/team/EKISSIRomaric.png",
   },
   {
-    nom: "Patricia N’Guessan",
-    photoProfil: "/team/nguessan.jpg",
+    nom: "Kakou Leonard",
+    photoProfil: "/images/team/KAKOULeonard.png",
   },
   {
-    nom: "Mohamed Diallo",
-    photoProfil: "/team/diallo.jpg",
+    nom: "Kouame Eden",
+    photoProfil: "/images/team/KOUAMEEden.png",
   },
-    {
-    nom: "Mohamed Diallo",
-    photoProfil: "/team/diallo.jpg",
+  {
+    nom: "Kouame Thierry",
+    photoProfil: "/images/team/KOUAMEThierry.png",
   },
-    {
-    nom: "Mohamed Diallo",
-    photoProfil: "/team/diallo.jpg",
+  {
+    nom: "Mahoungou Ariel",
+    photoProfil: "/images/team/MAHOUNGOUAriel.png",
+  },
+  {
+    nom: "Noe Esther",
+    photoProfil: "/images/team/NOEEsther.png",
+  },
+  {
+    nom: "Pregnon Innocent",
+    photoProfil: "/images/team/PREGNONInnocent.png",
+  },
+  {
+    nom: "Sama Sadath",
+    photoProfil: "/images/team/SAMASadath.png",
+  },
+  {
+    nom: "Traore Sarah",
+    photoProfil: "/images/team/TRAORESarah.png",
   },
 ]
 

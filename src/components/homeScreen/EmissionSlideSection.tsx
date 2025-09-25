@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { EmissionCard } from "../mediaComponent/EmissionCard"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Badge } from "../ui/badge"
+import SkeletonProgrammeDuJours from "../Skeletons/SkeletonProgrammeDuJours"
 
 const jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
 
@@ -134,7 +135,7 @@ export default function ProgrammesParJourSlider() {
 
         {/* Programmes */}
         {programmes.length === 0 ? (
-          <div className="text-white text-center mt-10">Chargement des programmes...</div>
+          <SkeletonProgrammeDuJours />
         ) : currentDayPrograms.length === 0 ? (
           <div className="text-white text-center mt-10">Aucun programme pour ce jour.</div>
         ) : (

@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import type { IProgramme } from "@/interfaces/Programme"
+import SkeletonProgrammePhare from "../Skeletons/SkeletonProgrammePhare"
 
 export default function ProgrammesPhare() {
   const [programmes, setProgrammes] = useState<IProgramme[]>([])
@@ -84,7 +85,7 @@ useEffect(() => {
   }
 
   if (programmes.length === 0) {
-    return <p className="text-center text-gray-500">Chargement des programmes...</p>
+    return <SkeletonProgrammePhare />
   }
 
   return (
