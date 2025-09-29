@@ -193,6 +193,13 @@ onRefresh()
                   <SelectItem value="divertissement">Divertissement</SelectItem>
                   <SelectItem value="religion">Religion</SelectItem>
                   <SelectItem value="culture">Culture</SelectItem>
+                  <SelectItem value="Magazine">Magazines Societe</SelectItem>
+                  <SelectItem value="Debat">Debat</SelectItem>
+                  <SelectItem value="Documentaire">Documentaire</SelectItem>
+                  <SelectItem value="Education">Education</SelectItem>
+                  <SelectItem value="Cinema">Cinema</SelectItem>
+                  <SelectItem value="Sante">Sante Et Bien-être</SelectItem>
+                  <SelectItem value="information">Information</SelectItem>
                 </SelectContent>
               </Select>
             </div>

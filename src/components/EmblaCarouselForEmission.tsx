@@ -186,7 +186,7 @@ const getVisibleDots = () => {
               <img
                 src={currentProgramme?.slide_cover || currentProgramme?.couverture ||"/placeholder.svg?height=650&width=1200&query=tv studio background"}
                 alt={currentProgramme?.nom || ""}
-                className="absolute inset-0 w-full h-full object-fill"
+                className="absolute inset-0 w-full h-full object-cover object-top max-sm:object-right"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement
                   target.style.display = "none"
@@ -197,12 +197,12 @@ const getVisibleDots = () => {
 
             <div className="relative z-10 flex items-center h-full">
               <div className="container mx-auto px-6 flex items-center justify-center max-sm:text-center md:justify-between lg:justify-between">
-                <div className="flex-none w-full h-full relative xl:pl-24 md:pl-9 ">
+                <div className="flex-none w-full h-full relative xl:pl-24 md:pl-9 2xl:pl-14 ">
                   {currentProgramme?.logo && (
                     <img
                       src={currentProgramme.logo}
                       alt={`${currentProgramme.nom} logo`}
-                      className="h-32 w-32 max-sm:hidden"
+                      className="h-36 w-36 max-sm:hidden"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement
                         target.style.display = "none"
@@ -210,7 +210,7 @@ const getVisibleDots = () => {
                     />
                   )}
                   <div className="max-sm:hidden">
-                    <h1 className="text-white text-3xl font-bold mb-4 break-words line-clamp-2 drop-shadow-lg">
+                    <h1 className="text-white md:text-xl xl:text-3xl  font-bold mb-4 break-words line-clamp-2 drop-shadow-lg">
                       {currentProgramme?.nom}
                     </h1>
                     <p className="text-white/90 text-lg mb-8 break-words line-clamp-3 drop-shadow-md items-center flex gap-1.5">
@@ -233,18 +233,18 @@ const getVisibleDots = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="absolute max-sm:hidden left-6 top-1/2 -translate-y-1/2 z-20 text-white hover:text-white hover:bg-[#1faae1] w-12 h-12"
+          className="absolute max-sm:hidden lg:left-3 xl:left-6 top-1/2 -translate-y-1/2 z-20 text-white hover:text-white hover:bg-[#1faae1] w-12 h-12"
           onClick={handlePrev}
         >
-          <ChevronLeft />
+          <ChevronLeft className="!h-10 !w-10" strokeWidth={1.5} />
         </Button>
         <Button
           variant="ghost"
           size="icon"
-          className="absolute max-sm:hidden right-6 top-1/2 -translate-y-1/2 z-20 text-white hover:text-white hover:bg-[#1faae1] w-12 h-12"
+          className="absolute max-sm:hidden md:right-3 xl:right-6 top-1/2 -translate-y-1/2 z-20 text-white hover:text-white hover:bg-[#1faae1] w-12 h-12"
           onClick={handleNext}
         >
-          <ChevronRight/>
+          <ChevronRight className="!h-10 !w-10" strokeWidth={1.5}/>
         </Button>
 
         {/* Pagination Dots */}

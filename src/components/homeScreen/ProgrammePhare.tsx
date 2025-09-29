@@ -166,7 +166,7 @@ useEffect(() => {
             <div key={prog.id} ref={(el) => {(slidesRefMobile.current[index] = el)}} className="flex-shrink-0 w-[250px] snap-center" >
                 <div onClick={() => setCurrentIndex(index)} className={`rounded-2xl overflow-hidden shadow-md cursor-pointer transition-transform duration-1000 ease-in-out ${ isActive ? "scale-100 opacity-100" : isAdjacent ? "scale-90 opacity-60" : "scale-80 opacity-30 pointer-events-none" }`} >
                 
-                    <img src={prog.couverture} alt={prog.nom} className="w-[250px] h-[350px] rounded-2xl object-fill" />
+                    <img src={prog.couverture} alt={prog.nom} className="w-[270px] h-[470px] rounded-2xl object-fill" />
                     <h4 className="w-[230px] text-center text-xs truncate pt-1.5">{prog.nom}</h4>
         
                 </div>

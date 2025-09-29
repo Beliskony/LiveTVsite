@@ -1,5 +1,4 @@
 import LiveVideoComponent from "@/components/mediaComponent/LiveVideoComponent";
-import DownloadAppBanner from "@/components/separateur/DownloadAppBanner";
 import ReplaySection from "@/components/homeScreen/ReplaySection";
 
 const TVLive = () => {
@@ -15,9 +14,6 @@ const TVLive = () => {
           </div>
 
           <div className="w-full">
-            <div className="mx-3.5">
-              <DownloadAppBanner />
-            </div>
 
             <ReplaySection />
           </div>
