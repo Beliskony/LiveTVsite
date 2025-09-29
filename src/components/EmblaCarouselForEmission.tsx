@@ -196,8 +196,8 @@ const getVisibleDots = () => {
             <div className="absolute inset-0" />
 
             <div className="relative z-10 flex items-center h-full">
-              <div className="container mx-auto px-6 flex items-center justify-center max-sm:text-center md:justify-between lg:justify-between">
-                <div className="flex-none w-full h-full relative xl:pl-24 md:pl-9 2xl:pl-14 ">
+              <div className="container mx-auto px-6 flex items-center justify-center max-sm:text-center md:justify-between lg:justify-between 2xl:mx-16">
+                <div className="flex-none w-full h-full relative xl:pl-24 md:pl-9 2xl:pl-0 flex flex-col justify-center items-center md:items-start lg:items-start">
                   {currentProgramme?.logo && (
                     <img
                       src={currentProgramme.logo}

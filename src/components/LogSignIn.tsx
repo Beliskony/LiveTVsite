@@ -21,10 +21,11 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
   const [view, setView] = useState<"login" | "register" | "resetEmail" | "resetPassword">("login")
   const [showPassword, setShowPassword] = useState(false)
 
-  const [errors, setErrors] = useState<{ email?: string; password?: string; OTP?: string; global?: string }>({})
+  const [errors, setErrors] = useState<{ email?: string; phoneNumber?: string; password?: string; OTP?: string; global?: string }>({})
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phoneNumber: "",
     password: "",
     OTP: "",
     newPassword: "",
@@ -60,11 +61,11 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
 
     try {
       if (view === "login") {
-        const user = await login(formData.email, formData.password)
+        const user = await login(formData.email || formData.phoneNumber, formData.password)
         if (!user) throw new Error("Email ou mot de passe incorrect.")
         onClose()
       } else if (view === "register") {
-        const user = await register(formData.name, formData.email, formData.password)
+        const user = await register(formData.name, formData.phoneNumber, formData.email, formData.password)
         if (!user) throw new Error("Erreur lors de la création du compte.")
         onClose()
       } else if (view === "resetEmail") {
@@ -131,7 +132,7 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
           <form onSubmit={handleSubmit} className="space-y-4">
             {view === "register" && (
               <div className="space-y-2">
-                <Label htmlFor="fullName">Nom complet</Label>
+                <Label htmlFor="fullName">Nom & Prénom<span className="font-bold text-sm text-red-600 items-center justify-center">*</span></Label>
                 <Input
                   id="fullName"
                   type="text"
@@ -143,9 +144,24 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
               </div>
             )}
 
-            {(view === "login" || view === "register" || view === "resetEmail" || view === "resetPassword") && (
+            {(view === "login") &&(
               <div className="space-y-2">
-                <Label htmlFor="email">Adresse e-mail</Label>
+                <Label htmlFor="identifiant">Email ou téléphone<span className="font-bold text-sm text-red-600 items-center justify-center">*</span></Label>
+                <Input
+                  id="identifiant"
+                  type="text"
+                  placeholder="mail ou téléphone"
+                  value={formData.email || formData.phoneNumber}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  required
+                />
+                {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
+              </div>
+            )}
+
+            {(view === "register" || view === "resetEmail" || view === "resetPassword") && (
+              <div className="space-y-2">
+                <Label htmlFor="email">Adresse e-mail<span className="font-bold text-sm text-red-600 items-center justify-center">*</span></Label>
                 <Input
                   id="email"
                   type="email"
@@ -158,9 +174,25 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
               </div>
             )}
 
+            {view === "register" && (
+              <div className="space-y-2">
+
+                <Label htmlFor="phoneNumber">Numéro de téléphone<span className="font-bold text-sm text-red-600 items-center justify-center">*</span></Label>
+                <Input
+                  id="phoneNumber"
+                  type="text"
+                  placeholder="0709569876"
+                  value={formData.phoneNumber}
+                  onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
+                  required
+                />
+                {errors.phoneNumber && <p className="text-red-500 text-xs">{errors.phoneNumber}</p>}
+              </div>
+            )}
+
             {(view === "login" || view === "register") && (
               <div className="space-y-2">
-                <Label htmlFor="password">Mot de passe</Label>
+                <Label htmlFor="password">Mot de passe<span className="font-bold text-sm text-red-600 items-center justify-center">*</span></Label>
                 <div className="relative">
                   <Input
                     id="password"

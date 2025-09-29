@@ -70,13 +70,13 @@ export default function SingleProgrammePage() {
   <div className="relative min-h-screen flex flex-col backdrop-blur-3xl bg-black">
 
  {/* 🟦 Section 1 : Titre + Description (Hero sans flou) */}
-<section className="relative z-10 w-full max-sm:h-[530px] h-[500px] xl:h-[600px] overflow-hidden">
+<section className="relative z-10 w-full max-sm:h-[690px] h-[500px] xl:h-[600px] overflow-hidden">
   
   {/* ✅ Image en arrière-plan (remplit tout) */}
   <img
     src={isSmall ? programme.couverture : (programme.slide_cover ?? programme.couverture)}
     alt={programme.nom}
-    className="absolute inset-0 w-full h-full max-sm:h-[470px] object-fill max-sm:object-center z-0 mt-16"
+    className="absolute inset-0 w-full h-full max-sm:h-[600px] md:object-cover object-top-left max-sm:object-cover max-sm:object-center z-0 mt-16"
   />
 
   {/* ✅ Overlay foncé pour lisibilité */}

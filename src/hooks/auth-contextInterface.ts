@@ -4,8 +4,8 @@ export interface AuthContextType {
   user: IUser | null
   isAuthenticated: boolean
   isAdmin: boolean
-  login: (email: string, password: string) => Promise<IUser | null>
-  register: (email: string, password: string, name: string) => Promise<IUser | null>
+  login: (identifiant: string, password: string) => Promise<IUser | null>
+  register: (email: string, password: string, phoneNumber:string, name: string) => Promise<IUser | null>
   logout: () => void
   loading: boolean
   sendPasswordResetAndVerifyCode: (email: string) => Promise<boolean>   // ✅ ajouté
