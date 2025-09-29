@@ -60,7 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
   }, [])
 
-  const login = async (email: string, password: string): Promise<IUser | null> => {
+  const login = async (login: string, password: string): Promise<IUser | null> => {
     setLoading(true)
     try {
       const res = await fetch(`https://chunk.yeshouatv.com/api/login`, {
@@ -69,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ login, password }),
       })
 
       if (!res.ok) {
@@ -97,7 +97,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const register = async (name: string, email: string, password: string): Promise<IUser | null> => {
+  const register = async (name: string, email: string, phoneNumber:string, password: string): Promise<IUser | null> => {
     setLoading(true)
     try {
       const res = await fetch(`https://chunk.yeshouatv.com/api/register`, {
@@ -106,7 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email,phoneNumber, password }),
       })
 
       if (!res.ok) {

@@ -4,7 +4,7 @@ export interface AuthContextType {
   user: IUser | null
   isAuthenticated: boolean
   isAdmin: boolean
-  login: (identifiant: string, password: string) => Promise<IUser | null>
+  login: (login: string, password: string) => Promise<IUser | null>
   register: (email: string, password: string, phoneNumber:string, name: string) => Promise<IUser | null>
   logout: () => void
   loading: boolean

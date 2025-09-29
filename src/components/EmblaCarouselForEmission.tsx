@@ -186,7 +186,7 @@ const getVisibleDots = () => {
               <img
                 src={currentProgramme?.slide_cover || currentProgramme?.couverture ||"/placeholder.svg?height=650&width=1200&query=tv studio background"}
                 alt={currentProgramme?.nom || ""}
-                className="absolute inset-0 w-full h-full object-cover object-top max-sm:object-right"
+                className="absolute inset-0 w-full h-full object-top max-sm:object-right"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement
                   target.style.display = "none"

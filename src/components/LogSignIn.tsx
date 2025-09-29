@@ -21,10 +21,11 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
   const [view, setView] = useState<"login" | "register" | "resetEmail" | "resetPassword">("login")
   const [showPassword, setShowPassword] = useState(false)
 
-  const [errors, setErrors] = useState<{ email?: string; phoneNumber?: string; password?: string; OTP?: string; global?: string }>({})
+  const [errors, setErrors] = useState<{ login?: string; email?: string; phoneNumber?: string; password?: string; OTP?: string; global?: string }>({})
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    login: "",
     phoneNumber: "",
     password: "",
     OTP: "",
@@ -35,9 +36,12 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
 
   const validateForm = () => {
     let newErrors: typeof errors = {}
-    if ((view === "login" || view === "register" || view === "resetEmail" || view === "resetPassword") 
+    if ((view === "register" || view === "resetEmail" || view === "resetPassword") 
         && !/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Adresse email invalide."
+    }
+    if (view === "register" && !/^\d{8,15}$/.test(formData.phoneNumber)) {
+      newErrors.phoneNumber = "Numéro de téléphone invalide."
     }
     if ((view === "login" || view === "register") && formData.password.length < 6) {
       newErrors.password = "Le mot de passe doit contenir au moins 6 caractères."
@@ -61,11 +65,11 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
 
     try {
       if (view === "login") {
-        const user = await login(formData.email || formData.phoneNumber, formData.password)
+        const user = await login(formData.login, formData.password)
         if (!user) throw new Error("Email ou mot de passe incorrect.")
         onClose()
       } else if (view === "register") {
-        const user = await register(formData.name, formData.phoneNumber, formData.email, formData.password)
+        const user = await register(formData.name, formData.email, formData.phoneNumber, formData.password)
         if (!user) throw new Error("Erreur lors de la création du compte.")
         onClose()
       } else if (view === "resetEmail") {
@@ -146,13 +150,13 @@ export function LogSignIn({ isOpen, onClose }: AuthModalProps) {
 
             {(view === "login") &&(
               <div className="space-y-2">
-                <Label htmlFor="identifiant">Email ou téléphone<span className="font-bold text-sm text-red-600 items-center justify-center">*</span></Label>
+                <Label htmlFor="login">Email ou téléphone<span className="font-bold text-sm text-red-600 items-center justify-center">*</span></Label>
                 <Input
                   id="identifiant"
                   type="text"
                   placeholder="mail ou téléphone"
-                  value={formData.email || formData.phoneNumber}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  value={formData.login}
+                  onChange={(e) => handleInputChange("login", e.target.value)}
                   required
                 />
                 {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
