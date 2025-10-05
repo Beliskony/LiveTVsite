@@ -22,7 +22,7 @@ export const EmissionCard = (Emission: propsEmission) => {
 
         {/* ✅ Titre de l’émission */}
         <div className={`mt-1 max-w-[250px] mx-auto font-bold text-sm text-wrap text-center ${Emission.textCouleur}`}>
-          <h2 className="truncate">{Emission.contenu.nom}</h2>
+          <p className="truncate">{Emission.contenu.nom}</p>
         </div>
       </Link>
     </div>

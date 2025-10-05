@@ -62,7 +62,7 @@ export default function TVPresentation() {
      <div className="xl:my-20 my-5 px-4">
       
         <div className="w-full flex flex-col gap-y-2.5 text-center justify-center items-center my-7">
-            <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white uppercase">Les programmes phares de Yeshoua Tv</h1>
+            <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white uppercase">Les programmes phares de Yeshoua Tv</h2>
 
             <p className="text-xs md:text-xl text-white max-w-3xl">Des programmes télé de qualité pour répondre aux attentes des ivoiriens et de la diaspora.</p>
         </div>

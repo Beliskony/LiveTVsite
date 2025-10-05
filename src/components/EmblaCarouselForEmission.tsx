@@ -172,7 +172,7 @@ const getVisibleDots = () => {
   return (
     <>
       <div
-        className="relative w-full lg:h-[650px] max-sm:h-[400px] max-sm:mt-16 font-normal text-[22px] md:h-[500px] overflow-hidden md:mt-16"
+        className="relative w-full max-sm:h-[250px] max-sm:mt-16 font-normal text-[22px] md:h-[450px] lg:h-[500px] xl:h-[650px] overflow-hidden md:mt-16"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -186,7 +186,7 @@ const getVisibleDots = () => {
               <img
                 src={currentProgramme?.slide_cover || currentProgramme?.couverture ||"/placeholder.svg?height=650&width=1200&query=tv studio background"}
                 alt={currentProgramme?.nom || ""}
-                className="absolute inset-0 w-full h-full object-top max-sm:object-right"
+                className="absolute inset-0 w-full h-full object-cover object-right md:object-top-left"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement
                   target.style.display = "none"
@@ -195,14 +195,14 @@ const getVisibleDots = () => {
             </div>
             <div className="absolute inset-0" />
 
-            <div className="relative z-10 flex items-center h-full">
+            <div className="relative z-10 max-sm:z-50 flex items-center h-full md:bg-gradient-to-t md:from-black md:to-black/0 md:via-black/40 ">
               <div className="container mx-auto px-6 flex items-center justify-center max-sm:text-center md:justify-between lg:justify-between 2xl:mx-16">
                 <div className="flex-none w-full h-full relative xl:pl-24 md:pl-9 2xl:pl-0 flex flex-col justify-center items-center md:items-start lg:items-start">
                   {currentProgramme?.logo && (
                     <img
                       src={currentProgramme.logo}
                       alt={`${currentProgramme.nom} logo`}
-                      className="h-36 w-36 max-sm:hidden"
+                      className="h-[250px] w-[250px]  max-sm:hidden mb-1.5"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement
                         target.style.display = "none"
@@ -210,15 +210,15 @@ const getVisibleDots = () => {
                     />
                   )}
                   <div className="max-sm:hidden">
-                    <h1 className="text-white md:text-xl xl:text-3xl  font-bold mb-4 break-words line-clamp-2 drop-shadow-lg">
+                    <p className="text-white md:text-lg xl:text-2xl font-bold mb-2 break-words line-clamp-2 drop-shadow-lg">
                       {currentProgramme?.nom}
-                    </h1>
-                    <p className="text-white/90 text-lg mb-8 break-words line-clamp-3 drop-shadow-md items-center flex gap-1.5">
+                    </p>
+                    <p className="text-white/90 text-[14px] xl:text-lg mb-3 break-words line-clamp-3 drop-shadow-md items-center flex gap-1.5">
                       {getReadableDaysRange(currentProgramme?.when)} <span className="text-2xl font-bold"> - </span> {currentProgramme?.starting}
                     </p>
                     <Link
                       to={`/programmes/${currentProgramme.id}`}
-                      className="bg-transparent border-2 border-white text-white px-8 py-3 text-lg rounded-full drop-shadow-md"
+                      className="bg-transparent border-2 border-white text-white px-4 py-1 text-lg rounded-full drop-shadow-md"
                     >
                       {currentProgramme?.genre}
                     </Link>
@@ -248,7 +248,7 @@ const getVisibleDots = () => {
         </Button>
 
         {/* Pagination Dots */}
-        <div className="absolute max-sm:bottom-1.5 max-sm:right-1/2 max-sm:translate-x-1/2 bottom-8 right-10 z-20 flex space-x-2">
+        <div className="absolute max-sm:hidden max-sm:right-1/2 max-sm:translate-x-1/2 bottom-8 right-10 z-20 flex space-x-2">
           {getVisibleDots().map((_, index) => (
             <button
               key={index}
@@ -262,9 +262,13 @@ const getVisibleDots = () => {
       </div>
 
       {/* Bloc mobile sous le carousel */}
-      <div className="md:hidden p-4 flex flex-col justify-center items-center text-white border-x ">
-        <img src={currentProgramme.logo} className="w-36 h-36 object-fill max-w-full"/>
-        <h1 className="text-lg font-bold mb-2">{currentProgramme?.nom}</h1>
+
+      {/* Pagination Dots */}
+      <div className="relative w-full mt-14 justify-center md:hidden items-center flex flex-col gap-y-1.5">
+        <img src={currentProgramme.logo} className="w-44 h-44 object-cover absolute bottom-52 z-50 my-1.5"/>
+      <div className="md:hidden w-full px-4 flex flex-col justify-center items-center text-white py-10 ">
+        
+        <p className="text-lg font-bold mb-2">{currentProgramme?.nom}</p>
         <p className="text-sm mb-4 flex items-center gap-x-1.5">{getReadableDaysRange(currentProgramme?.when)} <span className="text-2xl font-bold"> - </span> {currentProgramme?.starting}</p>
         <Link
           to={`/programmes/${currentProgramme.id}`}
@@ -272,6 +276,20 @@ const getVisibleDots = () => {
         >
           {currentProgramme?.genre}
         </Link>
+       <div className="w-[85%] flex justify-center gap-2 mt-10">
+        {getVisibleDots().map((_, index) => (
+            <button 
+              key={index}
+              className={`duration-300 w-full ${
+                index === currentIndex ? "bg-[#1faae1] w-6 h-2 " : "bg-white/40 hover:bg-white/60 w-6 h-0.5 "
+              }`}
+              onClick={() => handleDotClick(index)}
+            />
+          ))}
+        </div>
+      </div>
+
+        
       </div>
     </>
   )

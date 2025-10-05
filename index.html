@@ -2,13 +2,39 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="logotvCouleur.png" />
+    <link rel="icon" type="image/png" href="https://yeshouatv.com/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="https://yeshouatv.com/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="https://yeshouatv.com/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="https://yeshouatv.com/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="https://yeshouatv.com/favicon/site.webmanifest" />
+
     <link rel="sitemap" href="/sitemap.xml" type="application/xml" />
-    <meta name="google-site-verification" content="s5rHdff_TaZz6nlixl5GX5iqWdAOHRkndjCepdRkDR0" />
-    <meta name="description" content="Yeshoua-TV - Découvrez nos programmes, videos et bien plus." />
+    <meta name="google-site-verification" content="65AuKB3CxT3WJkQVTumZEq_t7Wereuj9Pv2F7_xP5eA" />
+    
+    <!-- Changed max-snippet to 160 to force Google to use meta description -->
+    <meta name="robots" content="index, follow, max-snippet:160, max-image-preview:large, max-video-preview:-1" />
+    
+    <!-- Updated title and description to match desired SEO result -->
+    <title>Yeshoua tv - Chaîne en ligne</title>
+    <meta name="description" content="Découvrez nos émissions chrétiennes, enseignements, louanges et témoignages sur Yeshoua-TV, votre chaîne en ligne dédiée à la foi et à la Parole de Dieu." />
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Added more Open Graph and Twitter Card meta tags for better social sharing -->
+    <meta property="og:title" content="Yeshoua-TV - Chaîne chrétienne en ligne" />
+    <meta property="og:description" content="Découvrez nos émissions chrétiennes, enseignements, louanges et témoignages sur Yeshoua-TV, votre chaîne en ligne dédiée à la foi et à la Parole de Dieu." />
+    <meta property="og:image" content="https://yeshouatv.com/logotvCouleur.png" />
+    <meta property="og:url" content="https://yeshouatv.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Yeshoua-TV" />
+    <meta property="og:locale" content="fr_FR" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Yeshoua-TV - Chaîne chrétienne en ligne" />
+    <meta name="twitter:description" content="Découvrez nos émissions chrétiennes, enseignements, louanges et témoignages sur Yeshoua-TV, votre chaîne en ligne dédiée à la foi et à la Parole de Dieu." />
+    <meta name="twitter:image" content="https://yeshouatv.com/logotvCouleur.png" />
+    
     <meta name="google" content="translate" />
-    <title>Yeshoua-TV</title>
 
     <!-- Preconnect to external resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,7 +42,7 @@
     <link rel="preconnect" href="https://api.yeshouatv.com" />
     <link rel="preconnect" href="https://www.googletagmanager.com" />
 
-    <!-- Google Fonts (option : héberger localement pour + performance + confidentialité) -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600&display=swap" rel="stylesheet" />
 
     <!-- Google Tag Manager -->
@@ -31,10 +57,10 @@
 
   </head>
   <body>
-    <!-- Image LCP (à adapter selon ton image de couverture principale) -->
+    <!-- Image LCP -->
     <img 
       src="/logotvCouleur.png" 
-      alt="Image principale de couverture" 
+      alt="Logo Yeshoua-TV" 
       width="500" 
       height="500" 
       fetchpriority="high" 
@@ -42,16 +68,103 @@
       decoding="async"
       style="display:none;" 
     />
+    
+    <!-- Added noscript with desired description for crawlers -->
+    <noscript>
+      <h1>Yeshoua tv - Chaîne en ligne</h1>
+      <p>Découvrez nos émissions chrétiennes, enseignements, louanges et témoignages sur Yeshoua-TV, votre chaîne en ligne dédiée à la foi et à la Parole de Dieu.</p>
+    </noscript>
+    
+    <!-- Added hidden SEO-friendly content that Google should prioritize -->
+    <div style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
+      <h1>Yeshoua tv - Chaîne en ligne</h1>
+      <p>Découvrez nos émissions chrétiennes, enseignements, louanges et témoignages sur Yeshoua-TV, votre chaîne en ligne dédiée à la foi et à la Parole de Dieu.</p>
+    </div>
 
-    <div id="root"></div>
+    <!-- Added data-nosnippet to prevent Google from using this content -->
+    <div id="root" data-nosnippet></div>
 
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- JSON-LD for TV Channel --> 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TVChannel",
+      "name": "Yeshoua-TV",
+      "description": "Chaîne chrétienne en ligne dédiée à la foi et à la Parole de Dieu. Découvrez nos émissions chrétiennes, enseignements, louanges et témoignages.",
+      "url": "https://yeshouatv.com",
+      "logo": "https://yeshouatv.com/logotvCouleur.png",
+      "sameAs": [
+        "https://facebook.com/yeshouatv",
+        "https://youtube.com/yeshouatv"
+      ],
+      "hasPart": [
+        {
+          "@type": "WebPage",
+          "name": "Live",
+          "url": "https://yeshouatv.com/"
+        },
+        {
+          "@type": "WebPage",
+          "name": "Tvchaine",
+          "url": "https://yeshouatv.com/Tvchaine"
+        },
+        {
+          "@type": "WebPage",
+          "name": "Programmes",
+          "url": "https://yeshouatv.com/programmes"
+        },
+        {
+          "@type": "WebPage",
+          "name": "Présentation",
+          "url": "https://yeshouatv.com/egliseYeshoua/presentation"
+        },
+        {
+          "@type": "WebPage",
+          "name": "Contact",
+          "url": "https://yeshouatv.com/contact"
+        }
+      ]
+    }
+    </script>
+
+    <!-- JSON-LD for Website -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://yeshouatv.com",
+      "name": "Yeshoua-TV",
+      "description": "Chaîne chrétienne en ligne. Découvrez nos émissions chrétiennes, enseignements, louanges et témoignages sur Yeshoua-TV, votre chaîne en ligne dédiée à la foi et à la Parole de Dieu.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://yeshouatv.com/recherche?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- JSON-LD for Breadcrumbs -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://yeshouatv.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Tvchaine", "item": "https://yeshouatv.com/Tvchaine" },
+        { "@type": "ListItem", "position": 3, "name": "Programmes", "item": "https://yeshouatv.com/programmes" },
+        { "@type": "ListItem", "position": 4, "name": "Présentation", "item": "https://yeshouatv.com/egliseYeshoua/presentation" },
+        { "@type": "ListItem", "position": 5, "name": "Contact", "item": "https://yeshouatv.com/contact" }
+      ]
+    }
+    </script>
 
     <!-- Google Tag Manager (noscript) -->
     <noscript>
       <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TPQV925D"
               height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>
-    <!-- End Google Tag Manager (noscript) -->
+   <!--  End Google Tag Manager (noscript) -->
   </body>
 </html>

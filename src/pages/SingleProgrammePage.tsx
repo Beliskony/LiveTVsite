@@ -76,7 +76,7 @@ export default function SingleProgrammePage() {
   <img
     src={isSmall ? programme.couverture : (programme.slide_cover ?? programme.couverture)}
     alt={programme.nom}
-    className="absolute inset-0 w-full h-full max-sm:h-[600px] z-0 mt-16"
+    className="absolute inset-0 w-full h-full max-sm:h-[650px] z-0 mt-16"
   />
 
   {/* ✅ Overlay foncé pour lisibilité */}

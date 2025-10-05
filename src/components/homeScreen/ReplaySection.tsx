@@ -41,14 +41,14 @@ const ReplaySection = () => {
   return (
     <section className="py-10">
       <div className="items-center flex flex-row w-full xl:px-20">
-        <h1 className="text-xl md:text-2xl lg:text-3xl px-4 text-white">Replay</h1>
+        <p className="text-xl md:text-2xl lg:text-3xl px-4 text-white">Replay</p>
         <hr className="w-full mx-3.5 max-sm:px-1 border-t-2" />
       </div>
 
       <div className="w-full xl:px-20 py-6">
-        <h3 className="px-5 text-[15px] font-light text-white">
+        <h1 className="px-5 text-[15px] font-light text-white">
           Accédez au replay de vos émissions préférées
-        </h3>
+        </h1>
       </div>
 
       <div className="w-full flex flex-row gap-x-2.5 xl:px-28 lg:px-20 md:px-10 max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:justify-center max-sm:px-2 max-sm:no-scrollbar">

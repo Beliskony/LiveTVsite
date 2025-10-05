@@ -123,7 +123,7 @@ useEffect(() => {
   if (!lives) {
   return (
     <div className="text-center text-white w-full py-20">
-      <p>Aucun live n’est disponible actuellement.</p>
+      <h1>Aucun live n’est disponible actuellement.</h1>
     </div>
   )
 }
